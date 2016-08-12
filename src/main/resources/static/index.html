@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html ng-app="greet">
+	<head>
+		<link rel="stylesheet" type="text/css" href="bootstrap-3.3.7-dist/css/bootstrap.min.css"/>
+	</head>
+	<body>
+		<div ng-controller="greeterCtrl as greeter">
+			<input name="person" ng-model="person.name"/>
+            <button ng-click="greeter.greet(person.name)">Mandar um salve, mano!</button>
+            <button ng-click="greeter.formalgreet(person.name)">Saudar Formalmente, Por gentileza!</button>
+			<h1>{{greeter.message}}</h1>
+		</div>
+		<script type="text/javascript" src="angular.min.js"></script>
+		<script type="text/javascript" src="app.js"></script>
+	</body>
+</html>
