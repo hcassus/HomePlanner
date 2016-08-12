@@ -1,12 +1,11 @@
-package hello;
+package taskList;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Application {
+public class TaskListApp {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
+        SpringApplication.run(TaskListApp.class, args);    }
 }

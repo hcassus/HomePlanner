@@ -1,16 +1,32 @@
 <!DOCTYPE html>
-<html ng-app="greet">
+<html ng-app="taskList">
 	<head>
 		<link rel="stylesheet" type="text/css" href="bootstrap-3.3.7-dist/css/bootstrap.min.css"/>
 	</head>
 	<body>
-		<div ng-controller="greeterCtrl as greeter">
-			<input name="person" ng-model="person.name"/>
-            <button ng-click="greeter.greet(person.name)">Mandar um salve, mano!</button>
-            <button ng-click="greeter.formalgreet(person.name)">Saudar Formalmente, Por gentileza!</button>
-			<h1>{{greeter.message}}</h1>
+		<div ng-controller="TasksCtrl as tasks">
+            <div class="jumbotron">
+                <h1>Suas Tarefas</h1>
+                <p>Pronto para organizar suas tarefas de maneira simples e eficaz?</p>
+            </div>
+            <form>
+                <div class="input-group col-lg-4 col-lg-offset-4">
+                    <input type="text" class="form-control" placeholder="Digite sua Tarefa" ng-model="tasks.content">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" ng-click="tasks.addTask(tasks.content)" type="button">Adicionar Tarefa</button>
+                    </span>
+                </div>
+            </form>
+            <ul>
+                <li ng-repeat="task in tasks.tasks" class="col-lg-4 col-lg-offset-4">
+                    <b>{{task.content}}</b>
+                    <button type="button" class="btn btn-xs btn-danger" aria-label="Left Align" ng-click="tasks.delTask(task.id)">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </button>
+                </li>
+            </ul>
 		</div>
-		<script type="text/javascript" src="angular.min.js"></script>
+        <script type="text/javascript" src="angular.min.js"></script>
 		<script type="text/javascript" src="app.js"></script>
 	</body>
 </html>
