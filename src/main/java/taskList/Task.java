@@ -12,10 +12,11 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String content;
+    private int status;
 
-    public Task(long id, String content) {
-        this.id = id;
+    public Task(String content) {
         this.content = content;
+        this.status = 0;
     }
 
     public Task(){};
@@ -26,5 +27,13 @@ public class Task {
 
     public String getContent() {
         return content;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

@@ -38,6 +38,17 @@
         });
     }
 
+    this.changeTaskStatus = function(id, status){
+        url = "http://localhost:8080/changetaskstatus/"+id
+        $http.put(url, status).success(function(data){
+            for (i=0; i<store.tasks.length; i++){
+                if(id == store.tasks[i].id){
+                    store.tasks[i].status = data.status;
+                }
+            }
+        })
+    };
+
     this.getTasks();
 
     }])

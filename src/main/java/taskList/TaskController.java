@@ -14,7 +14,7 @@ public class TaskController {
     private TaskRepository repository;
 
     @CrossOrigin(origins = "*")
-    @RequestMapping("/tasks")
+    @RequestMapping(value = "/tasks", method = RequestMethod.GET)
     public Iterable<Task> getTasks(){
         return repository.findAll();
     }
@@ -22,7 +22,7 @@ public class TaskController {
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/addtask", method = RequestMethod.POST)
     public Task addTask(@RequestBody String taskContent){
-        Task task = new Task(counter.incrementAndGet(), taskContent);
+        Task task = new Task(taskContent);
         repository.save(task);
         return task;
     }
@@ -33,6 +33,13 @@ public class TaskController {
         repository.delete(id);
     }
 
+    @CrossOrigin(origins = "*")
+    @RequestMapping(value = "/changetaskstatus/{id}", method = RequestMethod.PUT)
+    public Task completeTask(@PathVariable Long id, @RequestBody int status){
+        Task task = repository.findOne(id);
+        task.setStatus(status);
+        return repository.save(task);
+    }
 
 
 
