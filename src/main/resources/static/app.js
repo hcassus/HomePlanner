@@ -7,9 +7,9 @@
     store = this;
     store.tasks = [];
 
+    url = "http://localhost:8080/task"
 
     this.getTasks = function(){
-        url = "http://localhost:8080/tasks"
         $http.get(url).success(function(data){
                         			store.tasks = data;
                         		});
@@ -18,7 +18,6 @@
 
 
     this.addTask = function(content){
-        url = "http://localhost:8080/addtask"
         $http.post(url, content).success(function(data){
             store.tasks.push(data);
         });
@@ -26,8 +25,8 @@
     }
 
     this.delTask = function(id){
-        url = "http://localhost:8080/deltask/"+id
-                $http.delete(url).success(function(data){
+        urlWithId = url+"/"+id
+                $http.delete(urlWithId).success(function(data){
 
                 for (i=0; i<store.tasks.length; i++){
                     if(id == store.tasks[i].id){
@@ -39,8 +38,8 @@
     }
 
     this.changeTaskStatus = function(id, status){
-        url = "http://localhost:8080/changetaskstatus/"+id
-        $http.put(url, status).success(function(data){
+        urlWithId = url+"/"+id
+        $http.put(urlWithId, status).success(function(data){
             for (i=0; i<store.tasks.length; i++){
                 if(id == store.tasks[i].id){
                     store.tasks[i].status = data.status;

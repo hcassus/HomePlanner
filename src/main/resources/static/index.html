@@ -21,7 +21,7 @@
             <ul>
                 <p ng-repeat="task in tasks.tasks" class="col-lg-4 col-lg-offset-4">
                     <button ng-show="task.status == 1" type="button" class="btn btn-xs btn-warning" aria-label="Left Align" ng-click="tasks.changeTaskStatus(task.id, 0)">
-                        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
                     </button>
                     <button ng-hide="task.status == 1" type="button" class="btn btn-xs btn-success" aria-label="Left Align" ng-click="tasks.changeTaskStatus(task.id, 1)">
                         <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
