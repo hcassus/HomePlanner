@@ -4,16 +4,16 @@
 		<link rel="stylesheet" type="text/css" href="bootstrap-3.3.7-dist/css/bootstrap.min.css"/>
 	</head>
 	<body>
-		<div ng-controller="TasksCtrl as tasks">
+		<div ng-controller="TasksCtrl as tasks" ng-init="tasks.getTasks()">
             <div class="jumbotron">
-                <h1 align="center">Suas Tarefas</h1>
-                <p align="center">Pronto para organizar suas tarefas de maneira simples e eficaz?</p>
+                <h1 align="center">My Task List</h1>
+                <p align="center">Are you ready to organize your tasks in a simple and effective way?</p>
             </div>
             <form ng-submit="tasks.addTask(tasks.content)">
                 <div class="input-group col-lg-4 col-lg-offset-4">
-                    <input type="text" class="form-control" placeholder="Digite sua Tarefa" ng-model="tasks.content">
+                    <input type="text" class="form-control" placeholder="Enter a task here..." ng-model="tasks.content">
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="submit">Adicionar Tarefa</button>
+                        <button class="btn btn-default" type="submit">Add Task</button>
                     </span>
                 </div>
             </form>
