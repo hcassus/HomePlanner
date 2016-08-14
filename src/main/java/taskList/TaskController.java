@@ -14,29 +14,33 @@ public class TaskController {
     private TaskRepository repository;
 
     @RequestMapping(value = "/task", method = RequestMethod.GET)
-    public Iterable<Task> getTasks(){
+    public Iterable<Task> getTasks() {
         return repository.findAll();
     }
 
+    @RequestMapping(value = "/task/{id}", method = RequestMethod.GET)
+    public Task getTasks(@PathVariable Long id) {
+        return repository.findOne(id);
+    }
+
     @RequestMapping(value = "/task", method = RequestMethod.POST)
-    public Task addTask(@RequestBody String taskContent){
+    public Task addTask(@RequestBody String taskContent) {
         Task task = new Task(taskContent);
         repository.save(task);
         return task;
     }
 
     @RequestMapping(value = "/task/{id}", method = RequestMethod.DELETE)
-    public void delTask(@PathVariable Long id){
+    public void delTask(@PathVariable Long id) {
         repository.delete(id);
     }
 
     @RequestMapping(value = "/task/{id}", method = RequestMethod.PUT)
-    public Task completeTask(@PathVariable Long id, @RequestBody int status){
+    public Task completeTask(@PathVariable Long id, @RequestBody int status) {
         Task task = repository.findOne(id);
         task.setStatus(status);
         return repository.save(task);
     }
-
 
 
 }
