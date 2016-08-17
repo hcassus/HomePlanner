@@ -1,45 +1,39 @@
-package taskList;
-
-import java.util.concurrent.atomic.AtomicLong;
+package taskList.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import taskList.gateways.TaskGatewaySpring;
+import taskList.persistence.Task;
 
 @RestController
 public class TaskController {
 
-    private final AtomicLong counter = new AtomicLong();
-
     @Autowired
-    private TaskRepository repository;
+    private TaskGatewaySpring gateway;
 
     @RequestMapping(value = "/task", method = RequestMethod.GET)
     public Iterable<Task> getTasks() {
-        return repository.findAll();
+        return gateway.getAllTasks();
     }
 
     @RequestMapping(value = "/task/{id}", method = RequestMethod.GET)
     public Task getTasks(@PathVariable Long id) {
-        return repository.findOne(id);
+        return gateway.getTaskById(id);
     }
 
     @RequestMapping(value = "/task", method = RequestMethod.POST)
     public Task addTask(@RequestBody String taskContent) {
-        Task task = new Task(taskContent);
-        repository.save(task);
-        return task;
+        return gateway.addTask(taskContent);
     }
 
     @RequestMapping(value = "/task/{id}", method = RequestMethod.DELETE)
     public void delTask(@PathVariable Long id) {
-        repository.delete(id);
+        gateway.deleteTask(id);
     }
 
     @RequestMapping(value = "/task/{id}", method = RequestMethod.PUT)
     public Task completeTask(@PathVariable Long id, @RequestBody int status) {
-        Task task = repository.findOne(id);
-        task.setStatus(status);
-        return repository.save(task);
+        return gateway.changeTaskStatus(id, status);
     }
 
 

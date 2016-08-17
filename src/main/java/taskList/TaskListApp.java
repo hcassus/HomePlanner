@@ -7,5 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class TaskListApp {
 
     public static void main(String[] args) {
-        SpringApplication.run(TaskListApp.class, args);    }
+        SpringApplication.run(TaskListApp.class, args);
+    }
 }
