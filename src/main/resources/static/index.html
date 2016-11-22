@@ -11,9 +11,9 @@
             </div>
             <form ng-submit="tasks.addTask(tasks.content)">
                 <div class="input-group col-lg-4 col-lg-offset-4">
-                    <input type="text" class="form-control" placeholder="Enter a task here..." ng-model="tasks.content">
+                    <input type="text" id="task-inpt" class="form-control" placeholder="Enter a task here..." ng-model="tasks.content">
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="submit">Add Task</button>
+                        <button id="add-btn" class="btn btn-default" type="submit">Add Task</button>
                     </span>
                 </div>
             </form>
@@ -26,10 +26,10 @@
                     <button ng-hide="task.status == 1" type="button" class="btn btn-xs btn-success" aria-label="Left Align" ng-click="tasks.changeTaskStatus(task.id, 1)">
                         <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                     </button>
-                    <button type="button" class="btn btn-xs btn-danger" aria-label="Left Align" ng-click="tasks.delTask(task.id)">
+                    <button id="task_del_row_{{task.id}}" type="button" class="btn btn-xs btn-danger" aria-label="Left Align" ng-click="tasks.delTask(task.id)">
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     </button>
-                    <b ng-class="{'bg-success text-success':task.status == 1}">{{task.content}}</b>
+                    <b id="task_desc_row_{{task.id}}" ng-class="{'bg-success text-success':task.status == 1}">{{task.content}}</b>
                 </p>
             </ul>
 		</div>
