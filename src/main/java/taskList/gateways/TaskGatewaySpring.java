@@ -25,6 +25,10 @@ public class TaskGatewaySpring {
         return task;
     }
 
+    public void deleteAllTasks(){
+        repository.deleteAll();
+    }
+
     public void deleteTask(Long id) {
         repository.delete(id);
     }

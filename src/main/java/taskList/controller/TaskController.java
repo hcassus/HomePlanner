@@ -35,6 +35,4 @@ public class TaskController {
     public Task completeTask(@PathVariable Long id, @RequestBody int status) {
         return gateway.changeTaskStatus(id, status);
     }
-
-
 }

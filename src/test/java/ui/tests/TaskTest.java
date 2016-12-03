@@ -1,8 +1,6 @@
 package ui.tests;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -15,7 +13,7 @@ public class TaskTest {
     private static TaskSteps taskSteps;
 
     @BeforeClass
-    public static void setUp(){
+    public static void setUpClass(){
         driver = new FirefoxDriver();
         wait = new WebDriverWait(driver, 5);
         taskSteps = new TaskSteps(driver, wait);
@@ -23,13 +21,14 @@ public class TaskTest {
     }
 
     @Test
-    public void testCreateTest() throws InterruptedException {
-        taskSteps.createTask().checkTaskWasCreated();
+    public void testCreateTest(){
+        taskSteps
+                .createTask()
+                .checkTaskWasCreated();
     }
 
     @AfterClass
-    public static void tearDown(){
-        taskSteps.deleteCreatedTask();
+    public static void tearDownClass(){
         driver.quit();
     }
 }
