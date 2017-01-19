@@ -29,6 +29,7 @@ public class TaskTest {
 
     @AfterClass
     public static void tearDownClass(){
+        taskSteps.deleteCreatedTask();
         driver.quit();
     }
 }
