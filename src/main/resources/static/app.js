@@ -7,7 +7,7 @@
     store = this;
     store.tasks = [];
 
-    url = "http://localhost:8080/task"
+    url = "/task"
 
     this.getTasks = function(){
         $http.get(url).success(function(data){

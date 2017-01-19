@@ -10,12 +10,10 @@ import ui.pages.TaskPage;
 public class TaskSteps {
 
     private String taskName;
-    private WebDriver driver;
     private WebDriverWait wait;
     private TaskPage page;
 
     public TaskSteps(WebDriver driver, WebDriverWait wait) {
-        this.driver = driver;
         this.wait = wait;
         this.page = new TaskPage(driver, wait);
     }
