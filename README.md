@@ -4,7 +4,7 @@ Simple software to create a persistent tasklist.
 
 # How to start
 
-- Create a database on MySQL
+- Create a database on PostgreSQL
 - Edit `application.properties` to reflect your own database data
 - set `spring.jpa.hibernate.ddl-auto` to create
 - On the root directory, type `mvn spring-boot:run`
