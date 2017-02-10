@@ -1,19 +1,19 @@
 ( function(){
-	var app = angular.module('taskList', [ ]);
+	var app = angular.module('tasklist', [ ]);
 
     app.controller('TasksCtrl', ['$http', function($http){
 
-    this.content = ""
+    this.content = "";
     store = this;
     store.tasks = [];
 
-    url = "/task"
+    url = "/task";
 
     this.getTasks = function(){
         $http.get(url).success(function(data){
                         			store.tasks = data;
                         		});
-    }
+    };
 
 
 
@@ -22,10 +22,10 @@
             store.tasks.push(data);
         });
         this.content = "";
-    }
+    };
 
     this.delTask = function(id){
-        urlWithId = url+"/"+id
+        urlWithId = url+"/"+id;
                 $http.delete(urlWithId).success(function(data){
 
                 for (i=0; i<store.tasks.length; i++){
@@ -35,10 +35,10 @@
                 }
 
         });
-    }
+    };
 
     this.changeTaskStatus = function(id, status){
-        urlWithId = url+"/"+id
+        urlWithId = url+"/"+id;
         $http.put(urlWithId, status).success(function(data){
             for (i=0; i<store.tasks.length; i++){
                 if(id == store.tasks[i].id){

@@ -11,8 +11,8 @@ import org.springframework.boot.test.context.SpringBootContextLoader;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import taskList.TaskListApp;
-import taskList.persistence.TaskRepository;
+import tasklist.TaskListApp;
+import tasklist.persistence.tasks.TaskRepository;
 import ui.steps.TaskSteps;
 
 @RunWith(SpringRunner.class)

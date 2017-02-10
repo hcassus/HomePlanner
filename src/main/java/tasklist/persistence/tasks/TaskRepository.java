@@ -1,4 +1,4 @@
-package taskList.persistence;
+package tasklist.persistence.tasks;
 
 import org.springframework.data.repository.CrudRepository;
 

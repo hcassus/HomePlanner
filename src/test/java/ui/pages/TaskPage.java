@@ -8,7 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class TaskPage {
-    @FindBy(id = "task-inpt")
+    @FindBy(id = "tasks-inpt")
     private WebElement taskInput;
 
     @FindBy(id = "add-btn")

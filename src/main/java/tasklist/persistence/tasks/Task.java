@@ -1,4 +1,4 @@
-package taskList.persistence;
+package tasklist.persistence.tasks;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,10 +19,7 @@ public class Task {
         this.status = 0;
     }
 
-    public Task() {
-    }
-
-    ;
+    public Task(){}
 
     public long getId() {
         return id;
@@ -32,7 +29,7 @@ public class Task {
         return content;
     }
 
-    public int getStatus() {
+    public int getStatus(){
         return status;
     }
 
