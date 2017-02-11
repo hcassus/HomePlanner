@@ -1,5 +1,6 @@
 package tasklist.persistence.tasks;
 
+import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,10 +14,12 @@ public class Task {
     private long id;
     private String content;
     private int status;
+    private UUID uuid;
 
     public Task(String content) {
         this.content = content;
         this.status = 0;
+        this.uuid = UUID.randomUUID();
     }
 
     public Task(){}
@@ -31,6 +34,10 @@ public class Task {
 
     public int getStatus(){
         return status;
+    }
+
+    public UUID getUuid(){
+        return uuid;
     }
 
     public void setStatus(int status) {
