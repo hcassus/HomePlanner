@@ -35,7 +35,7 @@ public class TaskController {
     taskGateway.deleteTaskByUuid(uuid);
   }
 
-  @RequestMapping(value = "/task/{uuid}", method = RequestMethod.PUT)
+  @RequestMapping(value = "/task/{uuid}", method = RequestMethod.PATCH)
   public Task changeTaskStatusById(@PathVariable UUID uuid, @RequestBody int status) {
     return taskGateway.changeTaskStatus(uuid, status);
   }

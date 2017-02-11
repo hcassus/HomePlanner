@@ -23,10 +23,9 @@
     };
 
     this.delTask = function (task) {
-      console.log(task)
       uuid = task.uuid;
       urlWithId = url + "/" + uuid;
-      $http.delete(urlWithId).success(function (data) {
+      $http.delete(urlWithId).success(function () {
         for (i = 0; i < store.tasks.length; i++) {
           if (uuid == store.tasks[i].uuid) {
             store.tasks.splice(i, 1);
@@ -38,7 +37,7 @@
     this.changeTaskStatus = function (task, status) {
       uuid = task.uuid;
       urlWithId = url + "/" + uuid;
-      $http.put(urlWithId, status).success(function (data) {
+      $http.patch(urlWithId, status).success(function (data) {
         for (i = 0; i < store.tasks.length; i++) {
           if (uuid == store.tasks[i].uuid) {
             store.tasks[i].status = data.status;
