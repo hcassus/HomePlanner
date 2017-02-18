@@ -1,6 +1,6 @@
 # TaskList
 
-Simple software to create a persistent tasklist.
+Simple software to create a persistent hrp.
 
 # How to start
 

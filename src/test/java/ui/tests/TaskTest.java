@@ -11,13 +11,13 @@ import org.springframework.boot.test.context.SpringBootContextLoader;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import tasklist.TaskListApp;
-import tasklist.persistence.tasks.TaskRepository;
+import hrp.HomePlannerApp;
+import hrp.tasks.persistence.TaskRepository;
 import ui.steps.TaskSteps;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ContextConfiguration(classes= TaskListApp.class, loader = SpringBootContextLoader.class)
+@ContextConfiguration(classes= HomePlannerApp.class, loader = SpringBootContextLoader.class)
 public class TaskTest {
 
     @LocalServerPort
