@@ -1,4 +1,4 @@
-package tasklist.persistence.tasks;
+package hrp.tasks.persistence;
 
 import java.util.UUID;
 import javax.persistence.Entity;

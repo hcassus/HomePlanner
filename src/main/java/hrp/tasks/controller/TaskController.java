@@ -1,4 +1,4 @@
-package tasklist.controller.tasks;
+package hrp.tasks.controller;
 
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import tasklist.gateways.tasks.TaskGatewaySpring;
-import tasklist.persistence.tasks.Task;
+import hrp.tasks.gateways.TaskGatewaySpring;
+import hrp.tasks.persistence.Task;
 
 @RestController
 public class TaskController {

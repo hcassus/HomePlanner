@@ -1,12 +1,12 @@
-package tasklist;
+package hrp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TaskListApp {
+public class HomePlannerApp {
 
     public static void main(String[] args) {
-        SpringApplication.run(TaskListApp.class, args);
+        SpringApplication.run(HomePlannerApp.class, args);
     }
 }

@@ -1,5 +1,5 @@
 (function () {
-  var app = angular.module('tasklist', []);
+  var app = angular.module('hrp', []);
 
   app.controller('TasksCtrl', ['$http', function ($http) {
 

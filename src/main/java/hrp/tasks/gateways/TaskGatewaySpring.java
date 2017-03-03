@@ -1,10 +1,10 @@
-package tasklist.gateways.tasks;
+package hrp.tasks.gateways;
 
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import tasklist.persistence.tasks.Task;
-import tasklist.persistence.tasks.TaskRepository;
+import hrp.tasks.persistence.Task;
+import hrp.tasks.persistence.TaskRepository;
 
 @Repository
 public class TaskGatewaySpring {
