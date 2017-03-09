@@ -1,4 +1,4 @@
-package ui.tests;
+package tasks.ui.tests;
 
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -13,7 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import hrp.HomePlannerApp;
 import hrp.tasks.persistence.TaskRepository;
-import ui.steps.TaskSteps;
+import tasks.ui.steps.TaskSteps;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

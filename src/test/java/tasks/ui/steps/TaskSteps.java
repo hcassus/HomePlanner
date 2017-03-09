@@ -1,11 +1,11 @@
-package ui.steps;
+package tasks.ui.steps;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import ui.pages.TaskPage;
+import tasks.ui.pages.TaskPage;
 
 public class TaskSteps {
 

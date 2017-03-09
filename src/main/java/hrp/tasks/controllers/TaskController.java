@@ -1,4 +1,4 @@
-package hrp.tasks.controller;
+package hrp.tasks.controllers;
 
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
