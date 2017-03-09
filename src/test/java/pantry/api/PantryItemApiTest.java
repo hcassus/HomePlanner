@@ -8,8 +8,6 @@ import static org.hamcrest.core.Is.is;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootContextLoader;
@@ -36,9 +34,6 @@ public class PantryItemApiTest {
   String endpoint;
 
   TestRestTemplate restTemplate;
-
-  @Captor
-  ArgumentCaptor<PantryItem> itemCaptor;
 
   @Before
   public void setUp(){
