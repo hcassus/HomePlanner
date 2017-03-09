@@ -23,6 +23,7 @@ public class PantryItem {
 
   @Enumerated(EnumType.STRING)
   MeasurementUnits unit;
+
   UUID uuid;
 
   public PantryItem(String name, Long quantity, MeasurementUnits unit){
@@ -33,7 +34,7 @@ public class PantryItem {
   }
 
   public PantryItem(){
-
+    this.uuid = UUID.randomUUID();
   }
 
 
