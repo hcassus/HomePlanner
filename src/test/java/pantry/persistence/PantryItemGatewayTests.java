@@ -20,7 +20,7 @@ import hrp.pantry.persistence.PantryItemRepository;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = HomePlannerApp.class, loader = SpringBootContextLoader.class)
-public class PantryItemTests {
+public class PantryItemGatewayTests {
 
   @Autowired
   private PantryItemGateway gateway;
