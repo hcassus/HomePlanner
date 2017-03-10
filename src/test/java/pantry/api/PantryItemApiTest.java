@@ -3,6 +3,7 @@ package pantry.api;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.emptyIterableOf;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 import static org.hamcrest.core.Is.is;
 
@@ -11,6 +12,7 @@ import hrp.pantry.enums.MeasurementUnits;
 import hrp.pantry.persistence.PantryItem;
 import hrp.pantry.persistence.PantryItemRepository;
 import java.util.List;
+import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -85,6 +87,20 @@ public class PantryItemApiTest {
     assertThat(returnedItems.size(), is(equalTo(2)));
     // TODO: check content
 
+  }
+
+  @Test
+  public void deletePantryItemByUuid(){
+    PantryItem item = new PantryItem(
+        "Coca Cola 500ml"+ System.currentTimeMillis(),
+        2L,
+        MeasurementUnits.BOTTLE
+    );
+    UUID uuid = repo.save(item).getUuid();
+
+    restTemplate.delete(endpoint+ "/" + uuid);
+
+    assertThat(repo.findAll(), emptyIterableOf(PantryItem.class));
   }
 
 }

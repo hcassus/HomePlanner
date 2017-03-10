@@ -1,10 +1,11 @@
 package hrp.pantry.enums;
 
 public enum MeasurementUnits {
-  UNKOWN,
+  UNKNOWN,
   UNIT,
   LITER,
   PACKAGE,
+  BOTTLE,
   KILOGRAMS
 
 }

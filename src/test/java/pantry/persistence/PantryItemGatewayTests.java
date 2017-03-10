@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.emptyIterableOf;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 
 import hrp.HomePlannerApp;
@@ -13,6 +14,7 @@ import hrp.pantry.persistence.PantryItem;
 import hrp.pantry.persistence.PantryItemRepository;
 import java.util.List;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,11 @@ public class PantryItemGatewayTests {
 
   @Autowired
   private PantryItemRepository repository;
+
+  @Before
+  public void setUp(){
+    repository.deleteAll();
+  }
 
   @Test
   public void createPantryItemTest(){
@@ -67,6 +74,21 @@ public class PantryItemGatewayTests {
 
     assertThat(items.get(0), samePropertyValuesAs(item1));
     assertThat(items.get(1), samePropertyValuesAs(item2));
+  }
+
+  @Test
+  public void deleteItemByUuid(){
+    PantryItem item = new PantryItem(
+        "Bread "+ System.currentTimeMillis(),
+        2L,
+        MeasurementUnits.PACKAGE
+    );
+    item = repository.save(item);
+
+    gateway.deleteItemByUuid(item.getUuid());
+
+    assertThat(gateway.retrieveAllPantryItems(), emptyIterableOf(PantryItem.class));
+
   }
 
 }
