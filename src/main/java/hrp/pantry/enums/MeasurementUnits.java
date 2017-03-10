@@ -4,6 +4,7 @@ public enum MeasurementUnits {
   UNKOWN,
   UNIT,
   LITER,
+  PACKAGE,
   KILOGRAMS
 
 }

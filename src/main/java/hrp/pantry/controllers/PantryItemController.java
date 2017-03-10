@@ -10,7 +10,7 @@ import hrp.pantry.gateways.PantryItemGateway;
 import hrp.pantry.persistence.PantryItem;
 
 @RestController
-@RequestMapping(path = "/pantry")
+@RequestMapping(path = "/pantry/item")
 public class PantryItemController {
 
   PantryItemGateway gateway;
@@ -20,8 +20,14 @@ public class PantryItemController {
     this.gateway = gateway;
   }
 
-  @RequestMapping(path = "/item", method = RequestMethod.POST)
+  @RequestMapping(method = RequestMethod.POST)
   public PantryItem createPantryItem(@RequestBody PantryItem item){
     return gateway.createPantryItem(item);
   }
+
+  @RequestMapping(method = RequestMethod.GET)
+  public Iterable<PantryItem> retrievePantryItems(){
+    return gateway.retrieveAllPantryItems();
+  }
+
 }

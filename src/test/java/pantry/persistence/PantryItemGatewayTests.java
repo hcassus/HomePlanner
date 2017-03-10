@@ -3,7 +3,15 @@ package pantry.persistence;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
 
+import hrp.HomePlannerApp;
+import hrp.pantry.enums.MeasurementUnits;
+import hrp.pantry.gateways.PantryItemGateway;
+import hrp.pantry.persistence.PantryItem;
+import hrp.pantry.persistence.PantryItemRepository;
+import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,12 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootContextLoader;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import hrp.HomePlannerApp;
-import hrp.pantry.enums.MeasurementUnits;
-import hrp.pantry.gateways.PantryItemGateway;
-import hrp.pantry.persistence.PantryItem;
-import hrp.pantry.persistence.PantryItemRepository;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = HomePlannerApp.class, loader = SpringBootContextLoader.class)
@@ -30,17 +32,41 @@ public class PantryItemGatewayTests {
 
   @Test
   public void createPantryItemTest(){
-    String itemName = "Milk "+System.currentTimeMillis();
-    Long quantity = 10L;
-    MeasurementUnits unit = MeasurementUnits.LITER;
+    PantryItem item = new PantryItem(
+        "Milk "+System.currentTimeMillis(),
+        10L,
+        MeasurementUnits.LITER
+    );
 
-    PantryItem item = new PantryItem(itemName, quantity, unit);
     PantryItem persistedItem = gateway.createPantryItem(item);
-    Assert.assertThat(persistedItem.getName(), is(equalTo(itemName)));
-    Assert.assertThat(persistedItem.getQuantity(), is(equalTo(quantity)));
-    Assert.assertThat(persistedItem.getUnit(), is(equalTo(unit)));
-    Assert.assertThat(persistedItem.getUuid(), is(notNullValue()));
 
+    Assert.assertThat(persistedItem.getName(), is(equalTo(item.getName())));
+    Assert.assertThat(persistedItem.getQuantity(), is(equalTo(item.getQuantity())));
+    Assert.assertThat(persistedItem.getUnit(), is(equalTo(item.getUnit())));
+    Assert.assertThat(persistedItem.getUuid(), is(notNullValue()));
+  }
+
+  @Test
+  public void retrieveAllPantryItemsTest(){
+    PantryItem item1 = new PantryItem(
+        "Cheese " + System.currentTimeMillis(),
+        1L,
+        MeasurementUnits.PACKAGE
+    );
+
+    PantryItem item2 = new PantryItem(
+        "Lime " + System.currentTimeMillis(),
+        4L,
+        MeasurementUnits.UNIT
+    );
+
+    repository.save(item1);
+    repository.save(item2);
+
+    List<PantryItem> items = (List<PantryItem>) gateway.retrieveAllPantryItems();
+
+    assertThat(items.get(0), samePropertyValuesAs(item1));
+    assertThat(items.get(1), samePropertyValuesAs(item2));
   }
 
 }

@@ -1,10 +1,9 @@
 package hrp.pantry.gateways;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
 import hrp.pantry.persistence.PantryItem;
 import hrp.pantry.persistence.PantryItemRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class PantryItemGateway {
@@ -18,5 +17,9 @@ public class PantryItemGateway {
 
   public PantryItem createPantryItem(PantryItem item) {
     return repository.save(item);
+  }
+
+  public Iterable<PantryItem> retrieveAllPantryItems() {
+    return repository.findAll();
   }
 }
