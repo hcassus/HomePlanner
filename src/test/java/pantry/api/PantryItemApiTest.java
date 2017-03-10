@@ -7,12 +7,6 @@ import static org.hamcrest.Matchers.emptyIterableOf;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 import static org.hamcrest.core.Is.is;
 
-import hrp.HomePlannerApp;
-import hrp.pantry.enums.MeasurementUnits;
-import hrp.pantry.persistence.PantryItem;
-import hrp.pantry.persistence.PantryItemRepository;
-import java.util.List;
-import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,10 +15,19 @@ import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootContextLoader;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
+import java.util.UUID;
+import hrp.HomePlannerApp;
+import hrp.pantry.enums.MeasurementUnits;
+import hrp.pantry.persistence.PantryItem;
+import hrp.pantry.persistence.PantryItemRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -80,13 +83,14 @@ public class PantryItemApiTest {
     repo.save(item1);
     repo.save(item2);
 
-    ResponseEntity<List> response = restTemplate.getForEntity(endpoint, List.class);
-    List returnedItems = response.getBody();
+    ParameterizedTypeReference<List<PantryItem>> itemListType = new ParameterizedTypeReference<List<PantryItem>>() {};
+    ResponseEntity<List<PantryItem>> response = restTemplate.exchange(endpoint, HttpMethod.GET, null, itemListType);
+    List<PantryItem> returnedItems = response.getBody();
 
     assertThat(response.getStatusCode(), is(equalTo(HttpStatus.OK)));
     assertThat(returnedItems.size(), is(equalTo(2)));
-    // TODO: check content
-
+    assertThat(returnedItems.get(0), samePropertyValuesAs(item1));
+    assertThat(returnedItems.get(1), samePropertyValuesAs(item2));
   }
 
   @Test

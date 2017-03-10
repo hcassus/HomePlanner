@@ -1,6 +1,5 @@
 package hrp.pantry.controllers;
 
-import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -8,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
 import hrp.pantry.gateways.PantryItemGateway;
 import hrp.pantry.persistence.PantryItem;
 
@@ -32,7 +32,7 @@ public class PantryItemController {
     return gateway.retrieveAllPantryItems();
   }
 
-  @RequestMapping(path = "{uuid}", method = RequestMethod.DELETE)
+  @RequestMapping(path = "/{uuid}", method = RequestMethod.DELETE)
   public void deletePantryItemByUuid(@PathVariable UUID uuid){
     gateway.deleteItemByUuid(uuid);
   }
