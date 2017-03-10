@@ -7,12 +7,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyIterableOf;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 
-import hrp.HomePlannerApp;
-import hrp.pantry.enums.MeasurementUnits;
-import hrp.pantry.gateways.PantryItemGateway;
-import hrp.pantry.persistence.PantryItem;
-import hrp.pantry.persistence.PantryItemRepository;
-import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,9 +16,16 @@ import org.springframework.boot.test.context.SpringBootContextLoader;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+import hrp.HomePlannerApp;
+import hrp.pantry.enums.MeasurementUnits;
+import hrp.pantry.gateways.PantryItemGateway;
+import hrp.pantry.persistence.PantryItem;
+import hrp.pantry.persistence.PantryItemRepository;
+
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = HomePlannerApp.class, loader = SpringBootContextLoader.class)
-public class PantryItemGatewayTests {
+public class PantryItemGatewayTest {
 
   @Autowired
   private PantryItemGateway gateway;
