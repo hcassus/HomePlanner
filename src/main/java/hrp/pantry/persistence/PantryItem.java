@@ -1,13 +1,13 @@
 package hrp.pantry.persistence;
 
 import java.util.UUID;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
 import hrp.pantry.enums.MeasurementUnits;
 
 @Entity
@@ -15,16 +15,17 @@ public class PantryItem {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  Long id;
+  private Long id;
 
-  @NotNull
-  String name;
-  Long quantity;
+  @Column(nullable = false)
+  private String name;
+  private Long quantity;
 
   @Enumerated(EnumType.STRING)
-  MeasurementUnits unit;
+  private MeasurementUnits unit;
 
-  UUID uuid;
+  @Column(nullable = false)
+  private UUID uuid;
 
   public PantryItem(String name, Long quantity, MeasurementUnits unit){
     this.name = name;
