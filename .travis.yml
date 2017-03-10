@@ -7,7 +7,7 @@ addons:
   postgresql: "9.5"
 
 before_script:
-  - psql -c 'create database hrp;' -U postgres
+  - "psql -c 'create database hrp;' -U postgres"
 
 before_install:
   - "export DISPLAY=:99.0"
