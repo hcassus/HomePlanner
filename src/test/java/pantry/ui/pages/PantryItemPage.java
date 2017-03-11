@@ -14,7 +14,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class PantryItemPage extends BasePage{
 
-  @FindBy(id = "inpt-desc")
+  public static final String DESCRIPTION_INPUT_LOCATOR = "inpt-description";
+  public static final String ITEM_DESCRIPTION_TEXT_LOCATOR = "item-description";
+  @FindBy(id = DESCRIPTION_INPUT_LOCATOR)
   private WebElement descriptionInput;
 
   @FindBy(id = "inpt-qty")
@@ -23,7 +25,7 @@ public class PantryItemPage extends BasePage{
   @FindBy(id = "slct-unit")
   private WebElement unitSelectElement;
 
-  @FindBy(className = "item-description")
+  @FindBy(className = ITEM_DESCRIPTION_TEXT_LOCATOR)
   private WebElement itemDescription;
 
   @FindBy(className = "item-qty")
@@ -44,7 +46,7 @@ public class PantryItemPage extends BasePage{
   }
 
   public void fillDescriptionField(String itemDescription) {
-    wait.until(ExpectedConditions.presenceOfElementLocated(By.id("inpt-desc")));
+    wait.until(ExpectedConditions.presenceOfElementLocated(By.id(DESCRIPTION_INPUT_LOCATOR)));
     descriptionInput.sendKeys(itemDescription);
   }
 
@@ -58,6 +60,8 @@ public class PantryItemPage extends BasePage{
   }
 
   public String getItemDescription() {
+    wait.until(ExpectedConditions.presenceOfElementLocated(By.className(
+        ITEM_DESCRIPTION_TEXT_LOCATOR)));
     return itemDescription.getText();
   }
 

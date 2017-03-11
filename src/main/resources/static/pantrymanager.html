@@ -5,10 +5,10 @@
   <title>Pantry Manager</title>
 </head>
 <body>
-<div ng-controller="PantryCtrl as pantry">
+<div ng-controller="PantryCtrl as pantry" ng-init="pantry.getItems()">
 
   <form ng-submit="pantry.addItem()">
-    <input ng-model="pantry.newItem.name" id="inpt-desc" placeholder="Item Description"/>
+    <input ng-model="pantry.newItem.name" id="inpt-description" placeholder="Item Description"/>
     <input ng-model="pantry.newItem.quantity" id="inpt-qty" placeholder="Quantity"/>
     <select ng-model="pantry.newItem.unit" id="slct-unit">
       <option disabled value="UNKNOWN">--- Measurement Unit ---</option>
