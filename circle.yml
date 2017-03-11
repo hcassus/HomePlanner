@@ -13,4 +13,4 @@ deployment:
   staging:
     branch: master
     heroku:
-      appname: powerful-ravine-24650
+      appname: nameless-brushlands-59783
