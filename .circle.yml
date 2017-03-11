@@ -1,0 +1,9 @@
+machine:
+  java:
+    version: openjdk8
+    
+  services:
+    - postgresql
+database:
+  override:
+    - "psql -c 'create database hrp;' -U postgres"
