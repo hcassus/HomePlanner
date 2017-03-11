@@ -78,7 +78,7 @@
 
       this.newItem.uuid = Math.random() * 100000;
       this.content.push(this.newItem);
-      this.newItem = {}
+      this.newItem = {'unit': 'UNKNOWN'}
     };
 
     this.removeItem = function (item) {
@@ -89,6 +89,8 @@
         }
       }
     };
+
+    this.newItem = {'unit': 'UNKNOWN'};
 
     this.content = [
       {

@@ -8,20 +8,25 @@
 <div ng-controller="PantryCtrl as pantry">
 
   <form ng-submit="pantry.addItem()">
-    <input ng-model="pantry.newItem.name" id="itemDescription"/>
-    <input ng-model="pantry.newItem.quantity" id="quantity"/>
-    <select ng-model="pantry.newItem.unit" id="unit">
+    <input ng-model="pantry.newItem.name" id="inpt-desc" placeholder="Item Description"/>
+    <input ng-model="pantry.newItem.quantity" id="inpt-qty" placeholder="Quantity"/>
+    <select ng-model="pantry.newItem.unit" id="slct-unit">
+      <option disabled value="UNKNOWN">--- Measurement Unit ---</option>
       <option value="UNIT">{{'Unit' | pluralize : pantry.newItem.quantity}}</option>
       <option value="KILOGRAM">{{'Kilogram' | pluralize : pantry.newItem.quantity}}</option>
       <option value="LITER">{{'Liter' | pluralize : pantry.newItem.quantity}}</option>
       <option value="BOTTLE">{{'Bottle' | pluralize : pantry.newItem.quantity}}</option>
       <option value="PACKAGE">{{'Package' | pluralize : pantry.newItem.quantity}}</option>
     </select>
-    <button type="submit">Add</button>
+    <button type="submit" id="btn-add-item">Add</button>
   </form>
 
-  <div ng-repeat="item in pantry.content">
-    {{item.name}} - {{item.quantity}} {{item.unit | pluralize : item.quantity | titleCase}}
+  <div ng-repeat="item in pantry.content" id="item_{{d}}">
+    <b id="item-description">{{item.name}}</b>
+    -
+    <b id="item-qty">{{item.quantity}}</b>
+
+    <b id="item-unit">{{item.unit | pluralize : item.quantity | titleCase}}</b>
     <button ng-click="pantry.removeItem(item)">Remove</button>
   </div>
 </div>
