@@ -1,6 +1,6 @@
 # TaskList
 
-Simple software to create a persistent hrp.
+Simple software to Manage home.
 
 [![CircleCI](https://circleci.com/gh/hcassus/TaskList.svg?style=svg)](https://circleci.com/gh/hcassus/TaskList)
 
