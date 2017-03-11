@@ -18,15 +18,15 @@
       <option value="BOTTLE">{{'Bottle' | pluralize : pantry.newItem.quantity}}</option>
       <option value="PACKAGE">{{'Package' | pluralize : pantry.newItem.quantity}}</option>
     </select>
-    <button type="submit" id="btn-add-item">Add</button>
+    <button type="submit" id="btn-add">Add</button>
   </form>
 
   <div ng-repeat="item in pantry.content" id="item_{{d}}">
-    <b id="item-description">{{item.name}}</b>
+    <b class="item-description">{{item.name}}</b>
     -
-    <b id="item-qty">{{item.quantity}}</b>
+    <b class="item-qty">{{item.quantity}}</b>
 
-    <b id="item-unit">{{item.unit | pluralize : item.quantity | titleCase}}</b>
+    <b class="item-unit">{{item.unit | pluralize : item.quantity | titleCase}}</b>
     <button ng-click="pantry.removeItem(item)">Remove</button>
   </div>
 </div>

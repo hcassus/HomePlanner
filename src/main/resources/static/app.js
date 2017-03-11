@@ -92,20 +92,7 @@
 
     this.newItem = {'unit': 'UNKNOWN'};
 
-    this.content = [
-      {
-        'name': 'Coca Cola 2l',
-        'quantity': 1,
-        'unit': 'BOTTLE',
-        'uuid': 'f12123-de123c-a45123-c123-d12e12'
-      },
-      {
-        'name': 'Erdinger 500ml',
-        'quantity': 10,
-        'unit': 'BOTTLE',
-        'uuid': '4dbf39-fb6745-dda544-456b-d211da'
-      }
-    ];
+    this.content = [];
   }])
 
 })();
