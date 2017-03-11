@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
@@ -35,7 +35,7 @@ public class PantryItemTest {
 
   @Before
   public void setUp(){
-    driver = new FirefoxDriver();
+    driver = new ChromeDriver();
     WebDriverWait wait = new WebDriverWait(driver, 5);
     this.itemSteps = new PantryItemSteps(driver, wait);
     repository.deleteAll();
