@@ -1,9 +1,13 @@
-package ui.tests;
+package tasks.ui.tests;
 
-import org.junit.*;
+import hrp.HomePlannerApp;
+import hrp.tasks.persistence.TaskRepository;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
@@ -11,9 +15,7 @@ import org.springframework.boot.test.context.SpringBootContextLoader;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import hrp.HomePlannerApp;
-import hrp.tasks.persistence.TaskRepository;
-import ui.steps.TaskSteps;
+import tasks.ui.steps.TaskSteps;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -32,7 +34,7 @@ public class TaskTest {
 
     @Before
     public void setUp(){
-        driver = new FirefoxDriver();
+        driver = new ChromeDriver();
         wait = new WebDriverWait(driver, 5);
         taskSteps = new TaskSteps(driver, wait);
         taskRepository.deleteAll();
