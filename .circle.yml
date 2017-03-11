@@ -6,4 +6,4 @@ machine:
     - postgresql
 database:
   override:
-    - "psql -c 'create database hrp;' -U postgres"
+    - createdb hrp
