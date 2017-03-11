@@ -75,8 +75,19 @@
   app.controller('PantryCtrl', ['$http', function ($http) {
 
     this.addItem = function () {
+
+      this.newItem.uuid = Math.random() * 100000;
       this.content.push(this.newItem);
       this.newItem = {}
+    };
+
+    this.removeItem = function (item) {
+      uuid = item.uuid;
+      for (i = 0; i < this.content.length; i++) {
+        if (uuid == this.content[i].uuid) {
+          this.content.splice(i, 1);
+        }
+      }
     };
 
     this.content = [

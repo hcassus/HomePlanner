@@ -22,6 +22,7 @@
 
   <div ng-repeat="item in pantry.content">
     {{item.name}} - {{item.quantity}} {{item.unit | pluralize : item.quantity | titleCase}}
+    <button ng-click="pantry.removeItem(item)">Remove</button>
   </div>
 </div>
 <script type="text/javascript" src="angular.min.js"></script>
