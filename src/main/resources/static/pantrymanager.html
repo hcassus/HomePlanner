@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html ng-app="hrp" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pantry Manager</title>
+</head>
+<body>
+<div ng-controller="PantryCtrl as pantry">
+
+  <form ng-submit="pantry.addItem()">
+    <input ng-model="pantry.newItem.name" id="itemDescription"/>
+    <input ng-model="pantry.newItem.quantity" id="quantity"/>
+    <select ng-model="pantry.newItem.unit" id="unit">
+      <option value="UNIT">{{'Unit' | pluralize : pantry.newItem.quantity}}</option>
+      <option value="KILOGRAM">{{'Kilogram' | pluralize : pantry.newItem.quantity}}</option>
+      <option value="LITER">{{'Liter' | pluralize : pantry.newItem.quantity}}</option>
+      <option value="BOTTLE">{{'Bottle' | pluralize : pantry.newItem.quantity}}</option>
+      <option value="PACKAGE">{{'Package' | pluralize : pantry.newItem.quantity}}</option>
+    </select>
+    <button type="submit">Add</button>
+  </form>
+
+  <div ng-repeat="item in pantry.content">
+    {{item.name}} - {{item.quantity}} {{item.unit | pluralize : item.quantity | titleCase}}
+  </div>
+</div>
+<script type="text/javascript" src="angular.min.js"></script>
+<script type="text/javascript" src="app.js"></script>
+</body>
+</html>

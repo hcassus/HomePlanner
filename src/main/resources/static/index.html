@@ -4,36 +4,10 @@
 		<link rel="stylesheet" type="text/css" href="bootstrap-3.3.7-dist/css/bootstrap.min.css"/>
 	</head>
 	<body>
-		<div ng-controller="TasksCtrl as tasks" ng-init="tasks.getTasks()">
-            <div class="jumbotron">
-                <h1 align="center">My Task List</h1>
-                <p align="center">Are you ready to organize your tasks in a simple and effective way?</p>
-            </div>
-            <form ng-submit="tasks.addTask(tasks.content)">
-                <div class="input-group col-lg-4 col-lg-offset-4">
-                    <input type="text" id="task-inpt" class="form-control" placeholder="Enter a task here..." ng-model="tasks.content">
-                    <span class="input-group-btn">
-                        <button id="add-btn" class="btn btn-default" type="submit">Add Task</button>
-                    </span>
-                </div>
-            </form>
-            <br/>
-            <ul>
-                <p ng-repeat="task in tasks.tasks" class="col-lg-4 col-lg-offset-4">
-                    <button ng-show="task.status == 1" type="button" class="btn btn-xs btn-warning" aria-label="Left Align" ng-click="tasks.changeTaskStatus(task, 0)">
-                        <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
-                    </button>
-                    <button ng-hide="task.status == 1" type="button" class="btn btn-xs btn-success" aria-label="Left Align" ng-click="tasks.changeTaskStatus(task, 1)">
-                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                    </button>
-                    <button id="task_del_row_{{task.id}}" type="button" class="btn btn-xs btn-danger" aria-label="Left Align" ng-click="tasks.delTask(task)">
-                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                    </button>
-                    <b id="task_desc_row_{{task.id}}" ng-class="{'bg-success text-success':task.status == 1}">{{task.content}}</b>
-                </p>
-            </ul>
-		</div>
-        <script type="text/javascript" src="angular.min.js"></script>
+		<h1>Welcome</h1>
+    <a href="taskmanager.html">Task Manager</a>
+    <a href="pantrymanager.html">Pantry Manager</a>
+    <script type="text/javascript" src="angular.min.js"></script>
 		<script type="text/javascript" src="app.js"></script>
 	</body>
 </html>
