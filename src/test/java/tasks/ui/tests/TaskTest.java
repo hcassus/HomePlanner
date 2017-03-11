@@ -42,8 +42,9 @@ public class TaskTest {
     @Test
     public void testCreateTest(){
         taskSteps
-                .createTask()
-                .checkTaskWasCreated();
+            .navigateToTaskManager()
+            .createTask()
+            .checkTaskWasCreated();
     }
 
     @After
