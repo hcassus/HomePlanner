@@ -49,6 +49,17 @@ public class TaskTest {
             .checkTaskWasCreated();
     }
 
+    @Test
+    public void testCompleteTest(){
+        taskSteps
+            .navigateToTaskManager()
+            .createTask()
+            .completeTask()
+            .checkTaskWasCompleted();
+    }
+
+
+
     @After
     public void tearDown(){
         driver.quit();
