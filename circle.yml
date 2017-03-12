@@ -15,8 +15,9 @@ deployment:
     heroku:
       appname: nameless-brushlands-59783
 
-script: "mvn cobertura:cobertura"
+
 
 test:
+  script: "mvn cobertura:cobertura"
   post:
     - bash <(curl -s https://codecov.io/bash)
