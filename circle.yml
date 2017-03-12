@@ -4,6 +4,13 @@ machine:
     
   services:
     - postgresql
+
 database:
   override:
     - createdb hrp
+
+deployment:
+  staging:
+    branch: master
+    heroku:
+      appname: nameless-brushlands-59783

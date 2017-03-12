@@ -1,6 +1,6 @@
 # TaskList
 
-Simple software to create a persistent hrp.
+Simple software to Manage home.
 
 [![CircleCI](https://circleci.com/gh/hcassus/TaskList.svg?style=svg)](https://circleci.com/gh/hcassus/TaskList)
 
@@ -15,8 +15,14 @@ Simple software to create a persistent hrp.
 
 # How to use
 
+## Tasks Manager
 - Type an activity
 - Click on the button to submit the activity
 - Click on the red X button to remove the task
 - Click on the green tick button to complete the task
 - Click on the yellow reload button to mark it as undone again
+
+## Pantry Manager
+- Fill in the item data
+- Click on the add button to submit it
+- Click on the remove button to remove the item
