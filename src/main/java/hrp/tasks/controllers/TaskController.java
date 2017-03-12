@@ -26,8 +26,8 @@ public class TaskController {
   }
 
   @RequestMapping(value = "/task", method = RequestMethod.POST)
-  public Task addTask(@RequestBody String taskContent) {
-    return taskGateway.addTask(taskContent);
+  public Task addTask(@RequestBody Task task) {
+    return taskGateway.addTask(task);
   }
 
   @RequestMapping(value = "/task/{uuid}", method = RequestMethod.DELETE)

@@ -27,7 +27,7 @@
 
   app.controller('TasksCtrl', ['$http', function ($http) {
 
-    this.content = "";
+    this.task = {};
     store = this;
     store.tasks = [];
 
@@ -39,11 +39,11 @@
       });
     };
 
-    this.addTask = function (content) {
-      $http.post(this.url, content).success(function (data) {
+    this.addTask = function (task) {
+      $http.post(this.url, task).success(function (data) {
         store.tasks.push(data);
       });
-      this.content = "";
+      this.task = {};
     };
 
     this.delTask = function (task) {
