@@ -14,3 +14,11 @@ deployment:
     branch: master
     heroku:
       appname: nameless-brushlands-59783
+
+
+
+test:
+  override: 
+    - "mvn cobertura:cobertura"
+  post:
+    - bash <(curl -s https://codecov.io/bash)
