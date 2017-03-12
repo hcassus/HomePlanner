@@ -21,8 +21,7 @@ public class TaskGatewaySpring {
     return repository.findAll();
   }
 
-  public Task addTask(String taskContent) {
-    Task task = new Task(taskContent);
+  public Task addTask(Task task) {
     repository.save(task);
     return task;
   }

@@ -9,38 +9,36 @@ import javax.persistence.Id;
 @Entity
 public class Task {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-    private String content;
-    private int status;
-    private UUID uuid;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private long id;
+  private String description;
+  private int status;
+  private UUID uuid;
 
-    public Task(String content) {
-        this.content = content;
-        this.status = 0;
-        this.uuid = UUID.randomUUID();
-    }
+  public Task() {
+    this.status = 0;
+    this.uuid = UUID.randomUUID();
+  }
 
-    public Task(){}
+  public Task(String description){
+    this.status = 0;
+    this.uuid = UUID.randomUUID();
+  }
 
-    public long getId() {
-        return id;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public String getContent() {
-        return content;
-    }
+  public int getStatus() {
+    return status;
+  }
 
-    public int getStatus(){
-        return status;
-    }
+  public UUID getUuid() {
+    return uuid;
+  }
 
-    public UUID getUuid(){
-        return uuid;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
+  public void setStatus(int status) {
+    this.status = status;
+  }
 }
