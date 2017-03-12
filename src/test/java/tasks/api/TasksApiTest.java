@@ -61,7 +61,6 @@ public class TasksApiTest {
 
   @Test
   public void getAllTasksTest(){
-
     Task task = repository.save(new Task("Task " + System.currentTimeMillis()));
     Task task2 = repository.save(new Task("Task2 " + System.currentTimeMillis()));
 
@@ -94,6 +93,53 @@ public class TasksApiTest {
           .body(is(""));
 
     assertThat(repository.count(), is(equalTo(0L)));
+  }
+
+
+  @Test
+  public void completeTask() throws JSONException {
+    Task task = repository.save(new Task("Task " + System.currentTimeMillis()));
+
+    JSONObject taskPatch = new JSONObject()
+        .put("status", 1);
+
+    RestAssured
+        .given()
+          .contentType(ContentType.JSON)
+          .body(taskPatch.toString())
+        .when()
+          .patch("/task/" + task.getUuid())
+        .then()
+          .statusCode(200)
+          .body("status", is(equalTo(1)))
+          .body("uuid", notNullValue())
+          .body("description", is(equalTo(task.getDescription())));
+
+    assertThat(repository.count(), is(equalTo(1L)));
+  }
+
+  @Test
+  public void uncompleteTask() throws JSONException {
+    Task task = new Task("Task " + System.currentTimeMillis());
+    task.setStatus(0);
+    task = repository.save(task);
+
+    JSONObject taskPatch = new JSONObject()
+        .put("status", 0);
+
+    RestAssured
+        .given()
+        .contentType(ContentType.JSON)
+        .body(taskPatch.toString())
+        .when()
+        .patch("/task/" + task.getUuid())
+        .then()
+        .statusCode(200)
+        .body("status", is(equalTo(0)))
+        .body("uuid", notNullValue())
+        .body("description", is(equalTo(task.getDescription())));
+
+    assertThat(repository.count(), is(equalTo(1L)));
   }
 
 }

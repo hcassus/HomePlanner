@@ -19,7 +19,6 @@ import java.util.UUID;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,21 +117,4 @@ public class PantryItemApiTest {
 
     assertThat(repository.findAll(), emptyIterableOf(PantryItem.class));
   }
-
-  @Test
-  @Ignore
-  public void completeTask(){
-
-  }
-
-  @Test
-  @Ignore
-  public void uncompleteTask(){
-
-  }
-
-
-
-
-
 }

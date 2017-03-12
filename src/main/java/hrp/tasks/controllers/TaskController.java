@@ -36,7 +36,7 @@ public class TaskController {
   }
 
   @RequestMapping(value = "/task/{uuid}", method = RequestMethod.PATCH)
-  public Task changeTaskStatusById(@PathVariable UUID uuid, @RequestBody int status) {
-    return taskGateway.changeTaskStatus(uuid, status);
+  public Task changeTaskStatusById(@PathVariable UUID uuid, @RequestBody Task task) {
+    return taskGateway.changeTaskStatus(uuid, task.getStatus());
   }
 }
