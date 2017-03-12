@@ -1,5 +1,7 @@
 package hrp.pantry.persistence;
 
+import hrp.pantry.enums.MeasurementUnits;
+import java.sql.Timestamp;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,7 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import hrp.pantry.enums.MeasurementUnits;
+import javax.persistence.PreUpdate;
 
 @Entity
 public class PantryItem {
@@ -27,15 +29,30 @@ public class PantryItem {
   @Column(nullable = false)
   private UUID uuid;
 
+  @Column
+  private Timestamp createdAt;
+
+  @Column
+  private Timestamp updatedAt;
+
+  @PreUpdate
+  public void adjustUpdateDate(){
+    this.updatedAt = new Timestamp(System.currentTimeMillis());
+  }
+
   public PantryItem(String name, Long quantity, MeasurementUnits unit){
     this.name = name;
     this.quantity = quantity;
     this.unit = unit;
     this.uuid = UUID.randomUUID();
+    this.createdAt = new Timestamp(System.currentTimeMillis());
+    this.updatedAt = new Timestamp(System.currentTimeMillis());
   }
 
   public PantryItem(){
     this.uuid = UUID.randomUUID();
+    this.createdAt = new Timestamp(System.currentTimeMillis());
+    this.updatedAt = new Timestamp(System.currentTimeMillis());
   }
 
 
@@ -53,5 +70,13 @@ public class PantryItem {
 
   public String getName() {
     return name;
+  }
+
+  public Timestamp getCreatedAt(){
+    return createdAt;
+  }
+
+  public Timestamp getUpdatedAt(){
+    return updatedAt;
   }
 }
