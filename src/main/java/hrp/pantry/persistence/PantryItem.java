@@ -21,7 +21,7 @@ public class PantryItem {
 
   @Column(nullable = false)
   private String name;
-  private Long quantity;
+  private Integer quantity;
 
   @Enumerated(EnumType.STRING)
   private MeasurementUnits unit;
@@ -40,7 +40,7 @@ public class PantryItem {
     this.updatedAt = new Timestamp(System.currentTimeMillis());
   }
 
-  public PantryItem(String name, Long quantity, MeasurementUnits unit){
+  public PantryItem(String name, Integer quantity, MeasurementUnits unit){
     this.name = name;
     this.quantity = quantity;
     this.unit = unit;
@@ -64,7 +64,7 @@ public class PantryItem {
     return unit;
   }
 
-  public Long getQuantity() {
+  public Integer getQuantity() {
     return quantity;
   }
 

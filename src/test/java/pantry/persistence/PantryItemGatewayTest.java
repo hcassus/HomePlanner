@@ -37,7 +37,7 @@ public class PantryItemGatewayTest {
   public void createPantryItemTest(){
     PantryItem item = new PantryItem(
         "Milk "+System.currentTimeMillis(),
-        10L,
+        10,
         MeasurementUnits.LITER
     );
 
@@ -50,13 +50,13 @@ public class PantryItemGatewayTest {
   public void retrieveAllPantryItemsTest(){
     PantryItem item1 = new PantryItem(
         "Cheese " + System.currentTimeMillis(),
-        1L,
+        1,
         MeasurementUnits.PACKAGE
     );
 
     PantryItem item2 = new PantryItem(
         "Lime " + System.currentTimeMillis(),
-        4L,
+        4,
         MeasurementUnits.UNIT
     );
 
@@ -73,7 +73,7 @@ public class PantryItemGatewayTest {
   public void deleteItemByUuid(){
     PantryItem item = new PantryItem(
         "Bread "+ System.currentTimeMillis(),
-        2L,
+        2,
         MeasurementUnits.PACKAGE
     );
     item = repository.save(item);
