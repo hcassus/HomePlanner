@@ -1,5 +1,8 @@
 package tasks.ui.steps;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -41,5 +44,14 @@ public class TaskSteps {
   public TaskSteps navigateToTaskManager() {
     page.navigateTo("Task Manager");
     return this;
+  }
+
+  public TaskSteps completeTask() {
+    page.clickCompleteBtn();
+    return this;
+  }
+
+  public void checkTaskWasCompleted() {
+    assertThat(page.getTaskStatus(), equalTo(1));
   }
 }

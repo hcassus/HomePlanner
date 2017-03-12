@@ -60,8 +60,9 @@
 
     this.changeTaskStatus = function (task, status) {
       uuid = task.uuid;
+      task.status = status;
       urlWithId = this.url + "/" + uuid;
-      $http.patch(urlWithId, status).success(function (data) {
+      $http.patch(urlWithId, task).success(function (data) {
         for (i = 0; i < store.tasks.length; i++) {
           if (uuid == store.tasks[i].uuid) {
             store.tasks[i].status = data.status;

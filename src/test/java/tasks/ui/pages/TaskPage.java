@@ -25,6 +25,12 @@ public class TaskPage extends BasePage {
 
   private WebDriverWait wait;
 
+  @FindBy(xpath = "//*[contains(@class,'glyphicon-ok')]")
+  private WebElement completeBtn;
+
+  @FindBy(xpath = "//*[contains(@class,'glyphicon-repeat')]")
+  private WebElement uncompleteBtn;
+
   public TaskPage(WebDriver driver, WebDriverWait wait) {
     super(driver);
     PageFactory.initElements(driver, this);
@@ -47,5 +53,15 @@ public class TaskPage extends BasePage {
 
   public void deleteTask() {
     delButton.click();
+  }
+
+  public void clickCompleteBtn() {
+    wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(@class,'btn-success')]")));
+    completeBtn.click();
+  }
+
+  public int getTaskStatus() {
+    wait.until(ExpectedConditions.invisibilityOf(completeBtn));
+    return uncompleteBtn.isDisplayed() ? 1 : 0;
   }
 }
