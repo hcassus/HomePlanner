@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html ng-app="hrp" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pantry Manager</title>
+</head>
+<body>
+<div ng-controller="PantryCtrl as pantry" ng-init="pantry.getItems()">
+
+  <form ng-submit="pantry.addItem()">
+    <input ng-model="pantry.newItem.name" id="inpt-description" placeholder="Item Description"/>
+    <input ng-model="pantry.newItem.quantity" id="inpt-qty" placeholder="Quantity"/>
+    <select ng-model="pantry.newItem.unit" id="slct-unit">
+      <option disabled value="UNKNOWN">--- Measurement Unit ---</option>
+      <option value="UNIT">{{'Unit' | pluralize : pantry.newItem.quantity}}</option>
+      <option value="KILOGRAM">{{'Kilogram' | pluralize : pantry.newItem.quantity}}</option>
+      <option value="LITER">{{'Liter' | pluralize : pantry.newItem.quantity}}</option>
+      <option value="BOTTLE">{{'Bottle' | pluralize : pantry.newItem.quantity}}</option>
+      <option value="PACKAGE">{{'Package' | pluralize : pantry.newItem.quantity}}</option>
+    </select>
+    <button type="submit" id="btn-add">Add</button>
+  </form>
+
+  <div ng-repeat="item in pantry.content" id="item_{{d}}">
+    <b class="item-description">{{item.name}}</b>
+    -
+    <b class="item-qty">{{item.quantity}}</b>
+
+    <b class="item-unit">{{item.unit | pluralize : item.quantity | titleCase}}</b>
+    <button ng-click="pantry.removeItem(item)">Remove</button>
+  </div>
+</div>
+<script type="text/javascript" src="angular.min.js"></script>
+<script type="text/javascript" src="app.js"></script>
+</body>
+</html>
