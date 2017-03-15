@@ -8,7 +8,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
 import hrp.HomePlannerApp;
-import hrp.pantry.enums.PackagingUnits;
+import hrp.pantry.enums.PackagingUnit;
 import hrp.pantry.persistence.entities.PantryItem;
 import hrp.pantry.persistence.repositories.PantryItemRepository;
 import io.restassured.RestAssured;
@@ -71,8 +71,8 @@ public class PantryItemApiTest {
 
   @Test
   public void retrieveAllCreatedItemsTest(){
-    PantryItem item1 = new PantryItem("Erdinger Kristall 500ml",1, PackagingUnits.BOTTLE);
-    PantryItem item2 = new PantryItem("Erdinger Kristall 500ml",2, PackagingUnits.BOTTLE);
+    PantryItem item1 = new PantryItem("Erdinger Kristall 500ml",1, PackagingUnit.BOTTLE);
+    PantryItem item2 = new PantryItem("Erdinger Kristall 500ml",2, PackagingUnit.BOTTLE);
     List<PantryItem> items = Arrays.asList(item1,item2);
     repository.save(items);
 
@@ -102,7 +102,7 @@ public class PantryItemApiTest {
     PantryItem item = new PantryItem(
         "Coca Cola 500ml"+ System.currentTimeMillis(),
         2,
-        PackagingUnits.BOTTLE
+        PackagingUnit.BOTTLE
     );
     UUID uuid = repository.save(item).getUuid();
 

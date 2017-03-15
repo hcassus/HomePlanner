@@ -1,6 +1,6 @@
 package hrp.pantry.enums;
 
-public enum PackagingUnits {
+public enum PackagingUnit {
   UNKNOWN,
   UNIT,
   PACKAGE,

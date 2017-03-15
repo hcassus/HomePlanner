@@ -10,7 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PreUpdate;
-import hrp.pantry.enums.PackagingUnits;
+import hrp.pantry.enums.PackagingUnit;
 
 @Entity
 public class PantryItem {
@@ -24,7 +24,7 @@ public class PantryItem {
   private Integer quantity;
 
   @Enumerated(EnumType.STRING)
-  private PackagingUnits unit;
+  private PackagingUnit unit;
 
   @Column(nullable = false)
   private UUID uuid;
@@ -40,7 +40,7 @@ public class PantryItem {
     this.updatedAt = new Timestamp(System.currentTimeMillis());
   }
 
-  public PantryItem(String name, Integer quantity, PackagingUnits unit){
+  public PantryItem(String name, Integer quantity, PackagingUnit unit){
     this.name = name;
     this.quantity = quantity;
     this.unit = unit;
@@ -60,7 +60,7 @@ public class PantryItem {
     return uuid;
   }
 
-  public PackagingUnits getUnit() {
+  public PackagingUnit getUnit() {
     return unit;
   }
 

@@ -4,12 +4,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyIterableOf;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 
-import hrp.HomePlannerApp;
-import hrp.pantry.enums.MeasurementUnits;
-import hrp.pantry.gateways.PantryItemGateway;
-import hrp.pantry.persistence.PantryItem;
-import hrp.pantry.persistence.PantryItemRepository;
-import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootContextLoader;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
+import hrp.HomePlannerApp;
+import hrp.pantry.enums.PackagingUnit;
+import hrp.pantry.gateways.PantryItemGateway;
+import hrp.pantry.persistence.entities.PantryItem;
+import hrp.pantry.persistence.repositories.PantryItemRepository;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = HomePlannerApp.class, loader = SpringBootContextLoader.class)
@@ -38,7 +39,7 @@ public class PantryItemGatewayTest {
     PantryItem item = new PantryItem(
         "Milk "+System.currentTimeMillis(),
         10,
-        MeasurementUnits.LITER
+        PackagingUnit.CARTON
     );
 
     PantryItem persistedItem = gateway.createPantryItem(item);
@@ -51,13 +52,13 @@ public class PantryItemGatewayTest {
     PantryItem item1 = new PantryItem(
         "Cheese " + System.currentTimeMillis(),
         1,
-        MeasurementUnits.PACKAGE
+        PackagingUnit.PACKAGE
     );
 
     PantryItem item2 = new PantryItem(
         "Lime " + System.currentTimeMillis(),
         4,
-        MeasurementUnits.UNIT
+        PackagingUnit.UNIT
     );
 
     repository.save(item1);
@@ -74,7 +75,7 @@ public class PantryItemGatewayTest {
     PantryItem item = new PantryItem(
         "Bread "+ System.currentTimeMillis(),
         2,
-        MeasurementUnits.PACKAGE
+        PackagingUnit.PACKAGE
     );
     item = repository.save(item);
 
