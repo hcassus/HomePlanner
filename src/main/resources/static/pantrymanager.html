@@ -13,10 +13,9 @@
     <select ng-model="pantry.newItem.unit" id="slct-unit">
       <option disabled value="UNKNOWN">--- Measurement Unit ---</option>
       <option value="UNIT">{{'Unit' | pluralize : pantry.newItem.quantity}}</option>
-      <option value="KILOGRAM">{{'Kilogram' | pluralize : pantry.newItem.quantity}}</option>
-      <option value="LITER">{{'Liter' | pluralize : pantry.newItem.quantity}}</option>
       <option value="BOTTLE">{{'Bottle' | pluralize : pantry.newItem.quantity}}</option>
       <option value="PACKAGE">{{'Package' | pluralize : pantry.newItem.quantity}}</option>
+      <option value="CARTON">{{'Carton' | pluralize : pantry.newItem.quantity}}</option>
     </select>
     <button type="submit" id="btn-add">Add</button>
   </form>

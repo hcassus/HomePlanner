@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 import hrp.pantry.gateways.PantryItemGateway;
-import hrp.pantry.persistence.PantryItem;
+import hrp.pantry.persistence.entities.PantryItem;
 
 @RestController
 @RequestMapping(path = "/pantry/item")

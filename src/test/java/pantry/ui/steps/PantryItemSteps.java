@@ -25,7 +25,7 @@ public class PantryItemSteps {
   public PantryItemSteps createItem() {
     this.description = "Item " + System.currentTimeMillis();
     this.quantity = "5";
-    this.unit = "Liters";
+    this.unit = "Cartons";
     itemPage.fillDescriptionField(description);
     itemPage.fillQuantityField(quantity);
     itemPage.selectUnit(unit);

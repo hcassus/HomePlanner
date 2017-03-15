@@ -1,7 +1,5 @@
 package pantry.ui.tests;
 
-import hrp.HomePlannerApp;
-import hrp.pantry.persistence.PantryItemRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import hrp.HomePlannerApp;
+import hrp.pantry.persistence.repositories.PantryItemRepository;
 import pantry.ui.steps.PantryItemSteps;
 
 @RunWith(SpringRunner.class)
