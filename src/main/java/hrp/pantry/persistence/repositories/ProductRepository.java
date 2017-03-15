@@ -6,4 +6,6 @@ import hrp.pantry.persistence.entities.Product;
 
 public interface ProductRepository extends CrudRepository<Product,Long>{
   Iterable<Product> findProductsByEanCode(String eanCode);
+
+  Product findTop1ProductsByEanCodeOrderByCountDesc(String eanCode);
 }

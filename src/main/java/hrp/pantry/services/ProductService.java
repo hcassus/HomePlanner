@@ -43,4 +43,5 @@ public class ProductService {
   public Product retrieveItemDataByEan(String eanCode) {
     return gateway.retrieveHighestCountProductByEanCode(eanCode);
   }
+
 }

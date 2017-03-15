@@ -3,8 +3,10 @@ package pantry.service;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 
+import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -157,13 +159,36 @@ public class ProductServiceTest {
   }
 
   @Test
-  public void returnSingleProductData(){
+  public void returnSingleProductDataTest(){
     Product product = new Product("1234567890123", "Coca Cola 2L", PackagingUnit.BOTTLE);
     repository.save(product);
 
     Product retrievedProduct = service.retrieveItemDataByEan("1234567890123");
 
     assertThat(retrievedProduct, samePropertyValuesAs(product));
+  }
+
+  @Test
+  public void returnOnlyProductWithHigestCountDataTest(){
+    Product product = new Product("1234567890123", "Coca", PackagingUnit.PACKAGE);
+    Product product2 = new Product("1234567890123", "Coca Cola 2L", PackagingUnit.BOTTLE);
+    Product product3 = new Product("1234567890123", "Cola 600ml", PackagingUnit.UNIT);
+    product.setCount(10L);
+    product2.setCount(15L);
+    product3.setCount(3L);
+
+    repository.save(Arrays.asList(product,product2,product3));
+
+    Product retrievedProduct = service.retrieveItemDataByEan("1234567890123");
+
+    assertThat(retrievedProduct, samePropertyValuesAs(product2));
+  }
+
+  @Test
+  public void returnNoItemIfCodeDoesNotExistTest(){
+    Product retrievedProduct = service.retrieveItemDataByEan("1234567890123");
+
+    assertThat(retrievedProduct, nullValue(Product.class));
   }
 
 

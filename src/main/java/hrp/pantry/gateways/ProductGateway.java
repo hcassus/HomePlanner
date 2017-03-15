@@ -21,6 +21,6 @@ public class ProductGateway {
   }
 
   public Product retrieveHighestCountProductByEanCode(String eanCode) {
-    return null;
+    return repository.findTop1ProductsByEanCodeOrderByCountDesc(eanCode);
   }
 }
