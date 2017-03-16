@@ -1,5 +1,11 @@
 package pantry.ui.tests;
 
+import hrp.HomePlannerApp;
+import hrp.pantry.enums.PackagingUnit;
+import hrp.pantry.persistence.entities.Product;
+import hrp.pantry.persistence.repositories.PantryItemRepository;
+import hrp.pantry.persistence.repositories.ProductRepository;
+import java.util.Arrays;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,9 +20,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import hrp.HomePlannerApp;
-import hrp.pantry.persistence.repositories.PantryItemRepository;
 import pantry.ui.steps.PantryItemSteps;
 
 @RunWith(SpringRunner.class)
@@ -28,7 +31,10 @@ public class PantryItemTest {
   private String port;
 
   @Autowired
-  private PantryItemRepository repository;
+  private PantryItemRepository pantryRepository;
+
+  @Autowired
+  private ProductRepository productRepository;
 
   private PantryItemSteps itemSteps;
 
@@ -39,7 +45,8 @@ public class PantryItemTest {
     driver = new ChromeDriver();
     WebDriverWait wait = new WebDriverWait(driver, 5);
     this.itemSteps = new PantryItemSteps(driver, wait);
-    repository.deleteAll();
+    pantryRepository.deleteAll();
+    productRepository.deleteAll();
     driver.get("http://localhost:"+ port);
   }
 
@@ -49,10 +56,24 @@ public class PantryItemTest {
   }
 
   @Test
-  public void createNewItem(){
+  public void createNewItemTest(){
     itemSteps
         .goToPantryManager()
         .createItem()
         .checkItemWasCreated();
+  }
+
+  @Test
+  public void autoCompleteTest(){
+    Product product = new Product("1234567890123", "Haagen Dazs Vanilla", PackagingUnit.UNIT);
+    product.setCount(10L);
+    Product product2 = new Product("1234567890123", "Haagen Dazs Chocolate", PackagingUnit.UNIT);
+    product.setCount(5L);
+    productRepository.save(Arrays.asList(product,product2));
+
+    itemSteps
+        .goToPantryManager()
+        .fillBarcode(product.getEanCode())
+        .inputsCorrespondToProduct(product);
   }
 }

@@ -37,6 +37,9 @@ public class PantryItemPage extends BasePage{
   @FindBy(id = "btn-add")
   private WebElement addButton;
 
+  @FindBy(id = "ean-code-field")
+  private WebElement barCodeField;
+
   private WebDriverWait wait;
 
   public PantryItemPage(WebDriver driver, WebDriverWait wait){
@@ -75,5 +78,18 @@ public class PantryItemPage extends BasePage{
 
   public void clickAddButton() {
     addButton.click();
+  }
+
+  public void fillBarCodeField(String eanCode) {
+    barCodeField.sendKeys(eanCode);
+  }
+
+  public String getDescriptionInputValue() {
+    return descriptionInput.getAttribute("value");
+  }
+
+  public String getUnitSelectValue() {
+    Select unitSelect = new Select(unitSelectElement);
+    return unitSelect.getFirstSelectedOption().getAttribute("value");
   }
 }
