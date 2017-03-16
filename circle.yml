@@ -15,10 +15,10 @@ deployment:
     heroku:
       appname: nameless-brushlands-59783
 
-
-
 test:
   override: 
     - "mvn cobertura:cobertura"
   post:
+    - mkdir -p $CIRCLE_TEST_REPORTS/junit/
+    - find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
     - bash <(curl -s https://codecov.io/bash)
