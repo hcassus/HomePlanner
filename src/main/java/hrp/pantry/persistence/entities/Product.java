@@ -44,6 +44,8 @@ public class Product {
 
   public Product(){
     this.count = 1L;
+    this.createdAt = new Timestamp(System.currentTimeMillis());
+    this.updatedAt = new Timestamp(System.currentTimeMillis());
   }
 
 
@@ -65,5 +67,13 @@ public class Product {
 
   public void setCount(Long count) {
     this.count = count;
+  }
+
+  public Timestamp getCreatedAt() {
+    return createdAt;
+  }
+
+  public Timestamp getUpdatedAt() {
+    return updatedAt;
   }
 }
