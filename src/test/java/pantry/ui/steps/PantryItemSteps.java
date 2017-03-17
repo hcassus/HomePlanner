@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import hrp.pantry.persistence.entities.Product;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Component;
@@ -25,7 +26,7 @@ public class PantryItemSteps {
   public PantryItemSteps createItem() {
     this.description = "Item " + System.currentTimeMillis();
     this.quantity = "5";
-    this.unit = "Liters";
+    this.unit = "Cartons";
     itemPage.fillDescriptionField(description);
     itemPage.fillQuantityField(quantity);
     itemPage.selectUnit(unit);
@@ -42,5 +43,15 @@ public class PantryItemSteps {
   public PantryItemSteps goToPantryManager() {
     itemPage.navigateTo("Pantry Manager");
     return this;
+  }
+
+  public PantryItemSteps fillBarcode(String eanCode) {
+    itemPage.fillBarCodeField(eanCode);
+    return this;
+  }
+
+  public void inputsCorrespondToProduct(Product product) {
+    assertThat(itemPage.getDescriptionInputValue(), is(equalTo(product.getName())));
+    assertThat(itemPage.getUnitSelectValue(), is(equalTo(product.getUnit().toString())));
   }
 }

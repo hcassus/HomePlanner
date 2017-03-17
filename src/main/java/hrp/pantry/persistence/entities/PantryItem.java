@@ -1,6 +1,5 @@
-package hrp.pantry.persistence;
+package hrp.pantry.persistence.entities;
 
-import hrp.pantry.enums.MeasurementUnits;
 import java.sql.Timestamp;
 import java.util.UUID;
 import javax.persistence.Column;
@@ -11,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PreUpdate;
+import hrp.pantry.enums.PackagingUnit;
 
 @Entity
 public class PantryItem {
@@ -19,12 +19,15 @@ public class PantryItem {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
+  private String eanCode;
+
   @Column(nullable = false)
   private String name;
+
   private Integer quantity;
 
   @Enumerated(EnumType.STRING)
-  private MeasurementUnits unit;
+  private PackagingUnit unit;
 
   @Column(nullable = false)
   private UUID uuid;
@@ -40,7 +43,7 @@ public class PantryItem {
     this.updatedAt = new Timestamp(System.currentTimeMillis());
   }
 
-  public PantryItem(String name, Integer quantity, MeasurementUnits unit){
+  public PantryItem(String name, Integer quantity, PackagingUnit unit){
     this.name = name;
     this.quantity = quantity;
     this.unit = unit;
@@ -60,7 +63,7 @@ public class PantryItem {
     return uuid;
   }
 
-  public MeasurementUnits getUnit() {
+  public PackagingUnit getUnit() {
     return unit;
   }
 
@@ -78,5 +81,9 @@ public class PantryItem {
 
   public Timestamp getUpdatedAt(){
     return updatedAt;
+  }
+
+  public String getEanCode() {
+    return eanCode;
   }
 }

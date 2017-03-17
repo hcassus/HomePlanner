@@ -1,10 +1,11 @@
 package hrp.pantry.gateways;
 
-import hrp.pantry.persistence.PantryItem;
-import hrp.pantry.persistence.PantryItemRepository;
-import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.UUID;
+import hrp.pantry.persistence.entities.PantryItem;
+import hrp.pantry.persistence.repositories.PantryItemRepository;
 
 @Repository
 public class PantryItemGateway {

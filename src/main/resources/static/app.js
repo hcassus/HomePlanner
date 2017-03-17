@@ -76,16 +76,26 @@
   app.controller('PantryCtrl', ['$http', function ($http) {
 
     store = this;
-    this.url = "/pantry/item";
+    this.pantryUrl = "/pantry/item";
+    this.productUrl = "/product";
 
     this.getItems = function () {
-      $http.get(this.url).success(function (data) {
+      $http.get(this.pantryUrl).success(function (data) {
         store.content = data;
       });
     };
 
+    this.getProductData = function(eanCode){
+      $http.get(this.productUrl + "/" + eanCode).success(function(data){
+        if(!store.newItem.name && store.newItem.unit === 'UNKNOWN'){
+          store.newItem.name = data.name;
+          store.newItem.unit = data.unit || 'UNKNOWN';
+        }
+      });
+    };
+
     this.addItem = function () {
-      $http.post(this.url, this.newItem).success(function (data) {
+      $http.post(this.pantryUrl, this.newItem).success(function (data) {
         store.content.push(data);
       });
       this.newItem = {'unit': 'UNKNOWN'}
@@ -93,7 +103,7 @@
 
     this.removeItem = function (item) {
       uuid = item.uuid;
-      urlWithId = this.url + "/" + uuid;
+      urlWithId = this.pantryUrl + "/" + uuid;
       $http.delete(urlWithId).success(function () {
             for (i = 0; i < store.content.length; i++) {
               if (uuid == store.content[i].uuid) {
