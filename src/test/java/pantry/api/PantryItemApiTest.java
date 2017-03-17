@@ -7,15 +7,8 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
-import hrp.HomePlannerApp;
-import hrp.pantry.enums.PackagingUnit;
-import hrp.pantry.persistence.entities.PantryItem;
-import hrp.pantry.persistence.repositories.PantryItemRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
@@ -28,6 +21,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+import hrp.HomePlannerApp;
+import hrp.pantry.enums.PackagingUnit;
+import hrp.pantry.persistence.entities.PantryItem;
+import hrp.pantry.persistence.entities.Product;
+import hrp.pantry.persistence.repositories.PantryItemRepository;
+import hrp.pantry.persistence.repositories.ProductRepository;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(classes = HomePlannerApp.class, loader = SpringBootContextLoader.class)
@@ -37,36 +40,48 @@ public class PantryItemApiTest {
   String port;
 
   @Autowired
-  PantryItemRepository repository;
+  PantryItemRepository itemRepository;
+
+  @Autowired
+  ProductRepository productRepository;
 
   @Before
   public void setUp() {
     RestAssured.baseURI = "http://localhost:" + port;
-    repository.deleteAll();
+    itemRepository.deleteAll();
   }
 
   @Test
   public void blackBoxItemCreationTest() throws JSONException {
     JSONObject item = new JSONObject()
+        .put("eanCode", "1234567890123")
         .put("name", "Coca Cola 2l")
         .put("quantity", 10)
         .put("unit", "BOTTLE");
 
     RestAssured
         .given()
-        .contentType(ContentType.JSON)
-        .body(item.toString())
+          .contentType(ContentType.JSON)
+          .body(item.toString())
         .when()
-        .post("/pantry/item")
+          .post("/pantry/item")
         .then()
-        .contentType(ContentType.JSON)
-        .statusCode(200)
-        .body("name", equalTo(item.get("name")))
-        .body("quantity", equalTo(item.get("quantity")))
-        .body("unit", equalTo(item.get("unit")))
-        .body("uuid", notNullValue())
-        .body("createdAt", notNullValue())
-        .body("updatedAt", notNullValue());
+          .contentType(ContentType.JSON)
+          .statusCode(200)
+          .body("name", equalTo(item.get("name")))
+          .body("quantity", equalTo(item.get("quantity")))
+          .body("unit", equalTo(item.get("unit")))
+          .body("uuid", notNullValue())
+          .body("createdAt", notNullValue())
+          .body("updatedAt", notNullValue());
+
+    List<Product> retrievedProducts = (List<Product>) productRepository.findProductsByEanCode((String)item.get("eanCode"));
+    List<PantryItem> retrievedItems = (List<PantryItem>) itemRepository.findAll();
+    assertThat(retrievedItems.size(), is(equalTo(1)));
+    assertThat(retrievedProducts.size(), is(equalTo(1)));
+    assertThat(retrievedProducts.get(0).getName(), is(equalTo((String) item.get("name"))));
+    assertThat(retrievedProducts.get(0).getUnit().toString(), is(equalTo(item.get("unit"))));
+    assertThat(retrievedProducts.get(0).getEanCode(), is(equalTo((String) item.get("eanCode"))));
   }
 
   @Test
@@ -74,7 +89,7 @@ public class PantryItemApiTest {
     PantryItem item1 = new PantryItem("Erdinger Kristall 500ml",1, PackagingUnit.BOTTLE);
     PantryItem item2 = new PantryItem("Erdinger Kristall 500ml",2, PackagingUnit.BOTTLE);
     List<PantryItem> items = Arrays.asList(item1,item2);
-    repository.save(items);
+    itemRepository.save(items);
 
     RestAssured
         .given()
@@ -104,7 +119,7 @@ public class PantryItemApiTest {
         2,
         PackagingUnit.BOTTLE
     );
-    UUID uuid = repository.save(item).getUuid();
+    UUID uuid = itemRepository.save(item).getUuid();
 
     RestAssured
         .given()
@@ -115,6 +130,6 @@ public class PantryItemApiTest {
           .statusCode(200)
           .body(is(""));
 
-    assertThat(repository.findAll(), emptyIterableOf(PantryItem.class));
+    assertThat(itemRepository.findAll(), emptyIterableOf(PantryItem.class));
   }
 }

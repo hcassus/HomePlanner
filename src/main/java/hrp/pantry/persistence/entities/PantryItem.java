@@ -19,8 +19,11 @@ public class PantryItem {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
+  private String eanCode;
+
   @Column(nullable = false)
   private String name;
+
   private Integer quantity;
 
   @Enumerated(EnumType.STRING)
@@ -78,5 +81,9 @@ public class PantryItem {
 
   public Timestamp getUpdatedAt(){
     return updatedAt;
+  }
+
+  public String getEanCode() {
+    return eanCode;
   }
 }

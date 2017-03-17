@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 import hrp.pantry.gateways.PantryItemGateway;
 import hrp.pantry.persistence.entities.PantryItem;
+import hrp.pantry.usecases.AddPantryItemAndProductDataUsecase;
 
 @RestController
 @RequestMapping(path = "/pantry/item")
@@ -18,13 +19,16 @@ public class PantryItemController {
   PantryItemGateway gateway;
 
   @Autowired
+  AddPantryItemAndProductDataUsecase addProductAndItem;
+
+  @Autowired
   public PantryItemController(PantryItemGateway gateway){
     this.gateway = gateway;
   }
 
   @RequestMapping(method = RequestMethod.POST)
   public PantryItem createPantryItem(@RequestBody PantryItem item){
-    return gateway.createPantryItem(item);
+    return addProductAndItem.execute(item);
   }
 
   @RequestMapping(method = RequestMethod.GET)
