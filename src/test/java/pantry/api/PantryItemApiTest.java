@@ -49,6 +49,7 @@ public class PantryItemApiTest {
   public void setUp() {
     RestAssured.baseURI = "http://localhost:" + port;
     itemRepository.deleteAll();
+    productRepository.deleteAll();
   }
 
   @Test

@@ -1,5 +1,8 @@
 package pantry.ui.pages;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.attributeToBe;
+import static org.openqa.selenium.support.ui.ExpectedConditions.not;
+
 import commons.ui.pages.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -85,6 +88,7 @@ public class PantryItemPage extends BasePage{
   }
 
   public String getDescriptionInputValue() {
+    wait.until(not(attributeToBe(descriptionInput, "value", "")));
     return descriptionInput.getAttribute("value");
   }
 
