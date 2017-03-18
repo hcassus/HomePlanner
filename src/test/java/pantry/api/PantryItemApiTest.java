@@ -7,34 +7,25 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.LocalServerPort;
-import org.springframework.boot.test.context.SpringBootContextLoader;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-import hrp.HomePlannerApp;
+import commons.testcases.LiveServerTestCase;
 import hrp.pantry.enums.PackagingUnit;
 import hrp.pantry.persistence.entities.PantryItem;
 import hrp.pantry.persistence.entities.Product;
 import hrp.pantry.persistence.repositories.PantryItemRepository;
 import hrp.pantry.persistence.repositories.ProductRepository;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.embedded.LocalServerPort;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ContextConfiguration(classes = HomePlannerApp.class, loader = SpringBootContextLoader.class)
-public class PantryItemApiTest {
+public class PantryItemApiTest extends LiveServerTestCase {
 
   @LocalServerPort
   String port;

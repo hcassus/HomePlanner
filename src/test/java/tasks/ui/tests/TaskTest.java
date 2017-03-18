@@ -1,26 +1,18 @@
 package tasks.ui.tests;
 
-import hrp.HomePlannerApp;
+import commons.testcases.LiveServerTestCase;
 import hrp.tasks.persistence.TaskRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
-import org.springframework.boot.test.context.SpringBootContextLoader;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 import tasks.ui.steps.TaskSteps;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ContextConfiguration(classes= HomePlannerApp.class, loader = SpringBootContextLoader.class)
-public class TaskTest {
+public class TaskTest extends LiveServerTestCase{
 
     @LocalServerPort
     private String localPort;
