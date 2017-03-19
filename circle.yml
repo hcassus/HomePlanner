@@ -17,9 +17,10 @@ deployment:
 
 test:
   override:
-    - "mvn -B test cobertura:cobertura -Dexcludes=**/api/*,**/ui/tests/*" 
-    - "mvn -B test -Dtest=**/api/*,**/ui/tests/*"
+    - "mvn -B test cobertura:cobertura surefire-report:report -Dexcludes=**/api/*,**/ui/tests/*"
+    - "mvn -B test surefire-report:report -Dtest=**/api/*,**/ui/tests/*"
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
     - find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+    - find . -regex ".*/target/site/" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
     - bash <(curl -s https://codecov.io/bash)
