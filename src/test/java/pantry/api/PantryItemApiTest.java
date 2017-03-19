@@ -78,8 +78,18 @@ public class PantryItemApiTest extends LiveServerTestCase {
 
   @Test
   public void retrieveAllCreatedItemsTest(){
-    PantryItem item1 = new PantryItem("Erdinger Kristall 500ml",1, PackagingUnit.BOTTLE);
-    PantryItem item2 = new PantryItem("Erdinger Kristall 500ml",2, PackagingUnit.BOTTLE);
+    PantryItem item1 = new PantryItem(
+        "1234567890123",
+        "Erdinger Kristall 500ml",
+        1,
+        PackagingUnit.BOTTLE
+    );
+    PantryItem item2 = new PantryItem(
+        "1234567890123",
+        "Erdinger Kristall 500ml",
+        2,
+        PackagingUnit.BOTTLE
+    );
     List<PantryItem> items = Arrays.asList(item1,item2);
     itemRepository.save(items);
 
@@ -107,6 +117,7 @@ public class PantryItemApiTest extends LiveServerTestCase {
   @Test
   public void deleteItemByUuidTest(){
     PantryItem item = new PantryItem(
+        "1234567890123",
         "Coca Cola 500ml"+ System.currentTimeMillis(),
         2,
         PackagingUnit.BOTTLE

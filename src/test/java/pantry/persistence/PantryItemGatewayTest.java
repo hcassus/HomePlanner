@@ -39,6 +39,7 @@ public class PantryItemGatewayTest {
   @Test
   public void createPantryItemTest(){
     PantryItem item = new PantryItem(
+        "1234567890123",
         "Milk "+System.currentTimeMillis(),
         10,
         PackagingUnit.CARTON
@@ -52,12 +53,14 @@ public class PantryItemGatewayTest {
   @Test
   public void retrieveAllPantryItemsTest(){
     PantryItem item1 = new PantryItem(
+        "1234567890123",
         "Cheese " + System.currentTimeMillis(),
         1,
         PackagingUnit.PACKAGE
     );
 
     PantryItem item2 = new PantryItem(
+        "1234567890123",
         "Lime " + System.currentTimeMillis(),
         4,
         PackagingUnit.UNIT
@@ -75,6 +78,7 @@ public class PantryItemGatewayTest {
   @Test
   public void deleteItemByUuid(){
     PantryItem item = new PantryItem(
+        "1234567890123",
         "Bread "+ System.currentTimeMillis(),
         2,
         PackagingUnit.PACKAGE
@@ -88,7 +92,12 @@ public class PantryItemGatewayTest {
 
   @Test
   public void updateEntryTest(){
-    PantryItem item = new PantryItem("Test Product", 10, PackagingUnit.UNIT);
+    PantryItem item = new PantryItem(
+        "1234567890123",
+        "Test Product",
+        10,
+        PackagingUnit.UNIT
+    );
     item = repository.save(item);
     item.setQuantity(12);
 
