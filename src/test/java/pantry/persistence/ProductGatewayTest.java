@@ -5,6 +5,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 
+import hrp.HomePlannerApp;
+import hrp.pantry.enums.PackagingUnit;
+import hrp.pantry.gateways.ProductGateway;
+import hrp.pantry.persistence.entities.Product;
+import hrp.pantry.persistence.repositories.ProductRepository;
+import java.util.Arrays;
+import java.util.List;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,14 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootContextLoader;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Arrays;
-import java.util.List;
-import hrp.HomePlannerApp;
-import hrp.pantry.enums.PackagingUnit;
-import hrp.pantry.gateways.ProductGateway;
-import hrp.pantry.persistence.entities.Product;
-import hrp.pantry.persistence.repositories.ProductRepository;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = HomePlannerApp.class, loader = SpringBootContextLoader.class)
@@ -73,4 +73,21 @@ public class ProductGatewayTest {
 
     assertThat(retrievedProduct, samePropertyValuesAs(product2));
   }
+
+  @Test
+  public void updateEntryTest(){
+    Product product = new Product("1234567890123", "Test Product", PackagingUnit.UNIT);
+    product = repository.save(product);
+    product.setCount(2L);
+
+    Product persistedProduct = gateway.createOrUpdateProduct(product);
+
+    assertThat(repository.count(), is(equalTo(1L)));
+    Assert.assertTrue(persistedProduct.getUpdatedAt().after(
+        persistedProduct.getCreatedAt()
+    ));
+
+
+  }
+
 }
