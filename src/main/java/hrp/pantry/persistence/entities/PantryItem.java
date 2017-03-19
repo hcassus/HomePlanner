@@ -86,4 +86,8 @@ public class PantryItem {
   public String getEanCode() {
     return eanCode;
   }
+
+  public void setQuantity(int quantity) {
+    this.quantity = quantity;
+  }
 }

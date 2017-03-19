@@ -1,9 +1,18 @@
 package pantry.persistence;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyIterableOf;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 
+import hrp.HomePlannerApp;
+import hrp.pantry.enums.PackagingUnit;
+import hrp.pantry.gateways.PantryItemGateway;
+import hrp.pantry.persistence.entities.PantryItem;
+import hrp.pantry.persistence.repositories.PantryItemRepository;
+import java.util.List;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,13 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootContextLoader;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.List;
-import hrp.HomePlannerApp;
-import hrp.pantry.enums.PackagingUnit;
-import hrp.pantry.gateways.PantryItemGateway;
-import hrp.pantry.persistence.entities.PantryItem;
-import hrp.pantry.persistence.repositories.PantryItemRepository;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = HomePlannerApp.class, loader = SpringBootContextLoader.class)
@@ -42,7 +44,7 @@ public class PantryItemGatewayTest {
         PackagingUnit.CARTON
     );
 
-    PantryItem persistedItem = gateway.createPantryItem(item);
+    PantryItem persistedItem = gateway.createOrUpdatePantryItem(item);
 
     assertThat(persistedItem, samePropertyValuesAs(persistedItem));
   }
@@ -82,6 +84,21 @@ public class PantryItemGatewayTest {
     gateway.deleteItemByUuid(item.getUuid());
 
     assertThat(gateway.retrieveAllPantryItems(), emptyIterableOf(PantryItem.class));
+  }
+
+  @Test
+  public void updateEntryTest(){
+    PantryItem item = new PantryItem("Test Product", 10, PackagingUnit.UNIT);
+    item = repository.save(item);
+    item.setQuantity(12);
+
+    PantryItem persistedItem = gateway.createOrUpdatePantryItem(item);
+
+    assertThat(repository.count(), is(equalTo(1L)));
+    Assert.assertTrue(persistedItem.getUpdatedAt().after(
+        persistedItem.getCreatedAt()
+    ));
+
 
   }
 

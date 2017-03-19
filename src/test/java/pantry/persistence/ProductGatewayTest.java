@@ -86,8 +86,6 @@ public class ProductGatewayTest {
     Assert.assertTrue(persistedProduct.getUpdatedAt().after(
         persistedProduct.getCreatedAt()
     ));
-
-
   }
 
 }
