@@ -36,8 +36,6 @@ public class TaskGatewayTest {
     repository.deleteAll();
   }
 
-  // create, retrieve, delete
-
   @Test
   public void createTaskTest(){
     Task task = new Task("Task " + System.currentTimeMillis());
@@ -51,7 +49,9 @@ public class TaskGatewayTest {
   public void retrieveTasksTest(){
     Task task = new Task("Task " + System.currentTimeMillis());
     Task task2 = new Task("Task2 " + System.currentTimeMillis());
-    List<Task> persistedTasks = (List<Task>) repository.save(Arrays.asList(task, task2));
+    repository.save(Arrays.asList(task, task2));
+
+    List<Task> persistedTasks = (List<Task>) gateway.getAllTasks();
 
     assertThat(repository.count(), is(equalTo(2L)));
     assertThat(persistedTasks.get(0), samePropertyValuesAs(task));
