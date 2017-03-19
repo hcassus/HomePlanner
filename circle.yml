@@ -17,8 +17,8 @@ deployment:
 
 test:
   override:
-    - case $CIRCLE_NODE_INDEX in 0) mvn -B test cobertura:cobertura -Dexcludes="**/api/*,**/ui/tests/*" ;; 1) mvn -B test -Dtest="**/api/*,**/ui/tests/*" ;; esac:
-        parallel: true
+    - "mvn -B test cobertura:cobertura -Dexcludes=**/api/*,**/ui/tests/*" 
+    - "mvn -B test -Dtest=**/api/*,**/ui/tests/*"
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
     - find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
