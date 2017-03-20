@@ -6,7 +6,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 
-import hrp.HomePlannerApp;
+import commons.testcases.PersistencyTestCase;
 import hrp.tasks.gateways.TaskGatewaySpring;
 import hrp.tasks.persistence.Task;
 import hrp.tasks.persistence.TaskRepository;
@@ -15,15 +15,9 @@ import java.util.List;
 import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootContextLoader;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
-@ContextConfiguration(classes = HomePlannerApp.class, loader = SpringBootContextLoader.class)
-public class TaskGatewayTest {
+public class TaskGatewayTest extends PersistencyTestCase {
 
   @Autowired
   private TaskGatewaySpring gateway;
