@@ -16,7 +16,7 @@ public class ProductController {
   ProductService service;
 
   @RequestMapping(path = "/{eanCode}", method = RequestMethod.GET)
-  public Product retrieveProductDate(@PathVariable String eanCode){
+  public Product retrieveProductData(@PathVariable String eanCode){
     return service.retrieveItemDataByEan(eanCode);
   }
 
