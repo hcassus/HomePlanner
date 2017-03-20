@@ -13,18 +13,17 @@ import hrp.pantry.persistence.entities.PantryItem;
 import hrp.pantry.persistence.entities.Product;
 import hrp.pantry.services.ProductService;
 import hrp.pantry.usecases.AddPantryItemAndProductDataUsecase;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class AddItemAndProductTest {
 
-  @Autowired
+  @InjectMocks
   AddPantryItemAndProductDataUsecase usecase;
 
   @Mock
@@ -35,11 +34,6 @@ public class AddItemAndProductTest {
 
   @Rule
   public MockitoRule mockitoRule = MockitoJUnit.rule();
-
-  @Before
-  public void setUp(){
-    usecase = new AddPantryItemAndProductDataUsecase(service, gateway);
-  }
 
   @Test
   public void createItemAndProductTest(){

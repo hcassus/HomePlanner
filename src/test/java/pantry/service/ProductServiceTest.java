@@ -10,37 +10,27 @@ import static org.mockito.Mockito.when;
 import hrp.pantry.enums.PackagingUnit;
 import hrp.pantry.gateways.ProductGateway;
 import hrp.pantry.persistence.entities.Product;
-import hrp.pantry.persistence.repositories.ProductRepository;
 import hrp.pantry.services.ProductService;
 import java.util.ArrayList;
 import java.util.Arrays;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class ProductServiceTest {
 
-  @Autowired
+  @InjectMocks
   ProductService service;
-
-  @Autowired
-  ProductRepository repository;
 
   @Mock
   ProductGateway gatewayMock;
 
   @Rule
   public MockitoRule mockitoRule = MockitoJUnit.rule();
-
-  @Before
-  public void setUp(){
-    service = new ProductService(gatewayMock);
-  }
 
   @Test
   public void createNonExistingItemTest(){
