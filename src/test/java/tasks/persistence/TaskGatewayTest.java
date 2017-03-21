@@ -5,17 +5,19 @@ import static org.hamcrest.Matchers.emptyIterableOf;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
+import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 import commons.testcases.PersistencyTestCase;
 import hrp.tasks.gateways.TaskGatewaySpring;
 import hrp.tasks.persistence.Task;
 import hrp.tasks.persistence.TaskRepository;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class TaskGatewayTest extends PersistencyTestCase {
 
@@ -67,9 +69,12 @@ public class TaskGatewayTest extends PersistencyTestCase {
     Task task = new Task("Task " + System.currentTimeMillis());
     UUID uuid = task.getUuid();
     repository.save(task);
+
     gateway.changeTaskStatus(uuid, 1);
 
-    assertThat(repository.findOneByUuid(uuid).getStatus(), is(equalTo(1)));
+    Task persistedTask = repository.findOneByUuid(uuid);
+    assertThat(persistedTask.getStatus(), is(equalTo(1)));
+    assertTrue(persistedTask.getUpdatedAt().after(persistedTask.getCreatedAt()));
   }
 
   @Test
@@ -80,7 +85,10 @@ public class TaskGatewayTest extends PersistencyTestCase {
     UUID uuid = task.getUuid();
 
     gateway.changeTaskStatus(uuid, 0);
+    Task persistedTask = repository.findOneByUuid(uuid);
 
-    assertThat(repository.findOneByUuid(uuid).getStatus(), is(equalTo(0)));
+    assertThat(persistedTask.getStatus(), is(equalTo(0)));
+    assertTrue(persistedTask.getUpdatedAt().after(persistedTask.getCreatedAt()));
+
   }
 }
