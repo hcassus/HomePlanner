@@ -1,31 +1,23 @@
 package pantry.ui.tests;
 
-import hrp.HomePlannerApp;
+import commons.testcases.LiveServerTestCase;
 import hrp.pantry.enums.PackagingUnit;
 import hrp.pantry.persistence.entities.Product;
 import hrp.pantry.persistence.repositories.PantryItemRepository;
 import hrp.pantry.persistence.repositories.ProductRepository;
 import java.util.Arrays;
-import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
-import org.springframework.boot.test.context.SpringBootContextLoader;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 import pantry.ui.steps.PantryItemSteps;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-@ContextConfiguration(classes = HomePlannerApp.class, loader = SpringBootContextLoader.class)
-public class PantryItemTest {
+public class PantryItemTest extends LiveServerTestCase {
 
   @LocalServerPort
   private String port;
@@ -36,27 +28,31 @@ public class PantryItemTest {
   @Autowired
   private ProductRepository productRepository;
 
-  private PantryItemSteps itemSteps;
+  private static PantryItemSteps itemSteps;
 
-  WebDriver driver;
+  private static WebDriver driver;
 
-  @Before
-  public void setUp(){
+  @BeforeClass
+  public static void setUpClass() {
     driver = new ChromeDriver();
     WebDriverWait wait = new WebDriverWait(driver, 5);
-    this.itemSteps = new PantryItemSteps(driver, wait);
-    pantryRepository.deleteAll();
-    productRepository.deleteAll();
-    driver.get("http://localhost:"+ port);
+    itemSteps = new PantryItemSteps(driver, wait);
   }
 
-  @After
-  public void tearDown(){
+  @Before
+  public void setUp() {
+    pantryRepository.deleteAll();
+    productRepository.deleteAll();
+    driver.get("http://localhost:" + port);
+  }
+
+  @AfterClass
+  public static void tearDownClass() {
     driver.quit();
   }
 
   @Test
-  public void createNewItemTest(){
+  public void createNewItemTest() {
     itemSteps
         .goToPantryManager()
         .createItem()
@@ -64,12 +60,12 @@ public class PantryItemTest {
   }
 
   @Test
-  public void autoCompleteTest(){
+  public void autoCompleteTest() {
     Product product = new Product("1234567890123", "Haagen Dazs Vanilla", PackagingUnit.UNIT);
     product.setCount(10L);
     Product product2 = new Product("1234567890123", "Haagen Dazs Chocolate", PackagingUnit.UNIT);
     product.setCount(5L);
-    productRepository.save(Arrays.asList(product,product2));
+    productRepository.save(Arrays.asList(product, product2));
 
     itemSteps
         .goToPantryManager()

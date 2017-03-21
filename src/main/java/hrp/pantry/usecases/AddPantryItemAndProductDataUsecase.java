@@ -25,7 +25,7 @@ public class AddPantryItemAndProductDataUsecase {
       Product product = new Product(item.getEanCode(), item.getName(), item.getUnit());
       productService.insertUniqueProduct(product);
     }
-    return itemGateway.createPantryItem(item);
+    return itemGateway.createOrUpdatePantryItem(item);
   }
 
 }

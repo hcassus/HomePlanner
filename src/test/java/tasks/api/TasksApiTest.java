@@ -5,7 +5,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
-import hrp.HomePlannerApp;
+import commons.testcases.LiveServerTestCase;
 import hrp.tasks.persistence.Task;
 import hrp.tasks.persistence.TaskRepository;
 import io.restassured.RestAssured;
@@ -14,18 +14,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
-import org.springframework.boot.test.context.SpringBootContextLoader;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ContextConfiguration(classes = HomePlannerApp.class, loader = SpringBootContextLoader.class)
-public class TasksApiTest {
+public class TasksApiTest extends LiveServerTestCase{
 
   @Autowired
   TaskRepository repository;

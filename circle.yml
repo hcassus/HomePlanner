@@ -16,9 +16,12 @@ deployment:
       appname: nameless-brushlands-59783
 
 test:
-  override: 
-    - "mvn -B clean test cobertura:cobertura"
+  override:
+    - "mvn -B test cobertura:cobertura surefire-report:report -Dexcludes=**/api/*,**/ui/tests/*"
+    - "mvn -B test surefire-report:report -Dtest=**/api/*,**/ui/tests/*"
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
+    - mkdir -p $CIRCLE_TEST_REPORTS/junit/html_reports
     - find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+    - cp -R ./target/site $CIRCLE_TEST_REPORTS/junit/html_reports
     - bash <(curl -s https://codecov.io/bash)

@@ -17,7 +17,7 @@ public class PantryItemGateway {
     this.repository = repository;
   }
 
-  public PantryItem createPantryItem(PantryItem item) {
+  public PantryItem createOrUpdatePantryItem(PantryItem item) {
     return repository.save(item);
   }
 

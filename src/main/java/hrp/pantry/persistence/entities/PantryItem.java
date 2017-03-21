@@ -43,7 +43,8 @@ public class PantryItem {
     this.updatedAt = new Timestamp(System.currentTimeMillis());
   }
 
-  public PantryItem(String name, Integer quantity, PackagingUnit unit){
+  public PantryItem(String eanCode, String name, Integer quantity, PackagingUnit unit){
+    this.eanCode = eanCode;
     this.name = name;
     this.quantity = quantity;
     this.unit = unit;
@@ -85,5 +86,9 @@ public class PantryItem {
 
   public String getEanCode() {
     return eanCode;
+  }
+
+  public void setQuantity(int quantity) {
+    this.quantity = quantity;
   }
 }

@@ -6,7 +6,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 
-import hrp.HomePlannerApp;
+import commons.testcases.PersistencyTestCase;
 import hrp.tasks.gateways.TaskGatewaySpring;
 import hrp.tasks.persistence.Task;
 import hrp.tasks.persistence.TaskRepository;
@@ -15,15 +15,9 @@ import java.util.List;
 import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootContextLoader;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
-@ContextConfiguration(classes = HomePlannerApp.class, loader = SpringBootContextLoader.class)
-public class TaskGatewayTest {
+public class TaskGatewayTest extends PersistencyTestCase {
 
   @Autowired
   private TaskGatewaySpring gateway;
@@ -35,8 +29,6 @@ public class TaskGatewayTest {
   public void setUp(){
     repository.deleteAll();
   }
-
-  // create, retrieve, delete
 
   @Test
   public void createTaskTest(){
@@ -51,7 +43,9 @@ public class TaskGatewayTest {
   public void retrieveTasksTest(){
     Task task = new Task("Task " + System.currentTimeMillis());
     Task task2 = new Task("Task2 " + System.currentTimeMillis());
-    List<Task> persistedTasks = (List<Task>) repository.save(Arrays.asList(task, task2));
+    repository.save(Arrays.asList(task, task2));
+
+    List<Task> persistedTasks = (List<Task>) gateway.getAllTasks();
 
     assertThat(repository.count(), is(equalTo(2L)));
     assertThat(persistedTasks.get(0), samePropertyValuesAs(task));
