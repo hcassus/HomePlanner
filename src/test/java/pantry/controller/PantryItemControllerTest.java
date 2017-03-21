@@ -43,26 +43,26 @@ public class PantryItemControllerTest {
 
   @Before
   public void setup() throws Exception {
-    this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+    mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
   }
 
   @Test
   public void retrievePantryItemsTest() throws Exception {
-    this.mockMvc.perform(MockMvcRequestBuilders.get("/pantry/item"));
+    mockMvc.perform(MockMvcRequestBuilders.get("/pantry/item"));
     verify(gateway, times(1)).retrieveAllPantryItems();
   }
 
   @Test
   public void createPantryItemsTest() throws Exception {
     String item = new JSONObject().put("eanCode", "123").put("name","item").toString();
-    this.mockMvc.perform(MockMvcRequestBuilders.post("/pantry/item").contentType(MediaType.APPLICATION_JSON).content(item));
+    mockMvc.perform(MockMvcRequestBuilders.post("/pantry/item").contentType(MediaType.APPLICATION_JSON).content(item));
     verify(usecase, times(1)).execute(any(PantryItem.class));
   }
 
   @Test
   public void deletePantryItemsTest() throws Exception {
     UUID uuid = UUID.randomUUID();
-    this.mockMvc.perform(MockMvcRequestBuilders.delete("/pantry/item/" + uuid));
+    mockMvc.perform(MockMvcRequestBuilders.delete("/pantry/item/" + uuid));
     verify(gateway, times(1)).deleteItemByUuid(uuid);
   }
 

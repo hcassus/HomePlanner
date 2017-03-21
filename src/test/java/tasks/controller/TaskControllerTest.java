@@ -38,20 +38,20 @@ public class TaskControllerTest {
   TaskGatewaySpring gateway;
 
   @Before
-  public void setup() throws Exception {
-    this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+  public void setUp() throws Exception {
+    mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
   }
 
   @Test
   public void getAllTasksTest() throws Exception {
-    this.mockMvc.perform(MockMvcRequestBuilders.get("/task"));
+    mockMvc.perform(MockMvcRequestBuilders.get("/task"));
     verify(gateway, times(1)).getAllTasks();
   }
 
   @Test
   public void addTaskTest() throws Exception {
     String task = new JSONObject().put("description", "Test Task").toString();
-    this.mockMvc.perform(
+    mockMvc.perform(
         MockMvcRequestBuilders.post("/task").contentType(MediaType.APPLICATION_JSON).content(task));
     verify(gateway, times(1)).addTask(any(Task.class));
   }
@@ -59,7 +59,7 @@ public class TaskControllerTest {
   @Test
   public void deleteTaskTest() throws Exception {
     UUID uuid = UUID.randomUUID();
-    this.mockMvc.perform(MockMvcRequestBuilders.delete("/task/" + uuid));
+    mockMvc.perform(MockMvcRequestBuilders.delete("/task/" + uuid));
     verify(gateway, times(1)).deleteTaskByUuid(uuid);
   }
 
@@ -67,7 +67,7 @@ public class TaskControllerTest {
   public void changeTaskStatusTest() throws Exception {
     UUID uuid = UUID.randomUUID();
     String task = new JSONObject().put("description", "Test Task").put("status", "1").toString();
-    this.mockMvc.perform(
+    mockMvc.perform(
         MockMvcRequestBuilders.patch("/task/" + uuid).contentType(MediaType.APPLICATION_JSON)
             .content(task));
     verify(gateway, times(1)).changeTaskStatus(uuid, 1);
