@@ -2,12 +2,10 @@ package tasks.api;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
-import commons.testcases.LiveServerTestCase;
-import hrp.tasks.persistence.Task;
-import hrp.tasks.persistence.TaskRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.json.JSONException;
@@ -16,6 +14,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
+
+import java.security.Timestamp;
+import commons.testcases.LiveServerTestCase;
+import hrp.tasks.persistence.Task;
+import hrp.tasks.persistence.TaskRepository;
 
 public class TasksApiTest extends LiveServerTestCase{
 
@@ -46,7 +49,9 @@ public class TasksApiTest extends LiveServerTestCase{
           .statusCode(200)
           .body("status", is(equalTo(0)))
           .body("uuid", notNullValue())
-          .body("description", is(equalTo(task.get("description"))));
+          .body("description", is(equalTo(task.get("description"))))
+          .body("updatedAt", notNullValue(Timestamp.class))
+          .body("createdAt", notNullValue(Timestamp.class));
 
     assertThat(repository.count(), is(equalTo(1L)));
   }
@@ -66,9 +71,13 @@ public class TasksApiTest extends LiveServerTestCase{
           .body("get(0).content", is(equalTo(task.getDescription())))
           .body("get(0).status", is(equalTo(task.getStatus())))
           .body("get(0).uuid", is(equalTo(task.getUuid().toString())))
+          .body("get(0).updatedAt", notNullValue(Timestamp.class))
+          .body("get(0).createdAt", notNullValue(Timestamp.class))
           .body("get(1).content", is(equalTo(task2.getDescription())))
           .body("get(1).status", is(equalTo(task2.getStatus())))
-          .body("get(1).uuid", is(equalTo(task2.getUuid().toString())));
+          .body("get(1).uuid", is(equalTo(task2.getUuid().toString())))
+          .body("get(1).updatedAt", notNullValue(Timestamp.class))
+          .body("get(1).createdAt", notNullValue(Timestamp.class));
   }
 
   @Test
@@ -105,7 +114,10 @@ public class TasksApiTest extends LiveServerTestCase{
           .statusCode(200)
           .body("status", is(equalTo(1)))
           .body("uuid", notNullValue())
-          .body("description", is(equalTo(task.getDescription())));
+          .body("description", is(equalTo(task.getDescription())))
+          .body("updatedAt", notNullValue(Timestamp.class))
+          .body("createdAt", notNullValue(Timestamp.class))
+          .body("updatedAt", response -> greaterThan(response.path("createdAt")));
 
     assertThat(repository.count(), is(equalTo(1L)));
   }
@@ -113,7 +125,7 @@ public class TasksApiTest extends LiveServerTestCase{
   @Test
   public void uncompleteTask() throws JSONException {
     Task task = new Task("Task " + System.currentTimeMillis());
-    task.setStatus(0);
+    task.setStatus(1);
     task = repository.save(task);
 
     JSONObject taskPatch = new JSONObject()
@@ -121,16 +133,18 @@ public class TasksApiTest extends LiveServerTestCase{
 
     RestAssured
         .given()
-        .contentType(ContentType.JSON)
-        .body(taskPatch.toString())
+          .contentType(ContentType.JSON)
+          .body(taskPatch.toString())
         .when()
-        .patch("/task/" + task.getUuid())
+          .patch("/task/" + task.getUuid())
         .then()
-        .statusCode(200)
-        .body("status", is(equalTo(0)))
-        .body("uuid", notNullValue())
-        .body("description", is(equalTo(task.getDescription())));
-
+          .statusCode(200)
+          .body("status", is(equalTo(0)))
+          .body("uuid", notNullValue())
+          .body("description", is(equalTo(task.getDescription())))
+          .body("updatedAt", notNullValue(Timestamp.class))
+          .body("createdAt", notNullValue(Timestamp.class))
+          .body("updatedAt", response -> greaterThan(response.path("createdAt")));
     assertThat(repository.count(), is(equalTo(1L)));
   }
 
