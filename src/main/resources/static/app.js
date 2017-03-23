@@ -26,6 +26,55 @@
         }
     }
 
+  app.controller('PantryCtrl', ['$http', function ($http) {
+
+    store = this;
+    this.newItem = {'unit': 'UNKNOWN'};
+    this.content = [];
+    this.pantryUrl = "/pantry/item";
+    this.productUrl = "/product";
+
+    this.getItems = function () {
+      $http.get(this.pantryUrl).success(function (data) {
+        store.content = data;
+      });
+    };
+
+    this.getProductData = function (eanCode) {
+      $http.get(this.productUrl + "/" + eanCode).success(function (data) {
+        if (!store.newItem.name && store.newItem.unit === 'UNKNOWN') {
+          store.newItem.name = data.name;
+          store.newItem.unit = data.unit || 'UNKNOWN';
+        }
+      });
+    };
+
+    this.addItem = function () {
+      $http.post(this.pantryUrl, this.newItem).success(function (data) {
+        store.content.push(data);
+      });
+      this.newItem = {'unit': 'UNKNOWN'}
+    };
+
+    this.removeItem = function (item) {
+      uuid = item.uuid;
+      urlWithId = this.pantryUrl + "/" + uuid;
+      $http.delete(urlWithId).success(removeItemFromStore)
+    };
+
+    removeItemFromStore = function () {
+      for (i = 0; i < store.content.length; i++) {
+        if (uuid == store.content[i].uuid) {
+          store.content.splice(i, 1);
+        }
+      }
+    };
+
+
+
+  }]);
+
+
   app.controller('TasksController', ['$http', function ($http) {
 
         this.task = {};
@@ -50,10 +99,10 @@
     this.delTask = function (task) {
       var uuid = task.uuid;
       urlWithId = this.url + "/" + uuid;
-      $http.delete(urlWithId).success(removeFromStore);
+      $http.delete(urlWithId).success(removeTaskFromStore);
     };
 
-    removeFromStore = function () {
+    removeTaskFromStore = function () {
       for (i = 0; i < store.tasks.length; i++) {
         if (uuid == store.tasks[i].uuid) {
           store.tasks.splice(i, 1);
@@ -76,52 +125,4 @@
       }
     }
   }]);
-
-    app.controller('PantryCtrl', ['$http', function ($http) {
-
-        store = this;
-        this.pantryUrl = "/pantry/item";
-        this.productUrl = "/product";
-
-        this.getItems = function () {
-            $http.get(this.pantryUrl).success(function (data) {
-                store.content = data;
-            });
-        };
-
-        this.getProductData = function (eanCode) {
-            $http.get(this.productUrl + "/" + eanCode).success(function (data) {
-                if (!store.newItem.name && store.newItem.unit === 'UNKNOWN') {
-                    store.newItem.name = data.name;
-                    store.newItem.unit = data.unit || 'UNKNOWN';
-                }
-            });
-        };
-
-        this.addItem = function () {
-            $http.post(this.pantryUrl, this.newItem).success(function (data) {
-                store.content.push(data);
-            });
-            this.newItem = {'unit': 'UNKNOWN'}
-        };
-
-        this.removeItem = function (item) {
-            uuid = item.uuid;
-            urlWithId = this.pantryUrl + "/" + uuid;
-            $http.delete(urlWithId).success(function () {
-                                                for (i = 0; i < store.content.length; i++) {
-                                                    if (uuid == store.content[i].uuid) {
-                                                        store.content.splice(i, 1);
-                                                    }
-                                                }
-                                            }
-            )
-
-        };
-
-        this.newItem = {'unit': 'UNKNOWN'};
-
-        this.content = [];
-    }])
-
 })();
