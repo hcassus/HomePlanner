@@ -38,10 +38,9 @@
                ng-class="{'bg-success text-success':storedTask.status == 1}">
                 {{storedTask.description}}
             </b>
-            <i ng-class="{'bg-success text-success':storedTask.status == 1}">
+            <i ng-show="storedTask.status == 1" ng-class="{'bg-success text-success':storedTask.status == 1}">
                 <small>
-                    {{storedTask.status == 1 ? ' - ' + tasks.convertDate(storedTask.updatedAt) :
-                    ''}}
+                    {{storedTask.updatedAt  | date:'dd/mm/yyyy HH:mm:ss'}}
                 </small>
             </i>
         </p>

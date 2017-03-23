@@ -33,12 +33,6 @@
 
         this.url = "/task";
 
-        this.convertDate = function (timestamp) {
-            date = new Date(timestamp);
-            return date.getDay() + '/' + date.getMonth() + '/' + date.getFullYear() + ' '
-                   + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
-        };
-
         this.getTasks = function () {
             $http.get(this.url).success(function (data) {
                 store.tasks = data;
