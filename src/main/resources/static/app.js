@@ -3,13 +3,14 @@
         .filter('titleCase', toTitleCase)
         .filter('pluralize', pluralize);
 
-    function pluralize() {
-        return function (word, count) {
-            if (count == 1 || count == -1) {
-                return word
-            }
-            return word + 's'
-        }
+  function pluralize() {
+    return function (word, count) {
+      var isSingularItem = count == 1 || count == -1;
+      if (isSingularItem) {
+        return word
+      }
+      return word + 's'
+    }
 
     }
 
@@ -25,7 +26,7 @@
         }
     }
 
-    app.controller('TasksCtrl', ['$http', function ($http) {
+  app.controller('TasksController', ['$http', function ($http) {
 
         this.task = {};
         store = this;
@@ -46,32 +47,35 @@
             this.task = {};
         };
 
-        this.delTask = function (task) {
-            uuid = task.uuid;
-            urlWithId = this.url + "/" + uuid;
-            $http.delete(urlWithId).success(function () {
-                for (i = 0; i < store.tasks.length; i++) {
-                    if (uuid == store.tasks[i].uuid) {
-                        store.tasks.splice(i, 1);
-                    }
-                }
-            });
-        };
+    this.delTask = function (task) {
+      var uuid = task.uuid;
+      urlWithId = this.url + "/" + uuid;
+      $http.delete(urlWithId).success(removeFromStore);
+    };
 
-        this.changeTaskStatus = function (task, status) {
-            uuid = task.uuid;
-            task.status = status;
-            urlWithId = this.url + "/" + uuid;
-            $http.patch(urlWithId, task).success(function (data) {
-                for (i = 0; i < store.tasks.length; i++) {
-                    if (uuid == store.tasks[i].uuid) {
-                        store.tasks[i] = data;
-                    }
-                }
-            })
-        };
+    removeFromStore = function () {
+      for (i = 0; i < store.tasks.length; i++) {
+        if (uuid == store.tasks[i].uuid) {
+          store.tasks.splice(i, 1);
+        }
+      }
+    };
 
-    }]);
+    this.changeTaskStatus = function (task, status) {
+      uuid = task.uuid;
+      task.status = status;
+      urlWithId = this.url + "/" + uuid;
+      $http.patch(urlWithId, task).success(updateTaskStatusInStore)
+    };
+
+    updateTaskStatusInStore = function (data) {
+      for (i = 0; i < store.tasks.length; i++) {
+        if (uuid == store.tasks[i].uuid) {
+          store.tasks[i].status = data.status;
+        }
+      }
+    }
+  }]);
 
     app.controller('PantryCtrl', ['$http', function ($http) {
 

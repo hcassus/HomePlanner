@@ -44,7 +44,7 @@ public class TaskTest extends LiveServerTestCase {
   }
 
   @Test
-  public void testCreateTest() {
+  public void taskCreateTest() {
     taskSteps
         .navigateToTaskManager()
         .createTask()
@@ -52,7 +52,7 @@ public class TaskTest extends LiveServerTestCase {
   }
 
   @Test
-  public void testCompleteTest() {
+  public void taskCompleteTest() {
     taskSteps
         .navigateToTaskManager()
         .createTask()

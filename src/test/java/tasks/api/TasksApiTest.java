@@ -22,11 +22,17 @@ import hrp.tasks.persistence.TaskRepository;
 
 public class TasksApiTest extends LiveServerTestCase{
 
+  private static final int INCOMPLETE_STATUS = 0;
+  private static final int COMPLETE_STATUS = 1;
+  private static final int HTTP_OK = 200;
+
   @Autowired
   TaskRepository repository;
 
   @LocalServerPort
   String port;
+
+
 
   @Before
   public void setUp(){
@@ -46,8 +52,8 @@ public class TasksApiTest extends LiveServerTestCase{
         .when()
           .post("/task")
         .then()
-          .statusCode(200)
-          .body("status", is(equalTo(0)))
+          .statusCode(HTTP_OK)
+          .body("status", is(equalTo(INCOMPLETE_STATUS)))
           .body("uuid", notNullValue())
           .body("description", is(equalTo(task.get("description"))))
           .body("updatedAt", notNullValue(Timestamp.class))
@@ -67,7 +73,7 @@ public class TasksApiTest extends LiveServerTestCase{
         .when()
           .get("/task")
         .then()
-          .statusCode(200)
+          .statusCode(HTTP_OK)
           .body("get(0).content", is(equalTo(task.getDescription())))
           .body("get(0).status", is(equalTo(task.getStatus())))
           .body("get(0).uuid", is(equalTo(task.getUuid().toString())))
@@ -90,7 +96,7 @@ public class TasksApiTest extends LiveServerTestCase{
         .when()
           .delete("/task/" + task.getUuid())
         .then()
-          .statusCode(200)
+          .statusCode(HTTP_OK)
           .body(is(""));
 
     assertThat(repository.count(), is(equalTo(0L)));
@@ -102,7 +108,7 @@ public class TasksApiTest extends LiveServerTestCase{
     Task task = repository.save(new Task("Task " + System.currentTimeMillis()));
 
     JSONObject taskPatch = new JSONObject()
-        .put("status", 1);
+        .put("status", COMPLETE_STATUS);
 
     RestAssured
         .given()
@@ -111,8 +117,8 @@ public class TasksApiTest extends LiveServerTestCase{
         .when()
           .patch("/task/" + task.getUuid())
         .then()
-          .statusCode(200)
-          .body("status", is(equalTo(1)))
+          .statusCode(HTTP_OK)
+          .body("status", is(equalTo(COMPLETE_STATUS)))
           .body("uuid", notNullValue())
           .body("description", is(equalTo(task.getDescription())))
           .body("updatedAt", notNullValue(Timestamp.class))
@@ -125,11 +131,11 @@ public class TasksApiTest extends LiveServerTestCase{
   @Test
   public void uncompleteTask() throws JSONException {
     Task task = new Task("Task " + System.currentTimeMillis());
-    task.setStatus(1);
+    task.setStatus(COMPLETE_STATUS);
     task = repository.save(task);
 
     JSONObject taskPatch = new JSONObject()
-        .put("status", 0);
+        .put("status", INCOMPLETE_STATUS);
 
     RestAssured
         .given()
@@ -138,8 +144,8 @@ public class TasksApiTest extends LiveServerTestCase{
         .when()
           .patch("/task/" + task.getUuid())
         .then()
-          .statusCode(200)
-          .body("status", is(equalTo(0)))
+          .statusCode(HTTP_OK)
+          .body("status", is(equalTo(INCOMPLETE_STATUS)))
           .body("uuid", notNullValue())
           .body("description", is(equalTo(task.getDescription())))
           .body("updatedAt", notNullValue(Timestamp.class))

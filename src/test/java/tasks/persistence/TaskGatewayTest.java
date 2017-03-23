@@ -21,6 +21,9 @@ import hrp.tasks.persistence.TaskRepository;
 
 public class TaskGatewayTest extends PersistencyTestCase {
 
+  private static final int COMPLETE_STATUS = 1;
+  private static final int INCOMPLETE_STATUS = 0;
+
   @Autowired
   private TaskGatewaySpring gateway;
 
@@ -69,8 +72,7 @@ public class TaskGatewayTest extends PersistencyTestCase {
     Task task = new Task("Task " + System.currentTimeMillis());
     UUID uuid = task.getUuid();
     repository.save(task);
-
-    gateway.changeTaskStatus(uuid, 1);
+    gateway.changeTaskStatus(uuid, COMPLETE_STATUS);
 
     Task persistedTask = repository.findOneByUuid(uuid);
     assertThat(persistedTask.getStatus(), is(equalTo(1)));
@@ -80,15 +82,15 @@ public class TaskGatewayTest extends PersistencyTestCase {
   @Test
   public void uncompleteTasks(){
     Task task = new Task("Task " + System.currentTimeMillis());
-    task.setStatus(1);
+    task.setStatus(COMPLETE_STATUS);
     repository.save(task);
     UUID uuid = task.getUuid();
 
+    gateway.changeTaskStatus(uuid, INCOMPLETE_STATUS);
     gateway.changeTaskStatus(uuid, 0);
     Task persistedTask = repository.findOneByUuid(uuid);
 
     assertThat(persistedTask.getStatus(), is(equalTo(0)));
     assertTrue(persistedTask.getUpdatedAt().after(persistedTask.getCreatedAt()));
-
   }
 }
