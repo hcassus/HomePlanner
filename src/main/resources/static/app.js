@@ -99,30 +99,26 @@
     this.delTask = function (task) {
       var uuid = task.uuid;
       urlWithId = this.url + "/" + uuid;
-      $http.delete(urlWithId).success(removeTaskFromStore);
-    };
-
-    removeTaskFromStore = function () {
-      for (i = 0; i < store.tasks.length; i++) {
-        if (uuid == store.tasks[i].uuid) {
-          store.tasks.splice(i, 1);
+      $http.delete(urlWithId).success(function () {
+        for (i = 0; i < store.tasks.length; i++) {
+          if (uuid == store.tasks[i].uuid) {
+            store.tasks.splice(i, 1);
+          }
         }
-      }
+      });
     };
 
     this.changeTaskStatus = function (task, status) {
       uuid = task.uuid;
       task.status = status;
       urlWithId = this.url + "/" + uuid;
-      $http.patch(urlWithId, task).success(updateTaskStatusInStore)
-    };
-
-    updateTaskStatusInStore = function (data) {
-      for (i = 0; i < store.tasks.length; i++) {
-        if (uuid == store.tasks[i].uuid) {
-          store.tasks[i].status = data.status;
+      $http.patch(urlWithId, task).success(function (data) {
+        for (i = 0; i < store.tasks.length; i++) {
+          if (uuid == store.tasks[i].uuid) {
+            store.tasks[i] = data;
+          }
         }
-      }
-    }
+      })
+    };
   }]);
 })();
