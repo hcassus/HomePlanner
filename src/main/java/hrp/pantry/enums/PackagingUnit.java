@@ -4,5 +4,6 @@ public enum PackagingUnit {
   UNKNOWN,
   UNIT,
   PACKAGE,
-  BOTTLE, CARTON,
+  BOTTLE,
+  CARTON,
 }

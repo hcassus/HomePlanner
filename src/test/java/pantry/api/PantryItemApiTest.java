@@ -1,6 +1,7 @@
 package pantry.api;
 
 
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyIterableOf;
 import static org.hamcrest.Matchers.equalTo;
@@ -65,7 +66,8 @@ public class PantryItemApiTest extends LiveServerTestCase {
           .body("unit", equalTo(item.get("unit")))
           .body("uuid", notNullValue())
           .body("createdAt", notNullValue())
-          .body("updatedAt", notNullValue());
+          .body("updatedAt", notNullValue())
+          .body(matchesJsonSchemaInClasspath("json_schemas/pantry/pantry-item-schema.json"));
 
     List<Product> retrievedProducts = (List<Product>) productRepository.findProductsByEanCode((String)item.get("eanCode"));
     List<PantryItem> retrievedItems = (List<PantryItem>) itemRepository.findAll();
@@ -111,7 +113,8 @@ public class PantryItemApiTest extends LiveServerTestCase {
           .body("get(1).unit", equalTo(item2.getUnit().toString()))
           .body("get(1).uuid", notNullValue())
           .body("get(1).createdAt", notNullValue())
-          .body("get(1).updatedAt", notNullValue());
+          .body("get(1).updatedAt", notNullValue())
+          .body(matchesJsonSchemaInClasspath("json_schemas/pantry/pantry-item-list-schema.json"));
   }
 
   @Test

@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://hrp/pantry-item-list.json",
+  "items": {
+    "id": "http://hrp/pantry-item-list.json/",
+    "properties": {
+      "createdAt": {
+        "id": "http://hrp/pantry-item-list.json/createdAt",
+        "type": "integer"
+      },
+      "eanCode": {
+        "id": "http://hrp/pantry-item-list.json/eanCode",
+        "type": "string"
+      },
+      "name": {
+        "id": "http://hrp/pantry-item-list.json/name",
+        "type": "string"
+      },
+      "quantity": {
+        "id": "http://hrp/pantry-item-list.json/quantity",
+        "type": "integer"
+      },
+      "unit": {
+        "id": "http://hrp/pantry-item-list.json/unit",
+        "enum": ["UNKNOWN", "UNIT", "PACKAGE", "BOTTLE", "CARTON"]
+      },
+      "updatedAt": {
+        "id": "http://hrp/pantry-item-list.json/updatedAt",
+        "type": "integer"
+      },
+      "uuid": {
+        "id": "http://hrp/pantry-item-list.json/uuid",
+        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      }
+    },
+    "type": "object"
+  },
+  "type": "array"
+}
