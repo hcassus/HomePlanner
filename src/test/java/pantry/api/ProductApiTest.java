@@ -1,5 +1,6 @@
 package pantry.api;
 
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
@@ -46,6 +47,7 @@ public class ProductApiTest extends LiveServerTestCase{
           .body("unit", equalTo(product.getUnit().toString()))
           .body("eanCode", equalTo(product.getEanCode()))
           .body("createdAt", notNullValue())
-          .body("updatedAt", notNullValue());
+          .body("updatedAt", notNullValue())
+          .body(matchesJsonSchemaInClasspath("json_schemas/pantry/product-schema.json"));
   }
 }

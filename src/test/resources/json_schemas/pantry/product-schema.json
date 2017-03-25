@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://hrp/product.json",
+  "properties": {
+    "count": {
+      "id": "http://hrp/product.json/count",
+      "type": "integer"
+    },
+    "createdAt": {
+      "id": "http://hrp/product.json/createdAt",
+      "type": "integer"
+    },
+    "eanCode": {
+      "id": "http://hrp/product.json/eanCode",
+      "type": "string"
+    },
+    "name": {
+      "id": "http://hrp/product.json/name",
+      "type": "string"
+    },
+    "unit": {
+      "id": "http://hrp/product.json/unit",
+      "enum": [
+        "UNKNOWN",
+        "UNIT",
+        "PACKAGE",
+        "BOTTLE",
+        "CARTON"
+      ]
+    },
+    "updatedAt": {
+      "id": "http://hrp/product.json/updatedAt",
+      "type": "integer"
+    }
+  },
+  "type": "object"
+}
