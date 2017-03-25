@@ -29,6 +29,7 @@ public class Task {
 
   public Task(String description){
     this.status = 0;
+    this.description = description;
     this.uuid = UUID.randomUUID();
     this.createdAt = new Timestamp(System.currentTimeMillis());
     this.updatedAt = new Timestamp(System.currentTimeMillis());

@@ -1,24 +1,24 @@
 package tasks.api;
 
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
+import commons.testcases.LiveServerTestCase;
+import hrp.tasks.persistence.Task;
+import hrp.tasks.persistence.TaskRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import java.security.Timestamp;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
-
-import java.security.Timestamp;
-import commons.testcases.LiveServerTestCase;
-import hrp.tasks.persistence.Task;
-import hrp.tasks.persistence.TaskRepository;
 
 public class TasksApiTest extends LiveServerTestCase{
 
@@ -57,7 +57,8 @@ public class TasksApiTest extends LiveServerTestCase{
           .body("uuid", notNullValue())
           .body("description", is(equalTo(task.get("description"))))
           .body("updatedAt", notNullValue(Timestamp.class))
-          .body("createdAt", notNullValue(Timestamp.class));
+          .body("createdAt", notNullValue(Timestamp.class))
+          .body(matchesJsonSchemaInClasspath("json_schemas/tasks/task-schema.json"));
 
     assertThat(repository.count(), is(equalTo(1L)));
   }
@@ -74,16 +75,17 @@ public class TasksApiTest extends LiveServerTestCase{
           .get("/task")
         .then()
           .statusCode(HTTP_OK)
-          .body("get(0).content", is(equalTo(task.getDescription())))
+          .body("get(0).description", is(equalTo(task.getDescription())))
           .body("get(0).status", is(equalTo(task.getStatus())))
           .body("get(0).uuid", is(equalTo(task.getUuid().toString())))
           .body("get(0).updatedAt", notNullValue(Timestamp.class))
           .body("get(0).createdAt", notNullValue(Timestamp.class))
-          .body("get(1).content", is(equalTo(task2.getDescription())))
+          .body("get(1).description", is(equalTo(task2.getDescription())))
           .body("get(1).status", is(equalTo(task2.getStatus())))
           .body("get(1).uuid", is(equalTo(task2.getUuid().toString())))
           .body("get(1).updatedAt", notNullValue(Timestamp.class))
-          .body("get(1).createdAt", notNullValue(Timestamp.class));
+          .body("get(1).createdAt", notNullValue(Timestamp.class))
+          .body(matchesJsonSchemaInClasspath("json_schemas/tasks/task-list-schema.json"));
   }
 
   @Test
@@ -108,6 +110,7 @@ public class TasksApiTest extends LiveServerTestCase{
     Task task = repository.save(new Task("Task " + System.currentTimeMillis()));
 
     JSONObject taskPatch = new JSONObject()
+        .put("description", task.getDescription())
         .put("status", COMPLETE_STATUS);
 
     RestAssured
@@ -123,7 +126,8 @@ public class TasksApiTest extends LiveServerTestCase{
           .body("description", is(equalTo(task.getDescription())))
           .body("updatedAt", notNullValue(Timestamp.class))
           .body("createdAt", notNullValue(Timestamp.class))
-          .body("updatedAt", response -> greaterThan(response.path("createdAt")));
+          .body("updatedAt", response -> greaterThan(response.path("createdAt")))
+          .body(matchesJsonSchemaInClasspath("json_schemas/tasks/task-schema.json"));
 
     assertThat(repository.count(), is(equalTo(1L)));
   }
@@ -135,6 +139,7 @@ public class TasksApiTest extends LiveServerTestCase{
     task = repository.save(task);
 
     JSONObject taskPatch = new JSONObject()
+        .put("description", task.getDescription())
         .put("status", INCOMPLETE_STATUS);
 
     RestAssured
@@ -150,8 +155,8 @@ public class TasksApiTest extends LiveServerTestCase{
           .body("description", is(equalTo(task.getDescription())))
           .body("updatedAt", notNullValue(Timestamp.class))
           .body("createdAt", notNullValue(Timestamp.class))
-          .body("updatedAt", response -> greaterThan(response.path("createdAt")));
+          .body("updatedAt", response -> greaterThan(response.path("createdAt")))
+          .body(matchesJsonSchemaInClasspath("json_schemas/tasks/task-schema.json"));
     assertThat(repository.count(), is(equalTo(1L)));
   }
-
 }
