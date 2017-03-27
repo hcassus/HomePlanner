@@ -24,12 +24,10 @@
 
   <div ng-repeat="item in pantry.content" id="item_{{d}}">
     <b class="item-description">{{item.name}}</b>
-    -
-    <b class="item-qty">{{item.quantity}}</b>
+    <b ng-show="item.unit !== 'UNKNOWN' && item.quantity" class="item-qty"> - {{item.quantity}}</b>
 
-    <b class="item-unit">{{item.unit | pluralize : item.quantity | titleCase}}</b>
-    -
-    <b class="item-expiration">{{item.expiresAt | date:'dd/MM/yyyy'}}</b>
+    <b ng-show="item.unit !== 'UNKNOWN' && item.quantity" class="item-unit">{{item.unit | pluralize : item.quantity | titleCase}}</b>
+    <b ng-show="item.expiresAt" class="item-expiration"> - {{item.expiresAt | date:'dd/MM/yyyy'}}</b>
     <button ng-click="pantry.removeItem(item)">Remove</button>
   </div>
 </div>
