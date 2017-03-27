@@ -16,6 +16,7 @@ import hrp.pantry.persistence.repositories.PantryItemRepository;
 import hrp.pantry.persistence.repositories.ProductRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -50,7 +51,8 @@ public class PantryItemApiTest extends LiveServerTestCase {
         .put("eanCode", "1234567890123")
         .put("name", "Coca Cola 2l")
         .put("quantity", 10)
-        .put("unit", "BOTTLE");
+        .put("unit", "BOTTLE")
+        .put("expiresAt", System.currentTimeMillis());
 
     RestAssured
         .given()
@@ -84,13 +86,15 @@ public class PantryItemApiTest extends LiveServerTestCase {
         "1234567890123",
         "Erdinger Kristall 500ml",
         1,
-        PackagingUnit.BOTTLE
+        PackagingUnit.BOTTLE,
+        new Timestamp(System.currentTimeMillis())
     );
     PantryItem item2 = new PantryItem(
         "1234567890123",
         "Erdinger Kristall 500ml",
         2,
-        PackagingUnit.BOTTLE
+        PackagingUnit.BOTTLE,
+        new Timestamp(System.currentTimeMillis())
     );
     List<PantryItem> items = Arrays.asList(item1,item2);
     itemRepository.save(items);
@@ -105,15 +109,17 @@ public class PantryItemApiTest extends LiveServerTestCase {
           .body("get(0).name", is(equalTo(item1.getName())))
           .body("get(0).quantity", equalTo(item1.getQuantity()))
           .body("get(0).unit", equalTo(item1.getUnit().toString()))
+          .body("get(0).updatedAt", equalTo(item1.getExpiresAt().getTime()))
           .body("get(0).uuid", notNullValue())
-          .body("get(0).createdAt", notNullValue())
-          .body("get(0).updatedAt", notNullValue())
+          .body("get(0).createdAt", equalTo(item1.getCreatedAt().getTime()))
+          .body("get(0).updatedAt", equalTo(item1.getUpdatedAt().getTime()))
           .body("get(1).name", is(equalTo(item2.getName())))
           .body("get(1).quantity", equalTo(item2.getQuantity()))
+          .body("get(1).expiresAt", equalTo(item2.getExpiresAt().getTime()))
           .body("get(1).unit", equalTo(item2.getUnit().toString()))
           .body("get(1).uuid", notNullValue())
-          .body("get(1).createdAt", notNullValue())
-          .body("get(1).updatedAt", notNullValue())
+          .body("get(1).createdAt", equalTo(item2.getCreatedAt().getTime()))
+          .body("get(1).updatedAt", equalTo(item2.getUpdatedAt().getTime()))
           .body(matchesJsonSchemaInClasspath("json_schemas/pantry/pantry-item-list-schema.json"));
   }
 
@@ -123,7 +129,8 @@ public class PantryItemApiTest extends LiveServerTestCase {
         "1234567890123",
         "Coca Cola 500ml"+ System.currentTimeMillis(),
         2,
-        PackagingUnit.BOTTLE
+        PackagingUnit.BOTTLE,
+        new Timestamp(System.currentTimeMillis())
     );
     UUID uuid = itemRepository.save(item).getUuid();
 

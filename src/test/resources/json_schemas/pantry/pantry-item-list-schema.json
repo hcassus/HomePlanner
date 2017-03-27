@@ -3,6 +3,7 @@
   "id": "http://hrp/pantry-item-list.json",
   "items": {
     "id": "http://hrp/pantry-item-list.json/",
+    "required":["createdAt","name","unit","updatedAt","uuid"],
     "properties": {
       "createdAt": {
         "id": "http://hrp/pantry-item-list.json/createdAt",
@@ -11,6 +12,10 @@
       "eanCode": {
         "id": "http://hrp/pantry-item-list.json/eanCode",
         "type": "string"
+      },
+      "expiresAt": {
+        "id": "http://hrp/pantry-item-list.json/expiresAt",
+        "type": "integer"
       },
       "name": {
         "id": "http://hrp/pantry-item-list.json/name",

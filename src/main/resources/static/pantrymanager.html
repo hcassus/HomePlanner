@@ -18,6 +18,7 @@
       <option value="PACKAGE">{{'Package' | pluralize : pantry.newItem.quantity}}</option>
       <option value="CARTON">{{'Carton' | pluralize : pantry.newItem.quantity}}</option>
     </select>
+    <input type="date" id="inpt-expiration" ng-model="pantry.newItem.expiresAt" />
     <button type="submit" id="btn-add">Add</button>
   </form>
 
@@ -27,6 +28,8 @@
     <b class="item-qty">{{item.quantity}}</b>
 
     <b class="item-unit">{{item.unit | pluralize : item.quantity | titleCase}}</b>
+    -
+    <b class="item-expiration">{{item.expiresAt | date:'dd/MM/yyyy'}}</b>
     <button ng-click="pantry.removeItem(item)">Remove</button>
   </div>
 </div>

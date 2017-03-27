@@ -11,6 +11,7 @@ import hrp.pantry.enums.PackagingUnit;
 import hrp.pantry.gateways.PantryItemGateway;
 import hrp.pantry.persistence.entities.PantryItem;
 import hrp.pantry.persistence.repositories.PantryItemRepository;
+import java.sql.Timestamp;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
@@ -36,7 +37,8 @@ public class PantryItemGatewayTest extends PersistencyTestCase{
         "1234567890123",
         "Milk "+System.currentTimeMillis(),
         10,
-        PackagingUnit.CARTON
+        PackagingUnit.CARTON,
+        new Timestamp(System.currentTimeMillis())
     );
 
     PantryItem persistedItem = gateway.createOrUpdatePantryItem(item);
@@ -50,14 +52,16 @@ public class PantryItemGatewayTest extends PersistencyTestCase{
         "1234567890123",
         "Cheese " + System.currentTimeMillis(),
         1,
-        PackagingUnit.PACKAGE
+        PackagingUnit.PACKAGE,
+        new Timestamp(System.currentTimeMillis())
     );
 
     PantryItem item2 = new PantryItem(
         "1234567890123",
         "Lime " + System.currentTimeMillis(),
         4,
-        PackagingUnit.UNIT
+        PackagingUnit.UNIT,
+        new Timestamp(System.currentTimeMillis())
     );
 
     repository.save(item1);
@@ -75,7 +79,8 @@ public class PantryItemGatewayTest extends PersistencyTestCase{
         "1234567890123",
         "Bread "+ System.currentTimeMillis(),
         2,
-        PackagingUnit.PACKAGE
+        PackagingUnit.PACKAGE,
+        new Timestamp(System.currentTimeMillis())
     );
     item = repository.save(item);
 
@@ -90,7 +95,8 @@ public class PantryItemGatewayTest extends PersistencyTestCase{
         "1234567890123",
         "Test Product",
         10,
-        PackagingUnit.UNIT
+        PackagingUnit.UNIT,
+        new Timestamp(System.currentTimeMillis())
     );
     item = repository.save(item);
     item.setQuantity(12);

@@ -70,6 +70,6 @@ public class PantryItemTest extends LiveServerTestCase {
     itemSteps
         .goToPantryManager()
         .fillBarcode(product.getEanCode())
-        .inputsCorrespondToProduct(product);
+        .prefilledInputsCorrespondToProduct(product);
   }
 }

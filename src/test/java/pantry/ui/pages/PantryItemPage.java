@@ -28,6 +28,9 @@ public class PantryItemPage extends BasePage{
   @FindBy(id = "slct-unit")
   private WebElement unitSelectElement;
 
+  @FindBy(id = "inpt-expiration")
+  private WebElement expirationInput;
+
   @FindBy(className = ITEM_DESCRIPTION_TEXT_LOCATOR)
   private WebElement itemDescription;
 
@@ -42,6 +45,9 @@ public class PantryItemPage extends BasePage{
 
   @FindBy(id = "ean-code-field")
   private WebElement barCodeField;
+
+  @FindBy(className = "item-expiration")
+  private WebElement itemExpiration;
 
   private WebDriverWait wait;
 
@@ -95,5 +101,13 @@ public class PantryItemPage extends BasePage{
   public String getUnitSelectValue() {
     Select unitSelect = new Select(unitSelectElement);
     return unitSelect.getFirstSelectedOption().getAttribute("value");
+  }
+
+  public void fillExpirationDate(String expiresAt) {
+    expirationInput.sendKeys(expiresAt);
+  }
+
+  public String getExpirationDate() {
+    return itemExpiration.getText();
   }
 }
