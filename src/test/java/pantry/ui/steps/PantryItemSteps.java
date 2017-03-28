@@ -4,12 +4,13 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import hrp.pantry.persistence.entities.Product;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Component;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import hrp.pantry.persistence.entities.Product;
 import pantry.ui.pages.PantryItemPage;
 
 @Component
