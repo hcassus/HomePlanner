@@ -37,7 +37,7 @@ public class PantryItemTest extends LiveServerTestCase {
   @BeforeClass
   public static void setUpClass() {
     ChromeOptions options = new ChromeOptions();
-    options.addArguments("--lang=\"pt-br\"");
+    options.addArguments("--lang=pt-br");
     driver = new ChromeDriver(options);
     WebDriverWait wait = new WebDriverWait(driver, 5);
     itemSteps = new PantryItemSteps(driver, wait);
