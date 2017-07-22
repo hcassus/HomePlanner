@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import tasks.ui.steps.TaskSteps;
 
-public class TaskTest extends LiveServerTestCase {
+public class TaskUITest extends LiveServerTestCase {
 
   @LocalServerPort
   private String localPort;

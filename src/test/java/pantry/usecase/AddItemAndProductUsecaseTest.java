@@ -13,6 +13,7 @@ import hrp.pantry.persistence.entities.PantryItem;
 import hrp.pantry.persistence.entities.Product;
 import hrp.pantry.services.ProductService;
 import hrp.pantry.usecases.AddPantryItemAndProductDataUsecase;
+import java.sql.Timestamp;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -21,7 +22,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-public class AddItemAndProductTest {
+public class AddItemAndProductUsecaseTest {
 
   @InjectMocks
   AddPantryItemAndProductDataUsecase usecase;
@@ -37,7 +38,7 @@ public class AddItemAndProductTest {
 
   @Test
   public void createItemAndProductTest(){
-    PantryItem item = new PantryItem("1234567890123", "Test Item", 10, PackagingUnit.BOTTLE);
+    PantryItem item = new PantryItem("1234567890123", "Test Item", 10, PackagingUnit.BOTTLE, new Timestamp(System.currentTimeMillis()));
     ArgumentCaptor<Product> captor = ArgumentCaptor.forClass(Product.class);
 
     usecase.execute(item);
@@ -55,7 +56,7 @@ public class AddItemAndProductTest {
 
   @Test
   public void noBarCodeCreatesNoProductTest(){
-    PantryItem item = new PantryItem(null, "Test Item", 10, PackagingUnit.BOTTLE);
+    PantryItem item = new PantryItem(null, "Test Item", 10, PackagingUnit.BOTTLE, new Timestamp(System.currentTimeMillis()));
 
     usecase.execute(item);
 

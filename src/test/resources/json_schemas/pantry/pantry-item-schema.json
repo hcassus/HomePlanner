@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "http://hrp/pantry-item.json",
+  "required":["createdAt","name","unit","updatedAt","uuid"],
   "properties": {
     "createdAt": {
       "id": "http://hrp/pantry-item.json/createdAt",
@@ -9,6 +10,10 @@
     "eanCode": {
       "id": "http://hrp/pantry-item.json/eanCode",
       "type": "string"
+    },
+    "expiresAt": {
+      "id": "http://hrp/pantry-item.json/expiresAt",
+      "type": "integer"
     },
     "name": {
       "id": "http://hrp/pantry-item.json/name",

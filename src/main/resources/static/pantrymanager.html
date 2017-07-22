@@ -18,15 +18,18 @@
       <option value="PACKAGE">{{'Package' | pluralize : pantry.newItem.quantity}}</option>
       <option value="CARTON">{{'Carton' | pluralize : pantry.newItem.quantity}}</option>
     </select>
+    <input type="date" id="inpt-expiration" placeholder="mm/dd/yyyy" ng-model="pantry.newItem.expiresAt" />
     <button type="submit" id="btn-add">Add</button>
   </form>
 
   <div ng-repeat="item in pantry.content" id="item_{{d}}">
     <b class="item-description">{{item.name}}</b>
-    -
-    <b class="item-qty">{{item.quantity}}</b>
+    {{item.unit !== 'UNKNOWN' && item.quantity ? '-':''}}
+    <b ng-show="item.unit !== 'UNKNOWN' && item.quantity" class="item-qty">{{item.quantity}}</b>
 
-    <b class="item-unit">{{item.unit | pluralize : item.quantity | titleCase}}</b>
+    <b ng-show="item.unit !== 'UNKNOWN' && item.quantity" class="item-unit">{{item.unit | pluralize : item.quantity | titleCase}}</b>
+    {{item.expiresAt ? '-':''}}
+    <b ng-show="item.expiresAt" class="item-expiration">{{item.expiresAt | date:'MM/dd/yyyy'}}</b>
     <button ng-click="pantry.removeItem(item)">Remove</button>
   </div>
 </div>

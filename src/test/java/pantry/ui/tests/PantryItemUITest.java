@@ -1,23 +1,25 @@
 package pantry.ui.tests;
 
-import commons.testcases.LiveServerTestCase;
-import hrp.pantry.enums.PackagingUnit;
-import hrp.pantry.persistence.entities.Product;
-import hrp.pantry.persistence.repositories.PantryItemRepository;
-import hrp.pantry.persistence.repositories.ProductRepository;
-import java.util.Arrays;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
+
+import java.util.Arrays;
+import commons.testcases.LiveServerTestCase;
+import hrp.pantry.enums.PackagingUnit;
+import hrp.pantry.persistence.entities.Product;
+import hrp.pantry.persistence.repositories.PantryItemRepository;
+import hrp.pantry.persistence.repositories.ProductRepository;
 import pantry.ui.steps.PantryItemSteps;
 
-public class PantryItemTest extends LiveServerTestCase {
+public class PantryItemUITest extends LiveServerTestCase {
 
   @LocalServerPort
   private String port;
@@ -34,7 +36,9 @@ public class PantryItemTest extends LiveServerTestCase {
 
   @BeforeClass
   public static void setUpClass() {
-    driver = new ChromeDriver();
+    ChromeOptions options = new ChromeOptions();
+    options.addArguments("--lang=en");
+    driver = new ChromeDriver(options);
     WebDriverWait wait = new WebDriverWait(driver, 5);
     itemSteps = new PantryItemSteps(driver, wait);
   }
@@ -70,6 +74,6 @@ public class PantryItemTest extends LiveServerTestCase {
     itemSteps
         .goToPantryManager()
         .fillBarcode(product.getEanCode())
-        .inputsCorrespondToProduct(product);
+        .prefilledInputsCorrespondToProduct(product);
   }
 }

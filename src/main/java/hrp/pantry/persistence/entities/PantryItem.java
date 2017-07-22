@@ -29,6 +29,9 @@ public class PantryItem {
   @Enumerated(EnumType.STRING)
   private PackagingUnit unit;
 
+  @Column
+  private Timestamp expiresAt;
+
   @Column(nullable = false)
   private UUID uuid;
 
@@ -43,11 +46,12 @@ public class PantryItem {
     this.updatedAt = new Timestamp(System.currentTimeMillis());
   }
 
-  public PantryItem(String eanCode, String name, Integer quantity, PackagingUnit unit){
+  public PantryItem(String eanCode, String name, Integer quantity, PackagingUnit unit, Timestamp expiresAt){
     this.eanCode = eanCode;
     this.name = name;
     this.quantity = quantity;
     this.unit = unit;
+    this.expiresAt = expiresAt;
     this.uuid = UUID.randomUUID();
     this.createdAt = new Timestamp(System.currentTimeMillis());
     this.updatedAt = new Timestamp(System.currentTimeMillis());
@@ -86,6 +90,10 @@ public class PantryItem {
 
   public String getEanCode() {
     return eanCode;
+  }
+
+  public Timestamp getExpiresAt(){
+    return expiresAt;
   }
 
   public void setQuantity(int quantity) {
