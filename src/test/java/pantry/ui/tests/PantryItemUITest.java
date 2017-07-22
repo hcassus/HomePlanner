@@ -19,7 +19,7 @@ import hrp.pantry.persistence.repositories.PantryItemRepository;
 import hrp.pantry.persistence.repositories.ProductRepository;
 import pantry.ui.steps.PantryItemSteps;
 
-public class PantryItemTest extends LiveServerTestCase {
+public class PantryItemUITest extends LiveServerTestCase {
 
   @LocalServerPort
   private String port;
@@ -37,7 +37,7 @@ public class PantryItemTest extends LiveServerTestCase {
   @BeforeClass
   public static void setUpClass() {
     ChromeOptions options = new ChromeOptions();
-    options.addArguments("--lang=es");
+    options.addArguments("--lang=en");
     driver = new ChromeDriver(options);
     WebDriverWait wait = new WebDriverWait(driver, 5);
     itemSteps = new PantryItemSteps(driver, wait);

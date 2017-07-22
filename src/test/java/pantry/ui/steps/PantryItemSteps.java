@@ -31,7 +31,7 @@ public class PantryItemSteps {
     description = "Item " + System.currentTimeMillis();
     quantity = "5";
     unit = "Cartons";
-    expiresAt = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+    expiresAt = new SimpleDateFormat("MM/dd/yyyy").format(new Date());
     itemPage.fillDescriptionField(description);
     itemPage.fillQuantityField(quantity);
     itemPage.selectUnit(unit);
