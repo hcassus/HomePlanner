@@ -43,7 +43,7 @@ public class PantryItemGatewayTest extends PersistencyTestCase{
 
     PantryItem persistedItem = gateway.createOrUpdatePantryItem(item);
 
-    assertThat(persistedItem, samePropertyValuesAs(persistedItem));
+    assertThat(persistedItem, samePropertyValuesAs(item));
   }
 
   @Test
