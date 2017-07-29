@@ -33,7 +33,6 @@ public class TaskPage extends BasePage {
 
   public TaskPage(WebDriver driver, WebDriverWait wait) {
     super(driver);
-    PageFactory.initElements(driver, this);
     this.wait = wait;
   }
 

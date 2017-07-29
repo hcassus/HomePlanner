@@ -54,7 +54,6 @@ public class PantryItemPage extends BasePage{
   public PantryItemPage(WebDriver driver, WebDriverWait wait){
     super(driver);
     this.wait = wait;
-    PageFactory.initElements(driver, this);
   }
 
   public void fillDescriptionField(String itemDescription) {
