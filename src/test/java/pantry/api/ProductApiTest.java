@@ -1,9 +1,5 @@
 package pantry.api;
 
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.notNullValue;
-
 import commons.testcases.LiveServerTestCase;
 import hrp.pantry.enums.PackagingUnit;
 import hrp.pantry.persistence.entities.Product;
@@ -16,6 +12,11 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
 
+import static io.restassured.RestAssured.preemptive;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
+
 public class ProductApiTest extends LiveServerTestCase{
 
   @Autowired
@@ -27,6 +28,8 @@ public class ProductApiTest extends LiveServerTestCase{
   @Before
   public void setUp() {
     RestAssured.baseURI = "http://localhost:" + port;
+    RestAssured.authentication = preemptive().basic("admin","123123");
+
     repository.deleteAll();
   }
 

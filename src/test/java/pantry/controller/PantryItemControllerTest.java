@@ -1,14 +1,9 @@
 package pantry.controller;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
 import hrp.HomePlannerApp;
 import hrp.pantry.gateways.PantryItemGateway;
 import hrp.pantry.persistence.entities.PantryItem;
 import hrp.pantry.usecases.AddPantryItemAndProductDataUsecase;
-import java.util.UUID;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,6 +19,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.UUID;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {HomePlannerApp.class}, loader = SpringBootContextLoader.class)

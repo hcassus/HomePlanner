@@ -1,29 +1,25 @@
 package hrp.pantry.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.UUID;
 import hrp.pantry.gateways.PantryItemGateway;
 import hrp.pantry.persistence.entities.PantryItem;
 import hrp.pantry.usecases.AddPantryItemAndProductDataUsecase;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/pantry/item")
 public class PantryItemController {
 
   PantryItemGateway gateway;
-
-  @Autowired
   AddPantryItemAndProductDataUsecase addProductAndItem;
 
   @Autowired
-  public PantryItemController(PantryItemGateway gateway){
+  public PantryItemController(PantryItemGateway gateway,
+                              AddPantryItemAndProductDataUsecase addProductAndItem){
     this.gateway = gateway;
+    this.addProductAndItem = addProductAndItem;
   }
 
   @RequestMapping(method = RequestMethod.POST)

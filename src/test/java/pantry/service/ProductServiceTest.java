@@ -1,18 +1,9 @@
 package pantry.service;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import hrp.pantry.enums.PackagingUnit;
 import hrp.pantry.gateways.ProductGateway;
 import hrp.pantry.persistence.entities.Product;
 import hrp.pantry.services.ProductService;
-import java.util.ArrayList;
-import java.util.Arrays;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -20,6 +11,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.*;
 
 public class ProductServiceTest {
 
