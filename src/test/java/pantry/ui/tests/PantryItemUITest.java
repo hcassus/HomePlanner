@@ -50,8 +50,6 @@ public class PantryItemUITest extends LiveServerTestCase {
     productRepository.deleteAll();
     driver.get("http://localhost:" + port + "/login");
     new LoginSteps(driver).performSuccessfulLogin();
-
-
   }
 
   @AfterClass
@@ -73,7 +71,7 @@ public class PantryItemUITest extends LiveServerTestCase {
     product.setCount(10L);
     Product product2 = new Product("1234567890123", "Haagen Dazs Chocolate", PackagingUnit.UNIT);
     product.setCount(5L);
-    productRepository.save(Arrays.asList(product, product2));
+    productRepository.saveAll(Arrays.asList(product, product2));
 
     itemSteps
         .goToPantryManager()

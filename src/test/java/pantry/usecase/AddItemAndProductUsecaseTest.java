@@ -19,20 +19,19 @@ import java.sql.Timestamp;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 public class AddItemAndProductUsecaseTest {
 
   @InjectMocks
-  AddPantryItemAndProductDataUsecase usecase;
+  private AddPantryItemAndProductDataUsecase usecase;
 
   @Mock
-  ProductService service;
+  private ProductService service;
 
   @Mock
-  PantryItemGateway gateway;
+  private PantryItemGateway gateway;
 
   @Rule
   public MockitoRule mockitoRule = MockitoJUnit.rule();
@@ -62,4 +61,7 @@ public class AddItemAndProductUsecaseTest {
     verify(gateway, times(1)).createOrUpdatePantryItem(item);
     verify(service, times(0)).insertUniqueProduct(any(Product.class));
   }
+
+    private Product any(Class<Product> productClass) {
+    }
 }

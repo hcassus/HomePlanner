@@ -4,7 +4,8 @@
   "properties": {
     "createdAt": {
       "id": "http://hrp/task.json/createdAt",
-      "type": "integer"
+      "type": "string",
+      "format": "date-time"
     },
     "description": {
       "id": "http://hrp/task.json/description",
@@ -16,7 +17,8 @@
     },
     "updatedAt": {
       "id": "http://hrp/task.json/updatedAt",
-      "type": "integer"
+      "type": "string",
+      "format": "date-time"
     },
     "uuid": {
       "id": "http://hrp/task.json/uuid",

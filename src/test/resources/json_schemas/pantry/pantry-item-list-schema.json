@@ -7,7 +7,8 @@
     "properties": {
       "createdAt": {
         "id": "http://hrp/pantry-item-list.json/createdAt",
-        "type": "integer"
+        "type": "string",
+        "format": "date-time"
       },
       "eanCode": {
         "id": "http://hrp/pantry-item-list.json/eanCode",
@@ -15,7 +16,8 @@
       },
       "expiresAt": {
         "id": "http://hrp/pantry-item-list.json/expiresAt",
-        "type": "integer"
+        "type": "string",
+        "format": "date-time"
       },
       "name": {
         "id": "http://hrp/pantry-item-list.json/name",
@@ -31,7 +33,8 @@
       },
       "updatedAt": {
         "id": "http://hrp/pantry-item-list.json/updatedAt",
-        "type": "integer"
+        "type": "string",
+        "format": "date-time"
       },
       "uuid": {
         "id": "http://hrp/pantry-item-list.json/uuid",

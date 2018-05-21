@@ -1,16 +1,10 @@
 package hrp.pantry.persistence.entities;
 
+import hrp.pantry.enums.PackagingUnit;
+
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.UUID;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.PreUpdate;
-import hrp.pantry.enums.PackagingUnit;
 
 @Entity
 public class PantryItem {
@@ -84,19 +78,19 @@ public class PantryItem {
     return createdAt;
   }
 
-  public Timestamp getUpdatedAt(){
-    return updatedAt;
-  }
-
-  public String getEanCode() {
-    return eanCode;
-  }
-
   public Timestamp getExpiresAt(){
     return expiresAt;
   }
 
   public void setQuantity(int quantity) {
     this.quantity = quantity;
+  }
+
+  public String getEanCode() {
+    return eanCode;
+  }
+
+  public Timestamp getUpdatedAt() {
+    return updatedAt;
   }
 }

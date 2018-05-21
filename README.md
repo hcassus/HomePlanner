@@ -1,4 +1,4 @@
-# TaskList
+# Home Planner
 
 Simple software to Manage home.
 

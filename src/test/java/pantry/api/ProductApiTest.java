@@ -6,11 +6,14 @@ import hrp.pantry.persistence.entities.Product;
 import hrp.pantry.persistence.repositories.ProductRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.LocalServerPort;
+import org.springframework.boot.web.server.LocalServerPort;
+
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
 
 import static io.restassured.RestAssured.preemptive;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
@@ -34,7 +37,7 @@ public class ProductApiTest extends LiveServerTestCase{
   }
 
   @Test
-  public void retrieveProductDataByEanTest() throws JSONException {
+  public void retrieveProductDataByEanTest(){
     Product product = new Product("1234567890123", "Coca Cola 2L", PackagingUnit.BOTTLE);
     repository.save(product);
 

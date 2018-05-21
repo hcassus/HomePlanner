@@ -43,7 +43,7 @@ public class PantryItemControllerTest {
   AddPantryItemAndProductDataUsecase usecase;
 
   @Before
-  public void setup() throws Exception {
+  public void setup() {
     mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
   }
 
