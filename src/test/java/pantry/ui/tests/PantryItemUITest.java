@@ -1,6 +1,7 @@
 package pantry.ui.tests;
 
 import commons.testcases.LiveServerTestCase;
+import commons.ui.steps.LoginSteps;
 import hrp.pantry.enums.PackagingUnit;
 import hrp.pantry.persistence.entities.Product;
 import hrp.pantry.persistence.repositories.PantryItemRepository;
@@ -47,7 +48,8 @@ public class PantryItemUITest extends LiveServerTestCase {
   public void setUp() {
     pantryRepository.deleteAll();
     productRepository.deleteAll();
-    driver.get("http://localhost:" + port);
+    driver.get("http://localhost:" + port + "/login");
+    new LoginSteps(driver).performSuccessfulLogin();
   }
 
   @AfterClass

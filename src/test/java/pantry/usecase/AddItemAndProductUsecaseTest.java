@@ -53,8 +53,6 @@ public class AddItemAndProductUsecaseTest {
     assertThat(persistedProduct.getUnit(), is(equalTo(item.getUnit())));
   }
 
-
-
   @Test
   public void noBarCodeCreatesNoProductTest(){
     PantryItem item = new PantryItem(null, "Test Item", 10, PackagingUnit.BOTTLE, new Timestamp(System.currentTimeMillis()));

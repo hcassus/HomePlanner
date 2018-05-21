@@ -8,6 +8,7 @@ import hrp.pantry.persistence.entities.Product;
 import hrp.pantry.persistence.repositories.PantryItemRepository;
 import hrp.pantry.persistence.repositories.ProductRepository;
 import io.restassured.RestAssured;
+import io.restassured.filter.session.SessionFilter;
 import io.restassured.http.ContentType;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -23,62 +24,92 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 public class PantryItemApiTest extends LiveServerTestCase {
 
-  @LocalServerPort
-  String port;
+    private static final String PANTRY_ITEM_PATH = "/pantry/item";
 
-  @Autowired
-  PantryItemRepository itemRepository;
+    @LocalServerPort
+    String port;
 
-  @Autowired
-  ProductRepository productRepository;
+    @Autowired
+    PantryItemRepository itemRepository;
 
-  @Before
-  public void setUp() {
-    RestAssured.baseURI = "http://localhost:" + port;
-    itemRepository.deleteAll();
-    productRepository.deleteAll();
-  }
+    @Autowired
+    ProductRepository productRepository;
 
-  @Test
-  public void blackBoxItemCreationTest() throws JSONException {
-    JSONObject item = new JSONObject()
-        .put("eanCode", "1234567890123")
-        .put("name", "Coca Cola 2l")
-        .put("quantity", 10)
-        .put("unit", "BOTTLE")
-        .put("expiresAt", System.currentTimeMillis());
+    private final String VALID_USERNAME = System.getenv("VALID_USERNAME");
+    private final String VALID_PASSWORD = System.getenv("VALID_PASSWORD");
 
-    RestAssured
-        .given()
-          .contentType(ContentType.JSON)
-          .body(item.toString())
+    private SessionFilter sessionFilter;
+    private String xsrfToken;
+
+    @Before
+    public void setUp() {
+        RestAssured.baseURI = "http://localhost:" + port;
+
+        sessionFilter = new SessionFilter();
+
+        xsrfToken = given()
+                .auth()
+                    .basic(VALID_USERNAME,VALID_PASSWORD)
+                .filter(sessionFilter)
+                .log()
+                    .all()
         .when()
-          .post("/pantry/item")
+                .get(PANTRY_ITEM_PATH)
+                .prettyPeek()
         .then()
-          .contentType(ContentType.JSON)
-          .statusCode(200)
-          .body("name", equalTo(item.get("name")))
-          .body("quantity", equalTo(item.get("quantity")))
-          .body("unit", equalTo(item.get("unit")))
-          .body("uuid", notNullValue())
-          .body("createdAt", notNullValue())
-          .body("updatedAt", notNullValue())
-          .body(matchesJsonSchemaInClasspath("json_schemas/pantry/pantry-item-schema.json"));
+                .extract()
+                    .cookie("XSRF-TOKEN");
 
-    List<Product> retrievedProducts = (List<Product>) productRepository.findProductsByEanCode((String)item.get("eanCode"));
-    List<PantryItem> retrievedItems = (List<PantryItem>) itemRepository.findAll();
-    assertThat(retrievedItems.size(), is(equalTo(1)));
-    assertThat(retrievedProducts.size(), is(equalTo(1)));
-    assertThat(retrievedProducts.get(0).getName(), is(equalTo((String) item.get("name"))));
-    assertThat(retrievedProducts.get(0).getUnit().toString(), is(equalTo(item.get("unit"))));
-    assertThat(retrievedProducts.get(0).getEanCode(), is(equalTo((String) item.get("eanCode"))));
-  }
+        itemRepository.deleteAll();
+        productRepository.deleteAll();
+    }
+
+    @Test
+    public void blackBoxItemCreationTest() throws JSONException {
+        JSONObject item = new JSONObject()
+                .put("eanCode", "1234567890123")
+                .put("name", "Coca Cola 2l")
+                .put("quantity", 10)
+                .put("unit", "BOTTLE")
+                .put("expiresAt", System.currentTimeMillis());
+
+        given()
+                .contentType(ContentType.JSON)
+                .filter(sessionFilter)
+                .cookie("XSRF-TOKEN", xsrfToken)
+                .header("X-XSRF-TOKEN", xsrfToken)
+                .body(item.toString())
+                .log()
+                .all()
+        .when()
+                .post(PANTRY_ITEM_PATH)
+                .prettyPeek()
+        .then()
+                .contentType(ContentType.JSON)
+                .statusCode(200)
+                .body("name", equalTo(item.get("name")))
+                .body("quantity", equalTo(item.get("quantity")))
+                .body("unit", equalTo(item.get("unit")))
+                .body("uuid", notNullValue())
+                .body("createdAt", notNullValue())
+                .body("updatedAt", notNullValue())
+                .body(matchesJsonSchemaInClasspath("json_schemas/pantry/pantry-item-schema.json"));
+
+        List<Product> retrievedProducts = (List<Product>) productRepository.findProductsByEanCode((String) item.get("eanCode"));
+        List<PantryItem> retrievedItems = (List<PantryItem>) itemRepository.findAll();
+        assertThat(retrievedItems.size(), is(equalTo(1)));
+        assertThat(retrievedProducts.size(), is(equalTo(1)));
+        assertThat(retrievedProducts.get(0).getName(), is(equalTo((String) item.get("name"))));
+        assertThat(retrievedProducts.get(0).getUnit().toString(), is(equalTo(item.get("unit"))));
+        assertThat(retrievedProducts.get(0).getEanCode(), is(equalTo((String) item.get("eanCode"))));
+    }
 
   @Test
   public void retrieveAllCreatedItemsTest(){
@@ -99,11 +130,14 @@ public class PantryItemApiTest extends LiveServerTestCase {
     List<PantryItem> items = Arrays.asList(item1,item2);
     itemRepository.saveAll(items);
 
-    RestAssured
-        .given()
-          .contentType(ContentType.JSON)
+    given()
+            .contentType(ContentType.JSON)
+            .filter(sessionFilter)
+            .cookie("XSRF-TOKEN", xsrfToken)
+            .header("X-XSRF-TOKEN", xsrfToken)
         .when()
-          .get("/pantry/item")
+            .get(PANTRY_ITEM_PATH)
+            .prettyPeek()
         .then()
           .statusCode(200)
           .body("get(0).name", is(equalTo(item1.getName())))
@@ -123,31 +157,33 @@ public class PantryItemApiTest extends LiveServerTestCase {
           .body(matchesJsonSchemaInClasspath("json_schemas/pantry/pantry-item-list-schema.json"));
   }
 
-  @Test
-  public void deleteItemByUuidTest(){
-    PantryItem item = new PantryItem(
-        "1234567890123",
-        "Coca Cola 500ml"+ System.currentTimeMillis(),
-        2,
-        PackagingUnit.BOTTLE,
-        new Timestamp(System.currentTimeMillis())
-    );
-    UUID uuid = itemRepository.save(item).getUuid();
+    @Test
+    public void deleteItemByUuidTest() {
+        PantryItem item = new PantryItem(
+                "1234567890123",
+                "Coca Cola 500ml" + System.currentTimeMillis(),
+                2,
+                PackagingUnit.BOTTLE,
+                new Timestamp(System.currentTimeMillis())
+        );
+        UUID uuid = itemRepository.save(item).getUuid();
 
-    RestAssured
-        .given()
-          .contentType(ContentType.JSON)
+        given()
+            .contentType(ContentType.JSON)
+            .filter(sessionFilter)
+            .cookie("XSRF-TOKEN", xsrfToken)
+            .header("X-XSRF-TOKEN", xsrfToken)
         .when()
-          .delete("/pantry/item/" + uuid)
-        .then()
-          .statusCode(200)
-          .body(is(""));
+            .delete("/pantry/item/" + uuid)
+            .then()
+            .statusCode(200)
+            .body(is(""));
 
     assertThat(itemRepository.findAll(), emptyIterableOf(PantryItem.class));
   }
 
   private String getUtcDateTime(Timestamp date){
-    return new DateTime(date).withZone(DateTimeZone.UTC).toString("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+    return new DateTime(date).withZone(DateTimeZone.UTC).toString("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
   }
 
 

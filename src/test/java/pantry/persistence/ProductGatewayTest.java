@@ -5,7 +5,6 @@ import hrp.pantry.enums.PackagingUnit;
 import hrp.pantry.gateways.ProductGateway;
 import hrp.pantry.persistence.entities.Product;
 import hrp.pantry.persistence.repositories.ProductRepository;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Arrays;
 import java.util.List;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -78,7 +78,7 @@ public class ProductGatewayTest extends PersistencyTestCase {
     Product persistedProduct = gateway.createOrUpdateProduct(product);
 
     assertThat(repository.count(), is(equalTo(1L)));
-    Assert.assertTrue(persistedProduct.getUpdatedAt().after(
+    assertTrue(persistedProduct.getUpdatedAt().after(
         persistedProduct.getCreatedAt()
     ));
   }

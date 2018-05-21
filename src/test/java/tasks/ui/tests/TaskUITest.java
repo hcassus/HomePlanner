@@ -1,6 +1,7 @@
 package tasks.ui.tests;
 
 import commons.testcases.LiveServerTestCase;
+import commons.ui.steps.LoginSteps;
 import hrp.tasks.persistence.TaskRepository;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -35,7 +36,8 @@ public class TaskUITest extends LiveServerTestCase {
   @Before
   public void setUp() {
     taskRepository.deleteAll();
-    driver.get("http://localhost:" + localPort);
+    driver.get("http://localhost:" + localPort + "/login");
+    new LoginSteps(driver).performSuccessfulLogin();
   }
 
   @AfterClass

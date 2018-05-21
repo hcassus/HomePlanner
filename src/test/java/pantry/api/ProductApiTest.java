@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.server.LocalServerPort;
 
+import static io.restassured.RestAssured.preemptive;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
@@ -23,9 +24,14 @@ public class ProductApiTest extends LiveServerTestCase{
   @LocalServerPort
   String port;
 
+  private final String VALID_USERNAME = System.getenv("VALID_USERNAME");
+  private final String VALID_PASSWORD = System.getenv("VALID_PASSWORD");
+
   @Before
   public void setUp() {
     RestAssured.baseURI = "http://localhost:" + port;
+    RestAssured.authentication = preemptive().basic(VALID_USERNAME,VALID_PASSWORD);
+
     repository.deleteAll();
   }
 
