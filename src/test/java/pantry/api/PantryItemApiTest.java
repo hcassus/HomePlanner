@@ -1,13 +1,6 @@
 package pantry.api;
 
 
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.emptyIterableOf;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-
 import commons.testcases.LiveServerTestCase;
 import hrp.pantry.enums.PackagingUnit;
 import hrp.pantry.persistence.entities.PantryItem;
@@ -16,16 +9,23 @@ import hrp.pantry.persistence.repositories.PantryItemRepository;
 import hrp.pantry.persistence.repositories.ProductRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import java.sql.Timestamp;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.LocalServerPort;
+import org.springframework.boot.web.server.LocalServerPort;
+
+import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 public class PantryItemApiTest extends LiveServerTestCase {
 
@@ -97,7 +97,7 @@ public class PantryItemApiTest extends LiveServerTestCase {
         new Timestamp(System.currentTimeMillis())
     );
     List<PantryItem> items = Arrays.asList(item1,item2);
-    itemRepository.save(items);
+    itemRepository.saveAll(items);
 
     RestAssured
         .given()
@@ -109,17 +109,17 @@ public class PantryItemApiTest extends LiveServerTestCase {
           .body("get(0).name", is(equalTo(item1.getName())))
           .body("get(0).quantity", equalTo(item1.getQuantity()))
           .body("get(0).unit", equalTo(item1.getUnit().toString()))
-          .body("get(0).updatedAt", equalTo(item1.getExpiresAt().getTime()))
+          .body("get(0).updatedAt", equalTo(getUtcDateTime(item1.getExpiresAt())))
           .body("get(0).uuid", notNullValue())
-          .body("get(0).createdAt", equalTo(item1.getCreatedAt().getTime()))
-          .body("get(0).updatedAt", equalTo(item1.getUpdatedAt().getTime()))
+          .body("get(0).createdAt", equalTo(getUtcDateTime(item1.getCreatedAt())))
+          .body("get(0).updatedAt", equalTo(getUtcDateTime(item1.getUpdatedAt())))
           .body("get(1).name", is(equalTo(item2.getName())))
           .body("get(1).quantity", equalTo(item2.getQuantity()))
-          .body("get(1).expiresAt", equalTo(item2.getExpiresAt().getTime()))
+          .body("get(1).expiresAt", equalTo(getUtcDateTime(item2.getExpiresAt())))
           .body("get(1).unit", equalTo(item2.getUnit().toString()))
           .body("get(1).uuid", notNullValue())
-          .body("get(1).createdAt", equalTo(item2.getCreatedAt().getTime()))
-          .body("get(1).updatedAt", equalTo(item2.getUpdatedAt().getTime()))
+          .body("get(1).createdAt", equalTo(getUtcDateTime(item2.getCreatedAt())))
+          .body("get(1).updatedAt", equalTo(getUtcDateTime(item2.getUpdatedAt())))
           .body(matchesJsonSchemaInClasspath("json_schemas/pantry/pantry-item-list-schema.json"));
   }
 
@@ -145,4 +145,11 @@ public class PantryItemApiTest extends LiveServerTestCase {
 
     assertThat(itemRepository.findAll(), emptyIterableOf(PantryItem.class));
   }
+
+  private String getUtcDateTime(Timestamp date){
+    return new DateTime(date).withZone(DateTimeZone.UTC).toString("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+  }
+
+
 }
+

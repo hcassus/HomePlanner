@@ -8,7 +8,8 @@
     },
     "createdAt": {
       "id": "http://hrp/product.json/createdAt",
-      "type": "integer"
+      "type": "string",
+      "format": "date-time"
     },
     "eanCode": {
       "id": "http://hrp/product.json/eanCode",
@@ -30,7 +31,8 @@
     },
     "updatedAt": {
       "id": "http://hrp/product.json/updatedAt",
-      "type": "integer"
+      "type": "string",
+      "format": "date-time"
     }
   },
   "type": "object"

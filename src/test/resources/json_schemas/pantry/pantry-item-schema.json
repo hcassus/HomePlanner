@@ -5,7 +5,8 @@
   "properties": {
     "createdAt": {
       "id": "http://hrp/pantry-item.json/createdAt",
-      "type": "integer"
+      "type": "string",
+      "format": "date-time"
     },
     "eanCode": {
       "id": "http://hrp/pantry-item.json/eanCode",
@@ -13,7 +14,8 @@
     },
     "expiresAt": {
       "id": "http://hrp/pantry-item.json/expiresAt",
-      "type": "integer"
+      "type": "string",
+      "format": "date-time"
     },
     "name": {
       "id": "http://hrp/pantry-item.json/name",
@@ -35,7 +37,8 @@
     },
     "updatedAt": {
       "id": "http://hrp/pantry-item.json/updatedAt",
-      "type": "integer"
+      "type": "string",
+      "format": "date-time"
     },
     "uuid": {
       "id": "http://hrp/pantry-item.json/uuid",
