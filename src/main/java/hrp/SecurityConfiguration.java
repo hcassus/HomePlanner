@@ -20,7 +20,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private DataSource dataSource;
 
     @Autowired
-    private PasswordEncoder bcryptEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -47,10 +47,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth
             .jdbcAuthentication()
             .dataSource(dataSource)
-            .passwordEncoder(bcryptEncoder)
+            .passwordEncoder(passwordEncoder)
         .and()
             .inMemoryAuthentication()
-            .passwordEncoder(bcryptEncoder)
-            .withUser("admin").password("$2a$06$JxXYHpom5del8nh4c9wF1uUBwVnc1P/sBHGxf/d.20fhn3vtUcFmS").roles("ADMIN");
+            .passwordEncoder(passwordEncoder)
+            .withUser("admin").password("$2a$12$dSN94nIS5Pru0ZiqldTx8ODqw.YoTpt1St.EstO3PftvXuHD/W1OG").roles("ADMIN");
     }
 }
