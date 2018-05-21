@@ -8,6 +8,7 @@ import hrp.pantry.persistence.entities.Product;
 import hrp.pantry.persistence.repositories.PantryItemRepository;
 import hrp.pantry.persistence.repositories.ProductRepository;
 import io.restassured.RestAssured;
+import io.restassured.filter.session.SessionFilter;
 import io.restassured.http.ContentType;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -16,7 +17,7 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.LocalServerPort;
+import org.springframework.boot.web.server.LocalServerPort;
 
 import java.sql.Timestamp;
 import java.util.Arrays;
@@ -24,12 +25,13 @@ import java.util.List;
 import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.preemptive;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 public class PantryItemApiTest extends LiveServerTestCase {
+
+    private static final String PANTRY_ITEM_PATH = "/pantry/item";
 
     @LocalServerPort
     String port;
@@ -40,10 +42,30 @@ public class PantryItemApiTest extends LiveServerTestCase {
     @Autowired
     ProductRepository productRepository;
 
+    private final String VALID_USERNAME = System.getenv("VALID_USERNAME");
+    private final String VALID_PASSWORD = System.getenv("VALID_PASSWORD");
+
+    private SessionFilter sessionFilter;
+    private String xsrfToken;
+
     @Before
     public void setUp() {
         RestAssured.baseURI = "http://localhost:" + port;
-        RestAssured.authentication = preemptive().basic("admin","123123");
+
+        sessionFilter = new SessionFilter();
+
+        xsrfToken = given()
+                .auth()
+                    .basic(VALID_USERNAME,VALID_PASSWORD)
+                .filter(sessionFilter)
+                .log()
+                    .all()
+        .when()
+                .get(PANTRY_ITEM_PATH)
+                .prettyPeek()
+        .then()
+                .extract()
+                    .cookie("XSRF-TOKEN");
 
         itemRepository.deleteAll();
         productRepository.deleteAll();
@@ -60,9 +82,15 @@ public class PantryItemApiTest extends LiveServerTestCase {
 
         given()
                 .contentType(ContentType.JSON)
+                .filter(sessionFilter)
+                .cookie("XSRF-TOKEN", xsrfToken)
+                .header("X-XSRF-TOKEN", xsrfToken)
                 .body(item.toString())
+                .log()
+                .all()
         .when()
-                .post("/pantry/item")
+                .post(PANTRY_ITEM_PATH)
+                .prettyPeek()
         .then()
                 .contentType(ContentType.JSON)
                 .statusCode(200)
@@ -100,12 +128,15 @@ public class PantryItemApiTest extends LiveServerTestCase {
         new Timestamp(System.currentTimeMillis())
     );
     List<PantryItem> items = Arrays.asList(item1,item2);
-    itemRepository.save(items);
+    itemRepository.saveAll(items);
 
     given()
-          .contentType(ContentType.JSON)
+            .contentType(ContentType.JSON)
+            .filter(sessionFilter)
+            .cookie("XSRF-TOKEN", xsrfToken)
+            .header("X-XSRF-TOKEN", xsrfToken)
         .when()
-            .get("/pantry/item")
+            .get(PANTRY_ITEM_PATH)
             .prettyPeek()
         .then()
           .statusCode(200)
@@ -138,18 +169,21 @@ public class PantryItemApiTest extends LiveServerTestCase {
         UUID uuid = itemRepository.save(item).getUuid();
 
         given()
-                .contentType(ContentType.JSON)
-                .when()
-                .delete("/pantry/item/" + uuid)
-                .then()
-                .statusCode(200)
-                .body(is(""));
+            .contentType(ContentType.JSON)
+            .filter(sessionFilter)
+            .cookie("XSRF-TOKEN", xsrfToken)
+            .header("X-XSRF-TOKEN", xsrfToken)
+        .when()
+            .delete("/pantry/item/" + uuid)
+            .then()
+            .statusCode(200)
+            .body(is(""));
 
     assertThat(itemRepository.findAll(), emptyIterableOf(PantryItem.class));
   }
 
   private String getUtcDateTime(Timestamp date){
-    return new DateTime(date).withZone(DateTimeZone.UTC).toString("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+    return new DateTime(date).withZone(DateTimeZone.UTC).toString("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
   }
 
 

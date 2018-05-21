@@ -4,17 +4,18 @@ import commons.testcases.LiveServerTestCase;
 import hrp.tasks.persistence.Task;
 import hrp.tasks.persistence.TaskRepository;
 import io.restassured.RestAssured;
+import io.restassured.filter.session.SessionFilter;
 import io.restassured.http.ContentType;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.LocalServerPort;
+import org.springframework.boot.web.server.LocalServerPort;
 
 import java.sql.Timestamp;
 
-import static io.restassured.RestAssured.preemptive;
+import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -24,19 +25,38 @@ public class TasksApiTest extends LiveServerTestCase{
   private static final int INCOMPLETE_STATUS = 0;
   private static final int COMPLETE_STATUS = 1;
   private static final int HTTP_OK = 200;
+  public static final String TASK_PATH = "/task";
 
   @Autowired
   TaskRepository repository;
 
   @LocalServerPort
   String port;
+  private SessionFilter sessionFilter;
+  private String xsrfToken;
 
+  private final String VALID_USERNAME = System.getenv("VALID_USERNAME");
+  private final String VALID_PASSWORD = System.getenv("VALID_PASSWORD");
 
 
   @Before
   public void setUp(){
     RestAssured.baseURI = "http://localhost:" + port;
-    RestAssured.authentication = preemptive().basic("admin","123123");
+
+    sessionFilter = new SessionFilter();
+
+    xsrfToken = given()
+                  .auth()
+                    .basic(VALID_USERNAME,VALID_PASSWORD)
+                  .filter(sessionFilter)
+                  .log()
+                    .all()
+                .when()
+                  .get(TASK_PATH)
+                  .prettyPeek()
+                .then()
+                  .extract()
+                  .cookie("XSRF-TOKEN");
 
     repository.deleteAll();
   }
@@ -49,9 +69,12 @@ public class TasksApiTest extends LiveServerTestCase{
     RestAssured
         .given()
           .contentType(ContentType.JSON)
+          .filter(sessionFilter)
+          .cookie("XSRF-TOKEN", xsrfToken)
+          .header("X-XSRF-TOKEN", xsrfToken)
           .body(task.toString())
         .when()
-          .post("/task")
+          .post(TASK_PATH)
         .then()
           .statusCode(HTTP_OK)
           .body("status", is(equalTo(INCOMPLETE_STATUS)))
@@ -72,8 +95,11 @@ public class TasksApiTest extends LiveServerTestCase{
     RestAssured
         .given()
           .contentType(ContentType.JSON)
+          .filter(sessionFilter)
+          .cookie("XSRF-TOKEN", xsrfToken)
+          .header("X-XSRF-TOKEN", xsrfToken)
         .when()
-          .get("/task")
+          .get(TASK_PATH)
         .then()
           .statusCode(HTTP_OK)
           .body("get(0).description", is(equalTo(task.getDescription())))
@@ -96,6 +122,9 @@ public class TasksApiTest extends LiveServerTestCase{
     RestAssured
         .given()
           .contentType(ContentType.JSON)
+          .filter(sessionFilter)
+          .cookie("XSRF-TOKEN", xsrfToken)
+          .header("X-XSRF-TOKEN", xsrfToken)
         .when()
           .delete("/task/" + task.getUuid())
         .then()
@@ -117,6 +146,9 @@ public class TasksApiTest extends LiveServerTestCase{
     RestAssured
         .given()
           .contentType(ContentType.JSON)
+          .filter(sessionFilter)
+          .cookie("XSRF-TOKEN", xsrfToken)
+          .header("X-XSRF-TOKEN", xsrfToken)
           .body(taskPatch.toString())
         .when()
           .patch("/task/" + task.getUuid())
@@ -146,6 +178,9 @@ public class TasksApiTest extends LiveServerTestCase{
     RestAssured
         .given()
           .contentType(ContentType.JSON)
+          .filter(sessionFilter)
+          .cookie("XSRF-TOKEN", xsrfToken)
+          .header("X-XSRF-TOKEN", xsrfToken)
           .body(taskPatch.toString())
         .when()
           .patch("/task/" + task.getUuid())
