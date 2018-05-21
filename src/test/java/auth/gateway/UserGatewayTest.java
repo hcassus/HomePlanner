@@ -7,6 +7,7 @@ import hrp.auth.persistence.entities.User;
 import hrp.auth.persistence.repositories.AuthorityRepository;
 import hrp.auth.persistence.repositories.UserRepository;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,6 +24,12 @@ public class UserGatewayTest extends PersistencyTestCase {
 
     @Autowired
     UserRepository userRepository;
+
+    @Before
+    public void setup(){
+        userRepository.deleteAll();
+        authorityRepository.deleteAll();
+    }
 
     @Test
     public void testCreateUser() {

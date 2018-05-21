@@ -34,6 +34,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
         .and()
             .authorizeRequests()
+                .antMatchers("/user").hasAuthority("ADMIN")
                 .anyRequest()
                 .authenticated()
         .and()
@@ -51,6 +52,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and()
             .inMemoryAuthentication()
             .passwordEncoder(passwordEncoder)
-            .withUser("admin").password("$2a$12$dSN94nIS5Pru0ZiqldTx8ODqw.YoTpt1St.EstO3PftvXuHD/W1OG").roles("ADMIN");
+            .withUser("admin").password("$2a$12$dSN94nIS5Pru0ZiqldTx8ODqw.YoTpt1St.EstO3PftvXuHD/W1OG").authorities("ADMIN");
     }
+
+
+
 }

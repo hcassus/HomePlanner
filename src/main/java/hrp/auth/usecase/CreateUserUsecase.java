@@ -21,6 +21,7 @@ public class CreateUserUsecase {
 
     public User execute(User user){
         user.setPassword(encoder.encode(user.getPassword()));
+        user.setEnabled(true);
         return gateway.createUser(user);
     }
 }
