@@ -1,24 +1,23 @@
 package pantry.ui.pages;
 
-import static org.openqa.selenium.support.ui.ExpectedConditions.attributeToBe;
-import static org.openqa.selenium.support.ui.ExpectedConditions.not;
-
 import commons.ui.pages.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Component;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.attributeToBe;
+import static org.openqa.selenium.support.ui.ExpectedConditions.not;
+
 @Component
 public class PantryItemPage extends BasePage{
 
-  public static final String DESCRIPTION_INPUT_LOCATOR = "inpt-description";
-  public static final String ITEM_DESCRIPTION_TEXT_LOCATOR = "item-description";
+  private static final String DESCRIPTION_INPUT_LOCATOR = "inpt-description";
+  private static final String ITEM_DESCRIPTION_TEXT_LOCATOR = "item-description";
   @FindBy(id = DESCRIPTION_INPUT_LOCATOR)
   private WebElement descriptionInput;
 

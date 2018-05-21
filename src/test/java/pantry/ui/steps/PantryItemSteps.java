@@ -1,22 +1,22 @@
 package pantry.ui.steps;
 
+import hrp.pantry.persistence.entities.Product;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.stereotype.Component;
+import pantry.ui.pages.PantryItemPage;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.stereotype.Component;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import hrp.pantry.persistence.entities.Product;
-import pantry.ui.pages.PantryItemPage;
-
 @Component
 public class PantryItemSteps {
 
-  PantryItemPage itemPage;
+  private PantryItemPage itemPage;
 
   private String description;
   private String quantity;

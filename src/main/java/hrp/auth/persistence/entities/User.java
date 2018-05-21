@@ -22,6 +22,12 @@ public class User {
         this.enabled = true;
     }
 
+    public User(){}
+
+    public Long getId(){
+        return id;
+    }
+
     public String getPassword() {
         return password;
     }

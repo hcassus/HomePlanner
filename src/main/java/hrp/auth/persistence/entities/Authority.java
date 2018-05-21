@@ -19,4 +19,13 @@ public class Authority {
         this.authority = "USER";
     }
 
+    public Authority(){}
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getAuthority() {
+        return authority;
+    }
 }

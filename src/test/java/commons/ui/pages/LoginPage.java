@@ -7,10 +7,10 @@ import org.openqa.selenium.support.FindBy;
 public class LoginPage extends BasePage {
 
     @FindBy(name = "username")
-    WebElement userField;
+    private WebElement userField;
 
     @FindBy(name = "password")
-    WebElement passwordField;
+    private WebElement passwordField;
 
     @FindBy(name = "submit")
     private WebElement submitButton;

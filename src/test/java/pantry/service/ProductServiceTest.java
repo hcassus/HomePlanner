@@ -23,10 +23,10 @@ import static org.mockito.Mockito.*;
 public class ProductServiceTest {
 
   @InjectMocks
-  ProductService service;
+  private ProductService service;
 
   @Mock
-  ProductGateway gatewayMock;
+  private ProductGateway gatewayMock;
 
   @Rule
   public MockitoRule mockitoRule = MockitoJUnit.rule();
@@ -35,7 +35,7 @@ public class ProductServiceTest {
   public void createNonExistingItemTest(){
     Product product = new Product("1234567890123", "Coca Cola 2L", PackagingUnit.BOTTLE);
     ArgumentCaptor<Product> captor = ArgumentCaptor.forClass(Product.class);
-    when(gatewayMock.retrieveProductsByEan(product.getEanCode())).thenReturn(new ArrayList<Product>());
+    when(gatewayMock.retrieveProductsByEan(product.getEanCode())).thenReturn(new ArrayList<>());
 
     service.insertUniqueProduct(product);
 

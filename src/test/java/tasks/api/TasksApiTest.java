@@ -25,7 +25,7 @@ public class TasksApiTest extends LiveServerTestCase{
   private static final int INCOMPLETE_STATUS = 0;
   private static final int COMPLETE_STATUS = 1;
   private static final int HTTP_OK = 200;
-  public static final String TASK_PATH = "/task";
+  private static final String TASK_PATH = "/task";
 
   @Autowired
   TaskRepository repository;

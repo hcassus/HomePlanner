@@ -1,4 +1,4 @@
-package hrp.auth.services;
+package hrp.auth.usecase;
 
 import hrp.auth.persistence.entities.User;
 import hrp.auth.gateways.UserGateway;
@@ -8,18 +8,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserService {
+public class CreateUserUsecase {
 
-    UserGateway gateway;
-    PasswordEncoder encoder;
+    private UserGateway gateway;
+    private PasswordEncoder encoder;
 
     @Autowired
-    public UserService(UserGateway gateway){
-    this.gateway = gateway;
-    this.encoder = new BCryptPasswordEncoder();
+    public CreateUserUsecase(UserGateway gateway){
+        this.gateway = gateway;
+        this.encoder = new BCryptPasswordEncoder();
     }
 
-    public User createUser(User user){
+    public User execute(User user){
         user.setPassword(encoder.encode(user.getPassword()));
         return gateway.createUser(user);
     }
