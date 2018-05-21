@@ -2,9 +2,9 @@
 
 Simple software to Manage home.
 
-[![CircleCI](https://circleci.com/gh/hcassus/TaskList.svg?style=svg)](https://circleci.com/gh/hcassus/TaskList)
+[![CircleCI](https://circleci.com/gh/hcassus/HomePlanner.svg?style=svg)](https://circleci.com/gh/hcassus/HomePlanner)
 
-[![Codecov](https://codecov.io/gh/hcassus/TaskList/branch/master/graph/badge.svg)](https://codecov.io/gh/hcassus/TaskList)
+[![Codecov](https://codecov.io/gh/hcassus/HomePlanner/branch/master/graph/badge.svg)](https://codecov.io/gh/hcassus/HomePlanner)
 
 
 # How to start
