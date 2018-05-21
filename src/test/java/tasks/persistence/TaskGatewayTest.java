@@ -1,12 +1,9 @@
 package tasks.persistence;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.emptyIterableOf;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.samePropertyValuesAs;
-import static org.junit.Assert.assertTrue;
-
+import commons.testcases.PersistencyTestCase;
+import hrp.tasks.gateways.TaskGatewaySpring;
+import hrp.tasks.persistence.Task;
+import hrp.tasks.persistence.TaskRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import commons.testcases.PersistencyTestCase;
-import hrp.tasks.gateways.TaskGatewaySpring;
-import hrp.tasks.persistence.Task;
-import hrp.tasks.persistence.TaskRepository;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertTrue;
 
 public class TaskGatewayTest extends PersistencyTestCase {
 
@@ -48,7 +45,7 @@ public class TaskGatewayTest extends PersistencyTestCase {
   public void retrieveTasksTest(){
     Task task = new Task("Task " + System.currentTimeMillis());
     Task task2 = new Task("Task2 " + System.currentTimeMillis());
-    repository.save(Arrays.asList(task, task2));
+    repository.saveAll(Arrays.asList(task, task2));
 
     List<Task> persistedTasks = (List<Task>) gateway.getAllTasks();
 

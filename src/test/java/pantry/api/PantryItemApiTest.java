@@ -1,13 +1,6 @@
 package pantry.api;
 
 
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.emptyIterableOf;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-
 import commons.testcases.LiveServerTestCase;
 import hrp.pantry.enums.PackagingUnit;
 import hrp.pantry.persistence.entities.PantryItem;
@@ -16,16 +9,21 @@ import hrp.pantry.persistence.repositories.PantryItemRepository;
 import hrp.pantry.persistence.repositories.ProductRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import java.sql.Timestamp;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.LocalServerPort;
+import org.springframework.boot.web.server.LocalServerPort;
+
+import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 public class PantryItemApiTest extends LiveServerTestCase {
 
@@ -97,7 +95,7 @@ public class PantryItemApiTest extends LiveServerTestCase {
         new Timestamp(System.currentTimeMillis())
     );
     List<PantryItem> items = Arrays.asList(item1,item2);
-    itemRepository.save(items);
+    itemRepository.saveAll(items);
 
     RestAssured
         .given()
