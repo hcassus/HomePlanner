@@ -1,12 +1,9 @@
 package hrp.pantry.persistence.entities;
 
-import java.sql.Timestamp;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.PreUpdate;
 import hrp.pantry.enums.PackagingUnit;
+
+import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 public class Product {

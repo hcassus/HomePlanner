@@ -1,22 +1,21 @@
 package pantry.persistence;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.emptyIterableOf;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.samePropertyValuesAs;
-
 import commons.testcases.PersistencyTestCase;
 import hrp.pantry.enums.PackagingUnit;
 import hrp.pantry.gateways.PantryItemGateway;
 import hrp.pantry.persistence.entities.PantryItem;
 import hrp.pantry.persistence.repositories.PantryItemRepository;
-import java.sql.Timestamp;
-import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.sql.Timestamp;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 public class PantryItemGatewayTest extends PersistencyTestCase{
 
