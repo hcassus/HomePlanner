@@ -1,20 +1,15 @@
 package hrp.pantry.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import hrp.pantry.gateways.ProductGateway;
 import hrp.pantry.persistence.entities.Product;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
 
-  ProductGateway gateway;
-
-  @Autowired
-  public ProductService(ProductGateway gateway) {
-    this.gateway = gateway;
-  }
+  private final ProductGateway gateway;
 
   public Product insertUniqueProduct(Product product) {
     Iterable<Product> products = gateway.retrieveProductsByEan(product.getEanCode());

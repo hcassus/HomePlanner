@@ -1,24 +1,17 @@
 package hrp.tasks.controllers;
 
-import java.util.UUID;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 import hrp.tasks.gateways.TaskGatewaySpring;
 import hrp.tasks.persistence.Task;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
+@RequiredArgsConstructor
 public class TaskController {
 
-  private TaskGatewaySpring taskGateway;
-
-  @Autowired
-  public TaskController(TaskGatewaySpring taskGateway) {
-    this.taskGateway = taskGateway;
-  }
+  private final TaskGatewaySpring taskGateway;
 
   @RequestMapping(value = "/task", method = RequestMethod.GET)
   public Iterable<Task> getTasks() {
