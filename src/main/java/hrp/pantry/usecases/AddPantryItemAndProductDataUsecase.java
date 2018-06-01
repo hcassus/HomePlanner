@@ -3,7 +3,6 @@ package hrp.pantry.usecases;
 import hrp.pantry.gateways.PantryItemGateway;
 import hrp.pantry.persistence.entities.PantryItem;
 import hrp.pantry.persistence.entities.Product;
-import hrp.pantry.services.CreateUniqueProductUsecase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
