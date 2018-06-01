@@ -4,20 +4,15 @@ import hrp.pantry.gateways.PantryItemGateway;
 import hrp.pantry.persistence.entities.PantryItem;
 import hrp.pantry.persistence.entities.Product;
 import hrp.pantry.services.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class AddPantryItemAndProductDataUsecase {
 
-  ProductService productService;
-  PantryItemGateway itemGateway;
-
-  @Autowired
-  public AddPantryItemAndProductDataUsecase(ProductService productService, PantryItemGateway itemGateway){
-    this.productService = productService;
-    this.itemGateway = itemGateway;
-  }
+  private final ProductService productService;
+  private final PantryItemGateway itemGateway;
 
   public PantryItem execute(PantryItem item){
     if(item.getEanCode() != null){

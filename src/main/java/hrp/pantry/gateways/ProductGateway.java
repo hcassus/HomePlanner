@@ -1,16 +1,15 @@
 package hrp.pantry.gateways;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
 import hrp.pantry.persistence.entities.Product;
 import hrp.pantry.persistence.repositories.ProductRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 @Repository
+@RequiredArgsConstructor
 public class ProductGateway {
 
-  @Autowired
-  ProductRepository repository;
+  private final ProductRepository repository;
 
   public Product createOrUpdateProduct(Product product) {
     return repository.save(product);

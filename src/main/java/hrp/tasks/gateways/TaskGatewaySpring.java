@@ -1,21 +1,17 @@
 package hrp.tasks.gateways;
 
-import java.util.UUID;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import hrp.tasks.persistence.Task;
 import hrp.tasks.persistence.TaskRepository;
+import java.util.UUID;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 @Repository
+@AllArgsConstructor
 public class TaskGatewaySpring {
 
 
-  private TaskRepository repository;
-
-  @Autowired
-  public TaskGatewaySpring(TaskRepository repository) {
-    this.repository = repository;
-  }
+  private final TaskRepository repository;
 
   public Iterable<Task> getAllTasks() {
     return repository.findAll();
