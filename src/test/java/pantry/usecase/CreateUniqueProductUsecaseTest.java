@@ -1,9 +1,18 @@
-package pantry.service;
+package pantry.usecase;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import hrp.pantry.enums.PackagingUnit;
 import hrp.pantry.gateways.ProductGateway;
 import hrp.pantry.persistence.entities.Product;
-import hrp.pantry.services.ProductService;
+import hrp.pantry.services.CreateUniqueProductUsecase;
+import java.util.ArrayList;
+import java.util.Arrays;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -12,18 +21,10 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.*;
-
-public class ProductServiceTest {
+public class CreateUniqueProductUsecaseTest {
 
   @InjectMocks
-  private ProductService service;
+  private CreateUniqueProductUsecase createUniqueProductUsecase;
 
   @Mock
   private ProductGateway gatewayMock;
@@ -37,7 +38,7 @@ public class ProductServiceTest {
     ArgumentCaptor<Product> captor = ArgumentCaptor.forClass(Product.class);
     when(gatewayMock.retrieveProductsByEan(product.getEanCode())).thenReturn(new ArrayList<>());
 
-    service.insertUniqueProduct(product);
+    createUniqueProductUsecase.execute(product);
 
     verify(gatewayMock, times(1)).createOrUpdateProduct(captor.capture());
     assertThat(captor.getValue().getCount(), is(equalTo(1L)));
@@ -49,7 +50,7 @@ public class ProductServiceTest {
     when(gatewayMock.retrieveProductsByEan(product.getEanCode())).thenReturn(Arrays.asList(product));
     ArgumentCaptor<Product> captor = ArgumentCaptor.forClass(Product.class);
 
-    service.insertUniqueProduct(product);
+    createUniqueProductUsecase.execute(product);
 
     verify(gatewayMock, times(1)).createOrUpdateProduct(captor.capture());
     assertThat(captor.getValue().getCount(), is(equalTo(2L)));
@@ -62,7 +63,7 @@ public class ProductServiceTest {
     Product product2 = new Product("1234567890123", "Fanta 2L", PackagingUnit.BOTTLE);
     ArgumentCaptor<Product> captor = ArgumentCaptor.forClass(Product.class);
 
-    service.insertUniqueProduct(product2);
+    createUniqueProductUsecase.execute(product2);
 
     verify(gatewayMock, times(1)).createOrUpdateProduct(captor.capture());
     assertThat(captor.getValue().getName(), is(equalTo(product2.getName())));
@@ -76,7 +77,7 @@ public class ProductServiceTest {
     Product product2 = new Product("1234567890123", "Coca Cola 2L", PackagingUnit.UNIT);
     ArgumentCaptor<Product> captor = ArgumentCaptor.forClass(Product.class);
 
-    service.insertUniqueProduct(product2);
+    createUniqueProductUsecase.execute(product2);
 
     verify(gatewayMock, times(1)).createOrUpdateProduct(captor.capture());
     assertThat(captor.getValue().getUnit(), is(equalTo(product2.getUnit())));
@@ -90,7 +91,7 @@ public class ProductServiceTest {
     Product product2 = new Product("1234567890123", "coca cola 2l", PackagingUnit.BOTTLE);
     ArgumentCaptor<Product> captor = ArgumentCaptor.forClass(Product.class);
 
-    service.insertUniqueProduct(product2);
+    createUniqueProductUsecase.execute(product2);
 
     verify(gatewayMock, times(1)).createOrUpdateProduct(captor.capture());
     assertThat(captor.getValue().getName(), is(equalTo(product.getName())));
@@ -104,19 +105,12 @@ public class ProductServiceTest {
     Product product2 = new Product("1234567890123", "C o c aC o l a2 L", PackagingUnit.BOTTLE);
     ArgumentCaptor<Product> captor = ArgumentCaptor.forClass(Product.class);
 
-    service.insertUniqueProduct(product2);
+    createUniqueProductUsecase.execute(product2);
 
     verify(gatewayMock, times(1)).createOrUpdateProduct(captor.capture());
     assertThat(captor.getValue().getName(), is(equalTo(product.getName())));
     assertThat(captor.getValue().getCount(), is(equalTo(2L)));
   }
 
-  @Test
-  public void returnSingleProductDataTest(){
-    String eanCode = "1234567890123";
 
-    service.retrieveItemDataByEan(eanCode);
-
-    verify(gatewayMock, times(1)).retrieveHighestCountProductByEanCode(eanCode);
-  }
 }

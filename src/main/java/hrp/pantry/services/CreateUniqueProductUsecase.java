@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ProductService {
+public class CreateUniqueProductUsecase {
 
   private final ProductGateway gateway;
 
-  public Product insertUniqueProduct(Product product) {
+  public Product execute(Product product) {
     Iterable<Product> products = gateway.retrieveProductsByEan(product.getEanCode());
 
     for (Product retrievedProduct : products
@@ -33,10 +33,6 @@ public class ProductService {
 
   private String getNormalizedName(Product product) {
     return product.getName().replace(" ", "").toLowerCase();
-  }
-
-  public Product retrieveItemDataByEan(String eanCode) {
-    return gateway.retrieveHighestCountProductByEanCode(eanCode);
   }
 
 }

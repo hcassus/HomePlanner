@@ -1,7 +1,7 @@
 package hrp.pantry.controllers;
 
 import hrp.pantry.persistence.entities.Product;
-import hrp.pantry.services.ProductService;
+import hrp.pantry.usecases.RetrieveTopProductByEanUsecase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ProductController {
 
-  private final ProductService service;
+  private final RetrieveTopProductByEanUsecase retrieveProductByEanUsecase;
 
   @RequestMapping(path = "/{eanCode}", method = RequestMethod.GET)
   public Product retrieveProductData(@PathVariable String eanCode){
-    return service.retrieveItemDataByEan(eanCode);
+    return retrieveProductByEanUsecase.execute(eanCode);
   }
 
 }

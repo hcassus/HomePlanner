@@ -9,7 +9,7 @@
     <properties>
         <spring.boot.version>2.0.2.RELEASE</spring.boot.version>
         <java.version>1.8</java.version>
-        <excludes/>
+        <test-exclusions/>
     </properties>
 
     <dependencies>
@@ -108,7 +108,7 @@
             </executions>
             <configuration>
               <excludes>
-                <exclude>${excludes}</exclude>
+                <exclude>${test-exclusions}</exclude>
               </excludes>
             </configuration>
           </plugin>
