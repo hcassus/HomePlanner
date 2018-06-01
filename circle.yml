@@ -17,7 +17,7 @@ deployment:
 
 test:
   override:
-    - "mvn -B test cobertura:cobertura surefire-report:report -Dexcludes=**/api/*,**/ui/tests/*"
+    - "mvn -B test cobertura:cobertura surefire-report:report -Dtest-exclusions=**/api/*,**/ui/tests/*"
     - "mvn -B test surefire-report:report -Dtest=**/api/*,**/ui/tests/*"
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/

@@ -3,7 +3,7 @@ package hrp.pantry.usecases;
 import hrp.pantry.gateways.PantryItemGateway;
 import hrp.pantry.persistence.entities.PantryItem;
 import hrp.pantry.persistence.entities.Product;
-import hrp.pantry.services.ProductService;
+import hrp.pantry.services.CreateUniqueProductUsecase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class AddPantryItemAndProductDataUsecase {
 
-  private final ProductService productService;
+  private final CreateUniqueProductUsecase createUniqueProductUsecase;
   private final PantryItemGateway itemGateway;
 
   public PantryItem execute(PantryItem item){
     if(item.getEanCode() != null){
       Product product = new Product(item.getEanCode(), item.getName(), item.getUnit());
-      productService.insertUniqueProduct(product);
+      createUniqueProductUsecase.execute(product);
     }
     return itemGateway.createOrUpdatePantryItem(item);
   }
