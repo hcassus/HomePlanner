@@ -1,9 +1,11 @@
 package hrp.auth.persistence.entities;
 
 import javax.persistence.*;
+import lombok.Data;
 
 @Entity
 @Table(name = "authorities")
+@Data
 public class Authority {
 
     @Id
@@ -20,12 +22,4 @@ public class Authority {
     }
 
     public Authority(){}
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getAuthority() {
-        return authority;
-    }
 }

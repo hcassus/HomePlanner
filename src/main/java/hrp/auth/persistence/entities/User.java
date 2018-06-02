@@ -1,9 +1,11 @@
 package hrp.auth.persistence.entities;
 
 import javax.persistence.*;
+import lombok.Data;
 
 @Entity
 @Table(name = "users")
+@Data
 public class User {
 
     @Id
@@ -23,24 +25,4 @@ public class User {
     }
 
     public User(){}
-
-    public Long getId(){
-        return id;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
 }

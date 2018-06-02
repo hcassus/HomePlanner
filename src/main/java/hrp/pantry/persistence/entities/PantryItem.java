@@ -5,8 +5,10 @@ import hrp.pantry.enums.PackagingUnit;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.UUID;
+import lombok.Data;
 
 @Entity
+@Data
 public class PantryItem {
 
   @Id
@@ -55,42 +57,5 @@ public class PantryItem {
     this.uuid = UUID.randomUUID();
     this.createdAt = new Timestamp(System.currentTimeMillis());
     this.updatedAt = new Timestamp(System.currentTimeMillis());
-  }
-
-
-  public UUID getUuid() {
-    return uuid;
-  }
-
-  public PackagingUnit getUnit() {
-    return unit;
-  }
-
-  public Integer getQuantity() {
-    return quantity;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public Timestamp getCreatedAt(){
-    return createdAt;
-  }
-
-  public Timestamp getExpiresAt(){
-    return expiresAt;
-  }
-
-  public void setQuantity(int quantity) {
-    this.quantity = quantity;
-  }
-
-  public String getEanCode() {
-    return eanCode;
-  }
-
-  public Timestamp getUpdatedAt() {
-    return updatedAt;
   }
 }
