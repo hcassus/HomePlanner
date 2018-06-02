@@ -1,0 +1,161 @@
+defaults: &defaults
+  working_directory: ~/hcassus/HomePlanner
+  parallelism: 1
+  shell: /bin/bash --login
+  environment:
+    CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+    CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+  docker:
+  - image: circleci/build-image:ubuntu-14.04-XXL-upstart-1189-5614f37
+    command: /sbin/init
+
+version: 2
+
+jobs:
+  build:
+    <<: *defaults
+    steps:
+    - checkout
+    - run:
+        working_directory: ~/hcassus/HomePlanner
+        command: sudo update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java; sudo update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac; echo -e "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $BASH_ENV
+    - restore_cache:
+        keys:
+        - v1-dep-{{ .Branch }}-
+        - v1-dep-master-
+        - v1-dep-
+    - run: mvn dependency:go-offline || true
+    - save_cache:
+        key: v1-dep-{{ .Branch }}-{{ epoch }}
+        paths:
+        - ~/.m2
+  api_tests:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
+      - run:
+          working_directory: ~/hcassus/HomePlanner
+          command: sudo update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java; sudo update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac; echo -e "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $BASH_ENV
+      - run:
+          working_directory: ~/hcassus/HomePlanner
+          command: 'sudo service postgresql status || sudo service postgresql start; '
+      - restore_cache:
+          keys:
+          - v1-dep-{{ .Branch }}-
+          - v1-dep-master-
+          - v1-dep-
+      - run: mvn dependency:go-offline || true
+      - save_cache:
+          key: v1-dep-{{ .Branch }}-{{ epoch }}
+          paths:
+          - ~/.m2
+      - run: createdb hrp
+      - run: mvn -B test surefire-report:report -Dtest=**/api/*
+      - run: mkdir -p $CIRCLE_TEST_REPORTS/junit/
+      - run: mkdir -p $CIRCLE_TEST_REPORTS/junit/html_reports
+      - run: find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+      - run: cp -R ./target/site $CIRCLE_TEST_REPORTS/junit/html_reports
+      - store_test_results:
+          path: /tmp/circleci-test-results
+      - store_artifacts:
+          path: /tmp/circleci-artifacts
+      - store_artifacts:
+          path: /tmp/circleci-test-results
+  ui_tests:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
+      - run:
+          working_directory: ~/hcassus/HomePlanner
+          command: sudo update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java; sudo update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac; echo -e "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $BASH_ENV
+      - run:
+          working_directory: ~/hcassus/HomePlanner
+          command: 'sudo service postgresql status || sudo service postgresql start; '
+      - restore_cache:
+          keys:
+          - v1-dep-{{ .Branch }}-
+          - v1-dep-master-
+          - v1-dep-
+      - run: mvn dependency:go-offline || true
+      - save_cache:
+          key: v1-dep-{{ .Branch }}-{{ epoch }}
+          paths:
+          - ~/.m2
+      - run: createdb hrp
+      - run: mvn -B test surefire-report:report -Dtest=**/ui/tests/*
+      - run: mkdir -p $CIRCLE_TEST_REPORTS/junit/
+      - run: mkdir -p $CIRCLE_TEST_REPORTS/junit/html_reports
+      - run: find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+      - run: cp -R ./target/site $CIRCLE_TEST_REPORTS/junit/html_reports
+      - store_test_results:
+          path: /tmp/circleci-test-results
+      - store_artifacts:
+          path: /tmp/circleci-artifacts
+      - store_artifacts:
+          path: /tmp/circleci-test-results
+  whitebox_tests:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
+      - run:
+          working_directory: ~/hcassus/HomePlanner
+          command: sudo update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java; sudo update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac; echo -e "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $BASH_ENV
+      - run:
+          working_directory: ~/hcassus/HomePlanner
+          command: 'sudo service postgresql status || sudo service postgresql start; '
+      - restore_cache:
+          keys:
+          - v1-dep-{{ .Branch }}-
+          - v1-dep-master-
+          - v1-dep-
+      - run: mvn dependency:go-offline || true
+      - save_cache:
+          key: v1-dep-{{ .Branch }}-{{ epoch }}
+          paths:
+          - ~/.m2
+      - run: createdb hrp
+      - run: mvn -B test cobertura:cobertura surefire-report:report -Dtest-exclusions=**/api/*,**/ui/tests/*
+      - run: bash <(curl -s https://codecov.io/bash)
+      - run: mkdir -p $CIRCLE_TEST_REPORTS/junit/
+      - run: mkdir -p $CIRCLE_TEST_REPORTS/junit/html_reports
+      - run: find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+      - run: cp -R ./target/site $CIRCLE_TEST_REPORTS/junit/html_reports
+      - store_test_results:
+          path: /tmp/circleci-test-results
+      - store_artifacts:
+          path: /tmp/circleci-artifacts
+      - store_artifacts:
+          path: /tmp/circleci-test-results
+  deploy:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          name: Deploy Master to Heroku
+          command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+
+workflows:
+  version: 2
+  build_accept_deploy:
+    jobs:
+      - build
+      - ui_tests:
+          requires:
+            - build
+      - api_tests:
+          requires:
+            - build
+      - whitebox_tests:
+          requires:
+            - build
+      - deploy:
+          requires:
+              - ui_tests
+              - api_tests
+              - whitebox_tests
+          filters:
+            branches:
+              only: master
