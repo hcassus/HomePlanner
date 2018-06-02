@@ -138,7 +138,7 @@ jobs:
       - run: ssh-keyscan -H heroku.com >> ~/.ssh/known_hosts
       - run:
           name: Deploy Master to Heroku
-          command: git push ssh://git@heroku.com/$HEROKU_APP_NAME.git master
+          command: git push --force ssh://git@heroku.com/$HEROKU_APP_NAME.git master
 
 workflows:
   version: 2
