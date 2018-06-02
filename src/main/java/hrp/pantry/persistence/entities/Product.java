@@ -4,8 +4,10 @@ import hrp.pantry.enums.PackagingUnit;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import lombok.Data;
 
 @Entity
+@Data
 public class Product {
 
   @Id
@@ -43,34 +45,5 @@ public class Product {
     this.count = 1L;
     this.createdAt = new Timestamp(System.currentTimeMillis());
     this.updatedAt = new Timestamp(System.currentTimeMillis());
-  }
-
-
-  public String getEanCode() {
-    return eanCode;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public PackagingUnit getUnit() {
-    return unit;
-  }
-
-  public Long getCount() {
-    return count;
-  }
-
-  public void setCount(Long count) {
-    this.count = count;
-  }
-
-  public Timestamp getCreatedAt() {
-    return createdAt;
-  }
-
-  public Timestamp getUpdatedAt() {
-    return updatedAt;
   }
 }
