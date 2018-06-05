@@ -1,2 +1,4 @@
 ignore: # files and folders for processing
     - src/main/java/hrp/HomePlannerApp.java
+    - src/main/java/hrp/auth/persistence/AuditorAwareImpl.java
+    - src/main/java/hrp/auth/gateways/SessionDataGateway.java

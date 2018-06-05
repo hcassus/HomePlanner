@@ -8,13 +8,13 @@ import hrp.auth.persistence.entities.Authority;
 import hrp.auth.persistence.entities.User;
 import hrp.auth.persistence.repositories.AuthorityRepository;
 import hrp.auth.persistence.repositories.UserRepository;
-import hrp.commons.testcases.PersistencyTestCase;
+import hrp.commons.testcases.GatewayTestCase;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class UserGatewayTest extends PersistencyTestCase {
+public class UserGatewayTest extends GatewayTestCase {
 
     @Autowired
     UserGateway userGateway;

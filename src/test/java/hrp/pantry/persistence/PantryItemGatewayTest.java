@@ -6,7 +6,7 @@ import static org.hamcrest.Matchers.emptyIterableOf;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 
-import hrp.commons.testcases.PersistencyTestCase;
+import hrp.commons.testcases.GatewayTestCase;
 import hrp.pantry.enums.PackagingUnit;
 import hrp.pantry.gateways.PantryItemGateway;
 import hrp.pantry.persistence.entities.PantryItem;
@@ -18,7 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class PantryItemGatewayTest extends PersistencyTestCase {
+public class PantryItemGatewayTest extends GatewayTestCase {
 
   @Autowired
   private PantryItemGateway gateway;
