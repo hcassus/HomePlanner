@@ -1,10 +1,18 @@
 package hrp.tasks.persistence;
 
-import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.UUID;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.PreUpdate;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Task {
 
   @Id
@@ -13,6 +21,10 @@ public class Task {
   private String description;
   private int status;
   private UUID uuid;
+
+  @CreatedBy
+  private String createdBy;
+
   private Timestamp updatedAt;
   private Timestamp createdAt;
 
@@ -58,5 +70,13 @@ public class Task {
 
   public Timestamp getCreatedAt() {
     return createdAt;
+  }
+
+  public void setCreatedBy(String createdBy) {
+    this.createdBy = createdBy;
+  }
+
+  public String getCreatedBy(){
+    return createdBy;
   }
 }

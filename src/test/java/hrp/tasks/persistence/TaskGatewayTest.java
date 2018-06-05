@@ -7,7 +7,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 import static org.junit.Assert.assertTrue;
 
-import hrp.commons.testcases.PersistencyTestCase;
+import hrp.commons.testcases.GatewayTestCase;
 import hrp.tasks.gateways.TaskGatewaySpring;
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class TaskGatewayTest extends PersistencyTestCase {
+public class TaskGatewayTest extends GatewayTestCase {
 
   private static final int COMPLETE_STATUS = 1;
   private static final int INCOMPLETE_STATUS = 0;
@@ -45,9 +45,13 @@ public class TaskGatewayTest extends PersistencyTestCase {
   public void retrieveTasksTest(){
     Task task = new Task("Task " + System.currentTimeMillis());
     Task task2 = new Task("Task2 " + System.currentTimeMillis());
+    Task task3 = new Task("Task3 " + System.currentTimeMillis());
+    task.setCreatedBy(VALID_USERNAME);
+    task2.setCreatedBy(VALID_USERNAME);
+    task3.setCreatedBy("anotherUser");
     repository.saveAll(Arrays.asList(task, task2));
 
-    List<Task> persistedTasks = (List<Task>) gateway.getAllTasks();
+    List<Task> persistedTasks = (List<Task>) gateway.getAllTasks(VALID_USERNAME);
 
     assertThat(repository.count(), is(equalTo(2L)));
     assertThat(persistedTasks.get(0), samePropertyValuesAs(task));
@@ -59,7 +63,7 @@ public class TaskGatewayTest extends PersistencyTestCase {
     Task item = new Task("Task " + System.currentTimeMillis());
     item = repository.save(item);
 
-    gateway.deleteTaskByUuid(item.getUuid());
+    gateway.deleteTaskByUuid(item.getUuid(),VALID_USERNAME);
 
     assertThat(repository.findAll(), emptyIterableOf(Task.class));
   }
@@ -69,9 +73,9 @@ public class TaskGatewayTest extends PersistencyTestCase {
     Task task = new Task("Task " + System.currentTimeMillis());
     UUID uuid = task.getUuid();
     repository.save(task);
-    gateway.changeTaskStatus(uuid, COMPLETE_STATUS);
+    gateway.changeTaskStatus(uuid, COMPLETE_STATUS, VALID_USERNAME);
 
-    Task persistedTask = repository.findOneByUuid(uuid);
+    Task persistedTask = repository.findOneByUuidAndCreatedBy(uuid, VALID_USERNAME);
     assertThat(persistedTask.getStatus(), is(equalTo(1)));
     assertTrue(persistedTask.getUpdatedAt().after(persistedTask.getCreatedAt()));
   }
@@ -83,9 +87,9 @@ public class TaskGatewayTest extends PersistencyTestCase {
     repository.save(task);
     UUID uuid = task.getUuid();
 
-    gateway.changeTaskStatus(uuid, INCOMPLETE_STATUS);
-    gateway.changeTaskStatus(uuid, 0);
-    Task persistedTask = repository.findOneByUuid(uuid);
+    gateway.changeTaskStatus(uuid, INCOMPLETE_STATUS, VALID_USERNAME);
+    gateway.changeTaskStatus(uuid, 0, VALID_USERNAME);
+    Task persistedTask = repository.findOneByUuidAndCreatedBy(uuid, VALID_USERNAME);
 
     assertThat(persistedTask.getStatus(), is(equalTo(0)));
     assertTrue(persistedTask.getUpdatedAt().after(persistedTask.getCreatedAt()));

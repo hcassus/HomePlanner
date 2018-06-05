@@ -6,8 +6,11 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface TaskRepository extends CrudRepository<Task, Long> {
 
-  @Transactional
-  void deleteTaskByUuid(UUID uuid);
+  Task findOneByUuidAndCreatedBy(UUID uuid, String createdBy);
 
-  Task findOneByUuid(UUID uuid);
+  Iterable<Task> findByCreatedBy(String username);
+
+  @Transactional
+  void deleteTaskByUuidAndCreatedBy(UUID uuid, String createdBy);
+
 }
