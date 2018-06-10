@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html ng-app="hrp" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Signup</title>
+</head>
+<body>
+<div ng-controller="SignupController as signupCtl">
+
+  <form ng-submit="signupCtl.signupUser(signupCtl.user)">
+    <input ng-model="signupCtl.user.username" id="inpt-username" placeholder="Username"/>
+    <input ng-model="signupCtl.user.email" id="inpt-email" placeholder="Email"/>
+    <input ng-model="signupCtl.user.password" id="inpt-password" type="password" placeholder="Password"/>
+    <input ng-model="signupCtl.user.passwordConfirmation" id="inpt-password-confirmation" type="password" placeholder="Confirm Password"/>
+    <button type="submit" id="btn-add">Add</button>
+  </form>
+  <div ng-if="signupCtl.registrationSuccess == true">
+    <b>Registration Successful</b>
+  </div>
+  <div ng-if="signupCtl.passwordMismatch == true">
+    <b>Password and confirmation are not the same</b>
+  </div>
+</div>
+<script type="text/javascript" src="angular.min.js"></script>
+<script type="text/javascript" src="app.js"></script>
+</body>
+</html>
