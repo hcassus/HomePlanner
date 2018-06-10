@@ -67,7 +67,7 @@ public class PantryItemGatewayTest extends GatewayTestCase {
     repository.save(item1);
     repository.save(item2);
 
-    List<PantryItem> items = (List<PantryItem>) gateway.retrieveAllPantryItems();
+    List<PantryItem> items = (List<PantryItem>) gateway.retrieveAllCurrentUserPantryItems(VALID_USERNAME);
 
     assertThat(items.get(0), samePropertyValuesAs(item1));
     assertThat(items.get(1), samePropertyValuesAs(item2));
@@ -84,9 +84,9 @@ public class PantryItemGatewayTest extends GatewayTestCase {
     );
     item = repository.save(item);
 
-    gateway.deleteItemByUuid(item.getUuid());
+    gateway.deleteCurrentUserItemByUuid(item.getUuid(), VALID_USERNAME);
 
-    assertThat(gateway.retrieveAllPantryItems(), emptyIterableOf(PantryItem.class));
+    assertThat(gateway.retrieveAllCurrentUserPantryItems(VALID_USERNAME), emptyIterableOf(PantryItem.class));
   }
 
   @Test

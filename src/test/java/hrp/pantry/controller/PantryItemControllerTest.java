@@ -1,13 +1,15 @@
 package hrp.pantry.controller;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import hrp.HomePlannerApp;
-import hrp.pantry.gateways.PantryItemGateway;
+import hrp.pantry.usecases.DeleteCurrentUserPantryItemsUsecase;
 import hrp.pantry.persistence.entities.PantryItem;
 import hrp.pantry.usecases.AddPantryItemAndProductDataUsecase;
+import hrp.pantry.usecases.GetCurrentUserPantryItemsUsecase;
 import java.util.UUID;
 import org.json.JSONObject;
 import org.junit.Before;
@@ -36,10 +38,13 @@ public class PantryItemControllerTest {
   private WebApplicationContext wac;
 
   @MockBean
-  PantryItemGateway gateway;
+  AddPantryItemAndProductDataUsecase addPantryItemAndProductUsecase;
 
   @MockBean
-  AddPantryItemAndProductDataUsecase usecase;
+  GetCurrentUserPantryItemsUsecase getCurrentUserPantryItemsUsecase;
+
+  @MockBean
+  DeleteCurrentUserPantryItemsUsecase deleteCurrentUserItemByUuid;
 
   @Before
   public void setup() {
@@ -49,21 +54,21 @@ public class PantryItemControllerTest {
   @Test
   public void retrievePantryItemsTest() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.get("/pantry/item"));
-    verify(gateway, times(1)).retrieveAllPantryItems();
+    verify(getCurrentUserPantryItemsUsecase, times(1)).execute();
   }
 
   @Test
   public void createPantryItemsTest() throws Exception {
     String item = new JSONObject().put("eanCode", "123").put("name","item").toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/pantry/item").contentType(MediaType.APPLICATION_JSON).content(item));
-    verify(usecase, times(1)).execute(any(PantryItem.class));
+    verify(addPantryItemAndProductUsecase, times(1)).execute(any(PantryItem.class));
   }
 
   @Test
   public void deletePantryItemsTest() throws Exception {
     UUID uuid = UUID.randomUUID();
     mockMvc.perform(MockMvcRequestBuilders.delete("/pantry/item/" + uuid));
-    verify(gateway, times(1)).deleteItemByUuid(uuid);
+    verify(deleteCurrentUserItemByUuid, times(1)).execute(eq(uuid));
   }
 
 }

@@ -9,5 +9,7 @@ import hrp.pantry.persistence.entities.PantryItem;
 public interface PantryItemRepository extends CrudRepository<PantryItem, Long> {
 
   @Transactional
-  void deletePantryItemByUuid(UUID uuid);
+  void deletePantryItemByUuidAndCreatedBy(UUID uuid, String currentUser);
+
+  Iterable<PantryItem> findAllByCreatedBy(String currentUser);
 }

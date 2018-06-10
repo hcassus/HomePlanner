@@ -5,8 +5,11 @@ import hrp.pantry.enums.PackagingUnit;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.UUID;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class PantryItem {
 
   @Id
@@ -23,8 +26,10 @@ public class PantryItem {
   @Enumerated(EnumType.STRING)
   private PackagingUnit unit;
 
-  @Column
   private Timestamp expiresAt;
+
+  @CreatedBy
+  private String createdBy;
 
   @Column(nullable = false)
   private UUID uuid;

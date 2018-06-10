@@ -16,11 +16,11 @@ public class PantryItemGateway {
     return repository.save(item);
   }
 
-  public Iterable<PantryItem> retrieveAllPantryItems() {
-    return repository.findAll();
+  public Iterable<PantryItem> retrieveAllCurrentUserPantryItems(String currentUser) {
+    return repository.findAllByCreatedBy(currentUser);
   }
 
-  public void deleteItemByUuid(UUID uuid) {
-    repository.deletePantryItemByUuid(uuid);
+  public void deleteCurrentUserItemByUuid(UUID uuid, String currentUser) {
+    repository.deletePantryItemByUuidAndCreatedBy(uuid, currentUser);
   }
 }
