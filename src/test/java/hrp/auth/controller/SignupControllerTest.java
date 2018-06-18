@@ -6,9 +6,10 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import hrp.HomePlannerApp;
+import hrp.auth.dto.SignupUserDTO;
 import hrp.auth.persistence.entities.User;
 import hrp.auth.usecase.CreateUserUsecase;
-import hrp.auth.usecase.EnableUserUsecase;
+import hrp.auth.usecase.SignupUserUsecase;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,9 +31,7 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {HomePlannerApp.class}, loader = SpringBootContextLoader.class)
 @WebAppConfiguration
-public class UserControllerTest {
-
-  private static final String VALID_USERNAME = System.getenv("VALID_USERNAME");
+public class SignupControllerTest {
 
   private MockMvc mockMvc;
 
@@ -40,14 +39,10 @@ public class UserControllerTest {
   private WebApplicationContext wac;
 
   @MockBean
-  private CreateUserUsecase createUserUsecase;
-
-  @MockBean
-  private EnableUserUsecase enableUserUsecase;
-
+  private SignupUserUsecase createUserUsecase;
 
   @Captor
-  private ArgumentCaptor<User> captor;
+  private ArgumentCaptor<SignupUserDTO> captor;
 
   @Before
   public void setup() {
@@ -61,23 +56,18 @@ public class UserControllerTest {
     String email = "fakemail@gmail.com";
 
     String user = new JSONObject().put("username", username).put("email", email).put("password",
+        password).put("passwordConfirmation",
         password).toString();
     mockMvc.perform(
-        MockMvcRequestBuilders.post("/admin/user").contentType(MediaType.APPLICATION_JSON)
+        MockMvcRequestBuilders.post("/signup").contentType(MediaType.APPLICATION_JSON)
             .content(user));
     verify(createUserUsecase, times(1)).execute(captor.capture());
 
-    User deserializedUser = captor.getValue();
+    SignupUserDTO deserializedUser = captor.getValue();
     assertThat(deserializedUser.getUsername(), is(username));
     assertThat(deserializedUser.getEmail(), is(email));
     assertThat(deserializedUser.getPassword(), is(password));
+    assertThat(deserializedUser.getPasswordConfirmation(), is(password));
   }
-
-  @Test
-  public void enableUserTest() throws Exception {
-    mockMvc.perform(
-        MockMvcRequestBuilders.post("/admin/user/enable").param("username", VALID_USERNAME).contentType(MediaType.APPLICATION_JSON));
-    verify(enableUserUsecase, times(1)).execute(VALID_USERNAME);
-    }
 
 }

@@ -19,4 +19,7 @@ public class UserGateway {
         return userRepo.save(user);
     }
 
+  public void enableUser(String username) {
+      userRepo.enableUser(username);
+  }
 }

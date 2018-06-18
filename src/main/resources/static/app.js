@@ -121,4 +121,30 @@
       })
     };
   }]);
+
+  app.controller('SignupController', ['$http', function ($http) {
+
+    this.user = {};
+    this.registrationSuccess = false;
+    this.passwordMismatch = false;
+    store = this;
+
+    this.url = "/signup";
+
+    this.signupUser = function (user) {
+      store.registrationSuccess = false;
+      store.passwordMismatch = false;
+      if(user.password != user.passwordConfirmation){
+        store.passwordMismatch = true
+      } else {
+        $http.post(this.url, user).success(function (data) {
+          store.registrationSuccess = true;
+          this.user = {};
+        });
+      }
+    };
+  }
+
+  ]);
+
 })();
