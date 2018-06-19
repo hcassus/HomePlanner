@@ -1,18 +1,13 @@
 defaults: &defaults
   working_directory: ~/hcassus/HomePlanner
   parallelism: 1
+  shell: /bin/bash --login
   environment:
     CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
     CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
   docker:
-  - image: circleci/openjdk:8-jdk-browsers
-    environment:
-      PG_HOST: localhost
-      PG_USER: postgres
-  - image: circleci/postgres:10-alpine-ram
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_DB: hrp
+  - image: circleci/build-image:ubuntu-14.04-XXL-upstart-1189-5614f37
+    command: /sbin/init
 
 version: 2
 
@@ -23,7 +18,7 @@ jobs:
     - checkout
     - run:
         working_directory: ~/hcassus/HomePlanner
-        command: update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java; update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac; echo -e "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $BASH_ENV
+        command: sudo update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java; sudo update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac; echo -e "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $BASH_ENV
     - restore_cache:
         keys:
         - v1-dep-{{ .Branch }}-
@@ -41,7 +36,10 @@ jobs:
       - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
       - run:
           working_directory: ~/hcassus/HomePlanner
-          command: update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java; update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac; echo -e "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $BASH_ENV
+          command: sudo update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java; sudo update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac; echo -e "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $BASH_ENV
+      - run:
+          working_directory: ~/hcassus/HomePlanner
+          command: 'sudo service postgresql status || sudo service postgresql start; '
       - restore_cache:
           keys:
           - v1-dep-{{ .Branch }}-
@@ -52,6 +50,7 @@ jobs:
           key: v1-dep-{{ .Branch }}-{{ epoch }}
           paths:
           - ~/.m2
+      - run: createdb hrp
       - run: mvn -B test surefire-report:report -Dtest=**/api/*
       - run: mkdir -p $CIRCLE_TEST_REPORTS/junit/
       - run: mkdir -p $CIRCLE_TEST_REPORTS/junit/html_reports
@@ -70,7 +69,10 @@ jobs:
       - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
       - run:
           working_directory: ~/hcassus/HomePlanner
-          command: update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java; update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac; echo -e "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $BASH_ENV
+          command: sudo update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java; sudo update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac; echo -e "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $BASH_ENV
+      - run:
+          working_directory: ~/hcassus/HomePlanner
+          command: 'sudo service postgresql status || sudo service postgresql start; '
       - restore_cache:
           keys:
           - v1-dep-{{ .Branch }}-
@@ -81,6 +83,7 @@ jobs:
           key: v1-dep-{{ .Branch }}-{{ epoch }}
           paths:
           - ~/.m2
+      - run: createdb hrp
       - run: mvn -B test surefire-report:report -Dtest=**/ui/tests/*
       - run: mkdir -p $CIRCLE_TEST_REPORTS/junit/
       - run: mkdir -p $CIRCLE_TEST_REPORTS/junit/html_reports
@@ -99,7 +102,10 @@ jobs:
       - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
       - run:
           working_directory: ~/hcassus/HomePlanner
-          command: update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java; update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac; echo -e "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $BASH_ENV
+          command: sudo update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java; sudo update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac; echo -e "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $BASH_ENV
+      - run:
+          working_directory: ~/hcassus/HomePlanner
+          command: 'sudo service postgresql status || sudo service postgresql start; '
       - restore_cache:
           keys:
           - v1-dep-{{ .Branch }}-
@@ -110,6 +116,7 @@ jobs:
           key: v1-dep-{{ .Branch }}-{{ epoch }}
           paths:
           - ~/.m2
+      - run: createdb hrp
       - run: mvn -B test cobertura:cobertura surefire-report:report -Dtest-exclusions=**/api/*,**/ui/tests/*
       - run: bash <(curl -s https://codecov.io/bash)
       - run: mkdir -p $CIRCLE_TEST_REPORTS/junit/
