@@ -30,3 +30,4 @@ http://homeplanner.herokuapp.com
 - Fill in the item data
 - Click on the add button to submit it
 - Click on the remove button to remove the item
+
