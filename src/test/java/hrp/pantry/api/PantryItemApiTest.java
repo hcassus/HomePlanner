@@ -11,16 +11,22 @@ import io.restassured.filter.session.SessionFilter;
 import io.restassured.http.ContentType;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.data.domain.AuditorAware;
 
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
@@ -34,6 +40,9 @@ import static org.hamcrest.Matchers.notNullValue;
 public class PantryItemApiTest extends LiveServerTestCase {
 
     private static final String PANTRY_ITEM_PATH = "/pantry/item/";
+
+    @MockBean
+    private AuditorAware<String> auditorAware;
 
     @LocalServerPort
     String port;
@@ -52,13 +61,17 @@ public class PantryItemApiTest extends LiveServerTestCase {
 
     @BeforeEach
     public void setUp() {
+        Mockito
+                .when(auditorAware.getCurrentAuditor())
+                .thenReturn(Optional.of(VALID_USERNAME));
+
         RestAssured.baseURI = "http://localhost:" + port;
 
         sessionFilter = new SessionFilter();
 
         xsrfToken = given()
                 .auth()
-                    .basic(VALID_USERNAME,VALID_PASSWORD)
+                .basic(VALID_USERNAME, VALID_PASSWORD)
                 .filter(sessionFilter)
                 .log()
                     .all()
@@ -145,17 +158,17 @@ public class PantryItemApiTest extends LiveServerTestCase {
           .body("get(0).name", is(equalTo(item1.getName())))
           .body("get(0).quantity", equalTo(item1.getQuantity()))
           .body("get(0).unit", equalTo(item1.getUnit().toString()))
-          .body("get(0).updatedAt", equalTo(getUtcDateTime(item1.getExpiresAt())))
+          .body("get(0).updatedAt", equalTo(getUtcDateTimeString(item1.getExpiresAt())))
           .body("get(0).uuid", notNullValue())
-          .body("get(0).createdAt", equalTo(getUtcDateTime(item1.getCreatedAt())))
-          .body("get(0).updatedAt", equalTo(getUtcDateTime(item1.getUpdatedAt())))
+          .body("get(0).createdAt", equalTo(getUtcDateTimeString(item1.getCreatedAt())))
+          .body("get(0).updatedAt", equalTo(getUtcDateTimeString(item1.getUpdatedAt())))
           .body("get(1).name", is(equalTo(item2.getName())))
           .body("get(1).quantity", equalTo(item2.getQuantity()))
-          .body("get(1).expiresAt", equalTo(getUtcDateTime(item2.getExpiresAt())))
+          .body("get(1).expiresAt", equalTo(getUtcDateTimeString(item2.getExpiresAt())))
           .body("get(1).unit", equalTo(item2.getUnit().toString()))
           .body("get(1).uuid", notNullValue())
-          .body("get(1).createdAt", equalTo(getUtcDateTime(item2.getCreatedAt())))
-          .body("get(1).updatedAt", equalTo(getUtcDateTime(item2.getUpdatedAt())))
+          .body("get(1).createdAt", equalTo(getUtcDateTimeString(item2.getCreatedAt())))
+          .body("get(1).updatedAt", equalTo(getUtcDateTimeString(item2.getUpdatedAt())))
           .body(matchesJsonSchemaInClasspath("json_schemas/pantry/pantry-item-list-schema.json"));
   }
 
@@ -184,8 +197,10 @@ public class PantryItemApiTest extends LiveServerTestCase {
     assertThat(itemRepository.findAll(), emptyIterableOf(PantryItem.class));
   }
 
-  private String getUtcDateTime(Timestamp date){
-    return new DateTime(date).withZone(DateTimeZone.UTC).toString("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+  private String getUtcDateTimeString(Timestamp date){
+      DateTime dateTime = new DateTime(date).withZone(DateTimeZone.UTC);
+      DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
+      return fmt.print(dateTime);
   }
 
 

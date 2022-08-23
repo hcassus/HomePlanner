@@ -4,10 +4,14 @@ import hrp.commons.testcases.GatewayTestCase;
 import hrp.tasks.gateways.TaskGatewaySpring;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.AuditorAware;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -18,6 +22,9 @@ import static org.hamcrest.Matchers.samePropertyValuesAs;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TaskGatewayTest extends GatewayTestCase {
+
+  @MockBean
+  private AuditorAware<String> auditorAware;
 
   private static final int COMPLETE_STATUS = 1;
   private static final int INCOMPLETE_STATUS = 0;
@@ -30,6 +37,7 @@ public class TaskGatewayTest extends GatewayTestCase {
 
   @BeforeEach
   public void setUp(){
+    Mockito.when(auditorAware.getCurrentAuditor()).thenReturn(Optional.of(VALID_USERNAME));
     repository.deleteAll();
   }
 

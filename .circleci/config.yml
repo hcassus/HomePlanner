@@ -28,7 +28,7 @@ jobs:
         - v1-dep-{{ .Branch }}-
         - v1-dep-master-
         - v1-dep-
-    - run: mvn dependency:go-offline || true
+    - run: ./mvnw dependency:go-offline || true
     - save_cache:
         key: v1-dep-{{ .Branch }}-{{ epoch }}
         paths:
@@ -43,12 +43,12 @@ jobs:
           - v1-dep-{{ .Branch }}-
           - v1-dep-master-
           - v1-dep-
-      - run: mvn dependency:go-offline || true
+      - run: ./mvnw dependency:go-offline || true
       - save_cache:
           key: v1-dep-{{ .Branch }}-{{ epoch }}
           paths:
           - ~/.m2
-      - run: mvn -B test surefire-report:report -Dtest=**/api/*
+      - run: ./mvnw -B test surefire-report:report -Dtest=**/api/*
       - run: mkdir -p $CIRCLE_TEST_REPORTS/junit/
       - run: mkdir -p $CIRCLE_TEST_REPORTS/junit/html_reports
       - run: find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
@@ -63,18 +63,20 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
       - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
       - restore_cache:
           keys:
           - v1-dep-{{ .Branch }}-
           - v1-dep-master-
           - v1-dep-
-      - run: mvn dependency:go-offline || true
+      - run: ./mvnw dependency:go-offline || true
       - save_cache:
           key: v1-dep-{{ .Branch }}-{{ epoch }}
           paths:
           - ~/.m2
-      - run: mvn -B test surefire-report:report -Dtest=**/ui/tests/*
+      - run: ./mvnw -B test surefire-report:report -Dtest=**/ui/tests/*
       - run: mkdir -p $CIRCLE_TEST_REPORTS/junit/
       - run: mkdir -p $CIRCLE_TEST_REPORTS/junit/html_reports
       - run: find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
@@ -95,12 +97,12 @@ jobs:
           - v1-dep-{{ .Branch }}-
           - v1-dep-master-
           - v1-dep-
-      - run: mvn dependency:go-offline || true
+      - run: ./mvnw dependency:go-offline || true
       - save_cache:
           key: v1-dep-{{ .Branch }}-{{ epoch }}
           paths:
           - ~/.m2
-      - run: mvn -B test cobertura:cobertura surefire-report:report -Dtest-exclusions=**/api/*,**/ui/tests/*
+      - run: ./mvnw -B test surefire-report:report -Dtest-exclusions=**/api/*,**/ui/tests/*
       - run: bash <(curl -s https://codecov.io/bash)
       - run: mkdir -p $CIRCLE_TEST_REPORTS/junit/
       - run: mkdir -p $CIRCLE_TEST_REPORTS/junit/html_reports

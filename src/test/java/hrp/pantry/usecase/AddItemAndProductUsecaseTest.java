@@ -7,9 +7,11 @@ import hrp.pantry.persistence.entities.Product;
 import hrp.pantry.usecases.AddPantryItemAndProductDataUsecase;
 import hrp.pantry.usecases.CreateUniqueProductUsecase;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.Timestamp;
 
@@ -20,6 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+@ExtendWith(MockitoExtension.class)
 public class AddItemAndProductUsecaseTest {
 
   @InjectMocks
