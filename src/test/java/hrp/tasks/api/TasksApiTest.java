@@ -10,10 +10,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.data.domain.AuditorAware;
 
 import java.sql.Timestamp;
+import java.util.Optional;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
@@ -30,6 +34,9 @@ public class TasksApiTest extends LiveServerTestCase {
   private static final int HTTP_OK = 200;
   private static final String TASK_PATH = "/task";
 
+  @MockBean
+  private AuditorAware<String> auditorAware;
+
   @Autowired
   TaskRepository repository;
 
@@ -44,6 +51,10 @@ public class TasksApiTest extends LiveServerTestCase {
 
   @BeforeEach
   public void setUp(){
+    Mockito
+            .when(auditorAware.getCurrentAuditor())
+            .thenReturn(Optional.of(VALID_USERNAME));
+
     RestAssured.baseURI = "http://localhost:" + port;
 
     sessionFilter = new SessionFilter();

@@ -8,16 +8,29 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.data.domain.AuditorAware;
+
+import java.util.Optional;
 
 import static io.restassured.RestAssured.preemptive;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
+
 public class ProductApiTest extends LiveServerTestCase {
 
+  @MockBean
+  private AuditorAware<String> auditorAware;
+
+  @BeforeEach
+  public void setup(){
+    Mockito.when(auditorAware.getCurrentAuditor()).thenReturn(Optional.of(VALID_USERNAME));
+  }
   @Autowired
   ProductRepository repository;
 

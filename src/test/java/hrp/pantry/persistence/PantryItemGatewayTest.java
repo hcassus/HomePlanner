@@ -7,10 +7,14 @@ import hrp.pantry.persistence.entities.PantryItem;
 import hrp.pantry.persistence.repositories.PantryItemRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.AuditorAware;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -21,6 +25,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PantryItemGatewayTest extends GatewayTestCase {
 
+  @MockBean
+  private AuditorAware<String> auditorAware;
+
+  @BeforeEach
+  public void setup(){
+    Mockito.when(auditorAware.getCurrentAuditor()).thenReturn(Optional.of(VALID_USERNAME));
+  }
+
   @Autowired
   private PantryItemGateway gateway;
 
@@ -29,6 +41,7 @@ public class PantryItemGatewayTest extends GatewayTestCase {
 
   @BeforeEach
   public void setUp(){
+    Mockito.when(auditorAware.getCurrentAuditor()).thenReturn(Optional.of(VALID_USERNAME));
     repository.deleteAll();
   }
 
