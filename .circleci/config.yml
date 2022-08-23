@@ -5,7 +5,7 @@ defaults: &defaults
     CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
     CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
   docker:
-  - image: circleci/openjdk:8-jdk-browsers
+  - image: cimg/openjdk:18.0.2-browsers
     environment:
       PG_HOST: localhost
       PG_USER: postgres
@@ -14,16 +14,15 @@ defaults: &defaults
       POSTGRES_USER: postgres
       POSTGRES_DB: hrp
 
-version: 2
+version: 2.1
+orbs:
+  browser-tools: circleci/browser-tools@1.4.0
 
 jobs:
   build:
     <<: *defaults
     steps:
     - checkout
-    - run:
-        working_directory: ~/hcassus/HomePlanner
-        command: update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java; update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac; echo -e "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $BASH_ENV
     - restore_cache:
         keys:
         - v1-dep-{{ .Branch }}-
@@ -39,9 +38,6 @@ jobs:
     steps:
       - checkout
       - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
-      - run:
-          working_directory: ~/hcassus/HomePlanner
-          command: update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java; update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac; echo -e "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $BASH_ENV
       - restore_cache:
           keys:
           - v1-dep-{{ .Branch }}-
@@ -68,9 +64,6 @@ jobs:
     steps:
       - checkout
       - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
-      - run:
-          working_directory: ~/hcassus/HomePlanner
-          command: update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java; update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac; echo -e "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $BASH_ENV
       - restore_cache:
           keys:
           - v1-dep-{{ .Branch }}-
@@ -97,9 +90,6 @@ jobs:
     steps:
       - checkout
       - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
-      - run:
-          working_directory: ~/hcassus/HomePlanner
-          command: update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java; update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac; echo -e "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $BASH_ENV
       - restore_cache:
           keys:
           - v1-dep-{{ .Branch }}-
