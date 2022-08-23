@@ -1,21 +1,22 @@
 package hrp.pantry.persistence;
 
-import static junit.framework.TestCase.assertTrue;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.samePropertyValuesAs;
-
 import hrp.commons.testcases.GatewayTestCase;
 import hrp.pantry.enums.PackagingUnit;
 import hrp.pantry.gateways.ProductGateway;
 import hrp.pantry.persistence.entities.Product;
 import hrp.pantry.persistence.repositories.ProductRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.Arrays;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ProductGatewayTest extends GatewayTestCase {
 
@@ -25,7 +26,7 @@ public class ProductGatewayTest extends GatewayTestCase {
   @Autowired
   ProductRepository repository;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     repository.deleteAll();
   }

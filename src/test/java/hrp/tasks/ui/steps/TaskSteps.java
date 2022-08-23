@@ -1,14 +1,14 @@
 package hrp.tasks.ui.steps;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-
 import hrp.tasks.ui.pages.TaskPage;
-import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TaskSteps {
 
@@ -32,7 +32,7 @@ public class TaskSteps {
     By taskRowLocator = By.xpath("//*[contains(@id,'task_desc_row_')]");
     wait.until(ExpectedConditions.presenceOfElementLocated(taskRowLocator));
     String description = page.getTaskDescription();
-    Assert.assertEquals(description, taskName);
+    assertEquals(description, taskName);
     return this;
   }
 

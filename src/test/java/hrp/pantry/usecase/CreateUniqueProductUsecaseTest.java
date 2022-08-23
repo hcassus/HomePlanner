@@ -1,25 +1,23 @@
 package hrp.pantry.usecase;
 
+import hrp.pantry.enums.PackagingUnit;
+import hrp.pantry.gateways.ProductGateway;
+import hrp.pantry.persistence.entities.Product;
+import hrp.pantry.usecases.CreateUniqueProductUsecase;
+import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import hrp.pantry.enums.PackagingUnit;
-import hrp.pantry.gateways.ProductGateway;
-import hrp.pantry.persistence.entities.Product;
-import hrp.pantry.usecases.CreateUniqueProductUsecase;
-import java.util.ArrayList;
-import java.util.Arrays;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
 
 public class CreateUniqueProductUsecaseTest {
 
@@ -28,9 +26,6 @@ public class CreateUniqueProductUsecaseTest {
 
   @Mock
   private ProductGateway gatewayMock;
-
-  @Rule
-  public MockitoRule mockitoRule = MockitoJUnit.rule();
 
   @Test
   public void createNonExistingItemTest(){

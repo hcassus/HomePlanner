@@ -4,15 +4,18 @@ import hrp.commons.testcases.LiveServerTestCase;
 import hrp.commons.ui.steps.LoginSteps;
 import hrp.tasks.persistence.TaskRepository;
 import hrp.tasks.ui.steps.TaskSteps;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
+
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 
 public class TaskUITest extends LiveServerTestCase {
 
@@ -26,21 +29,21 @@ public class TaskUITest extends LiveServerTestCase {
   private static WebDriverWait wait;
   private static TaskSteps taskSteps;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpClass() {
     driver = new ChromeDriver();
-    wait = new WebDriverWait(driver, 5);
+    wait = new WebDriverWait(driver, Duration.of(5, ChronoUnit.SECONDS));
     taskSteps = new TaskSteps(driver, wait);
   }
 
-  @Before
+  @BeforeEach
   public void setUp() {
     taskRepository.deleteAll();
     driver.get("http://localhost:" + localPort + "/login");
     new LoginSteps(driver).performSuccessfulLogin();
   }
 
-  @AfterClass
+  @AfterAll
   public static void tearDown() {
     driver.quit();
   }

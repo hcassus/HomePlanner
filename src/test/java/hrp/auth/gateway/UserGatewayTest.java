@@ -1,18 +1,18 @@
 package hrp.auth.gateway;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-
 import hrp.auth.gateways.UserGateway;
 import hrp.auth.persistence.entities.Authority;
 import hrp.auth.persistence.entities.User;
 import hrp.auth.persistence.repositories.AuthorityRepository;
 import hrp.auth.persistence.repositories.UserRepository;
 import hrp.commons.testcases.GatewayTestCase;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 
 public class UserGatewayTest extends GatewayTestCase {
 
@@ -25,7 +25,7 @@ public class UserGatewayTest extends GatewayTestCase {
   @Autowired
   UserRepository userRepository;
 
-  @Before
+  @BeforeEach
   public void setup() {
     userRepository.deleteAll();
     authorityRepository.deleteAll();
@@ -41,11 +41,11 @@ public class UserGatewayTest extends GatewayTestCase {
     Authority authority = authorityRepository.findByUsername(username);
     User persisterUser = userRepository.findByUsername(username);
 
-    Assert.assertThat(authority.getUsername(), is(username));
-    Assert.assertThat(authority.getAuthority(), is("USER"));
-    Assert.assertThat(persisterUser.getUsername(), is(username));
-    Assert.assertThat(persisterUser.getEmail(), is(email));
-    Assert.assertThat(persisterUser.getPassword(), notNullValue());
+    assertThat(authority.getUsername(), is(username));
+    assertThat(authority.getAuthority(), is("USER"));
+    assertThat(persisterUser.getUsername(), is(username));
+    assertThat(persisterUser.getEmail(), is(email));
+    assertThat(persisterUser.getPassword(), notNullValue());
   }
 
   @Test
@@ -61,12 +61,12 @@ public class UserGatewayTest extends GatewayTestCase {
     Authority authority = authorityRepository.findByUsername(username);
     User persisterUser = userRepository.findByUsername(username);
 
-    Assert.assertThat(authority.getUsername(), is(username));
-    Assert.assertThat(authority.getAuthority(), is("USER"));
-    Assert.assertThat(persisterUser.getUsername(), is(username));
-    Assert.assertThat(persisterUser.getEmail(), is(email));
-    Assert.assertThat(persisterUser.getPassword(), notNullValue());
-    Assert.assertThat(persisterUser.getEnabled(), is(true));
+    assertThat(authority.getUsername(), is(username));
+    assertThat(authority.getAuthority(), is("USER"));
+    assertThat(persisterUser.getUsername(), is(username));
+    assertThat(persisterUser.getEmail(), is(email));
+    assertThat(persisterUser.getPassword(), notNullValue());
+    assertThat(persisterUser.getEnabled(), is(true));
   }
 
 }

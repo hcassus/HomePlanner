@@ -1,5 +1,20 @@
 package hrp.tasks.api;
 
+import hrp.commons.testcases.LiveServerTestCase;
+import hrp.tasks.persistence.Task;
+import hrp.tasks.persistence.TaskRepository;
+import io.restassured.RestAssured;
+import io.restassured.filter.session.SessionFilter;
+import io.restassured.http.ContentType;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.web.server.LocalServerPort;
+
+import java.sql.Timestamp;
+
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -7,20 +22,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-
-import hrp.commons.testcases.LiveServerTestCase;
-import hrp.tasks.persistence.Task;
-import hrp.tasks.persistence.TaskRepository;
-import io.restassured.RestAssured;
-import io.restassured.filter.session.SessionFilter;
-import io.restassured.http.ContentType;
-import java.sql.Timestamp;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.server.LocalServerPort;
 
 public class TasksApiTest extends LiveServerTestCase {
 
@@ -41,7 +42,7 @@ public class TasksApiTest extends LiveServerTestCase {
   private final String VALID_PASSWORD = System.getenv("VALID_PASSWORD");
 
 
-  @Before
+  @BeforeEach
   public void setUp(){
     RestAssured.baseURI = "http://localhost:" + port;
 

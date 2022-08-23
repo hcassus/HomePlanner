@@ -7,17 +7,20 @@ import hrp.pantry.persistence.entities.Product;
 import hrp.pantry.persistence.repositories.PantryItemRepository;
 import hrp.pantry.persistence.repositories.ProductRepository;
 import hrp.pantry.ui.steps.PantryItemSteps;
-import java.util.Arrays;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
+
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 
 public class PantryItemUITest extends LiveServerTestCase {
 
@@ -34,16 +37,16 @@ public class PantryItemUITest extends LiveServerTestCase {
 
   private static WebDriver driver;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpClass() {
     ChromeOptions options = new ChromeOptions();
     options.addArguments("--lang=en");
     driver = new ChromeDriver(options);
-    WebDriverWait wait = new WebDriverWait(driver, 5);
+    WebDriverWait wait = new WebDriverWait(driver, Duration.of(5, ChronoUnit.SECONDS));
     itemSteps = new PantryItemSteps(driver, wait);
   }
 
-  @Before
+  @BeforeEach
   public void setUp() {
     pantryRepository.deleteAll();
     productRepository.deleteAll();
@@ -51,7 +54,7 @@ public class PantryItemUITest extends LiveServerTestCase {
     new LoginSteps(driver).performSuccessfulLogin();
   }
 
-  @AfterClass
+  @AfterAll
   public static void tearDownClass() {
     driver.quit();
   }
