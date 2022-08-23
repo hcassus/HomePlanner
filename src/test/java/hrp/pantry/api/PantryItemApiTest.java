@@ -158,7 +158,7 @@ public class PantryItemApiTest extends LiveServerTestCase {
           .body("get(0).name", is(equalTo(item1.getName())))
           .body("get(0).quantity", equalTo(item1.getQuantity()))
           .body("get(0).unit", equalTo(item1.getUnit().toString()))
-          .body("get(0).updatedAt", equalTo(getUtcDateTimeString(item1.getExpiresAt())))
+          .body("get(0).expiresAt", equalTo(getUtcDateTimeString(item1.getExpiresAt())))
           .body("get(0).uuid", notNullValue())
           .body("get(0).createdAt", equalTo(getUtcDateTimeString(item1.getCreatedAt())))
           .body("get(0).updatedAt", equalTo(getUtcDateTimeString(item1.getUpdatedAt())))
