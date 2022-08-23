@@ -1,33 +1,34 @@
 package hrp.pantry.controller;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
 import hrp.HomePlannerApp;
-import hrp.pantry.usecases.DeleteCurrentUserPantryItemsUsecase;
 import hrp.pantry.persistence.entities.PantryItem;
 import hrp.pantry.usecases.AddPantryItemAndProductDataUsecase;
+import hrp.pantry.usecases.DeleteCurrentUserPantryItemsUsecase;
 import hrp.pantry.usecases.GetCurrentUserPantryItemsUsecase;
-import java.util.UUID;
 import org.json.JSONObject;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootContextLoader;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+import java.util.UUID;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {HomePlannerApp.class}, loader = SpringBootContextLoader.class)
 @WebAppConfiguration
 public class PantryItemControllerTest {
@@ -46,7 +47,7 @@ public class PantryItemControllerTest {
   @MockBean
   DeleteCurrentUserPantryItemsUsecase deleteCurrentUserItemByUuid;
 
-  @Before
+  @BeforeEach
   public void setup() {
     mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
   }

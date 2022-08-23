@@ -1,20 +1,20 @@
 package hrp.pantry.api;
 
-import static io.restassured.RestAssured.preemptive;
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.notNullValue;
-
 import hrp.commons.testcases.LiveServerTestCase;
 import hrp.pantry.enums.PackagingUnit;
 import hrp.pantry.persistence.entities.Product;
 import hrp.pantry.persistence.repositories.ProductRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
+
+import static io.restassured.RestAssured.preemptive;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
 
 public class ProductApiTest extends LiveServerTestCase {
 
@@ -27,7 +27,7 @@ public class ProductApiTest extends LiveServerTestCase {
   private final String VALID_USERNAME = System.getenv("VALID_USERNAME");
   private final String VALID_PASSWORD = System.getenv("VALID_PASSWORD");
 
-  @Before
+  @BeforeEach
   public void setUp() {
     RestAssured.baseURI = "http://localhost:" + port;
     RestAssured.authentication = preemptive().basic(VALID_USERNAME,VALID_PASSWORD);

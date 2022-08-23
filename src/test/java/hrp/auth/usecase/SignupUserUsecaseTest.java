@@ -1,24 +1,25 @@
 package hrp.auth.usecase;
 
+import hrp.auth.dto.SignupUserDTO;
+import hrp.auth.persistence.entities.User;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import hrp.auth.dto.SignupUserDTO;
-import hrp.auth.persistence.entities.User;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class SignupUserUsecaseTest {
 
   @InjectMocks
@@ -31,7 +32,7 @@ public class SignupUserUsecaseTest {
   private ArgumentCaptor<User> userCaptor;
 
 
-  @Test(expected = HttpMessageNotReadableException.class)
+  @Test
   public void testSignupUserNonMatchingConfirmation() {
     String username = "fakeUsername";
     String password = "fakePassword";
@@ -42,7 +43,10 @@ public class SignupUserUsecaseTest {
     signupUserDTO.setPassword(password);
     signupUserDTO.setPasswordConfirmation(password+"1");
 
-    signupUserUsecase.execute(signupUserDTO);
+    assertThrows(
+            HttpMessageNotReadableException.class,
+            () -> signupUserUsecase.execute(signupUserDTO)
+    );
 
     verify(createUserUsecase, never()).execute(any());
   }

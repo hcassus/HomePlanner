@@ -1,20 +1,21 @@
 package hrp.tasks.persistence;
 
+import hrp.commons.testcases.GatewayTestCase;
+import hrp.tasks.gateways.TaskGatewaySpring;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyIterableOf;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
-import static org.junit.Assert.assertTrue;
-
-import hrp.commons.testcases.GatewayTestCase;
-import hrp.tasks.gateways.TaskGatewaySpring;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TaskGatewayTest extends GatewayTestCase {
 
@@ -27,7 +28,7 @@ public class TaskGatewayTest extends GatewayTestCase {
   @Autowired
   private TaskRepository repository;
 
-  @Before
+  @BeforeEach
   public void setUp(){
     repository.deleteAll();
   }

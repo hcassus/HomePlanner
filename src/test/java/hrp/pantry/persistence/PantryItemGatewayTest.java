@@ -1,22 +1,23 @@
 package hrp.pantry.persistence;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.emptyIterableOf;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.samePropertyValuesAs;
-
 import hrp.commons.testcases.GatewayTestCase;
 import hrp.pantry.enums.PackagingUnit;
 import hrp.pantry.gateways.PantryItemGateway;
 import hrp.pantry.persistence.entities.PantryItem;
 import hrp.pantry.persistence.repositories.PantryItemRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.sql.Timestamp;
 import java.util.List;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.emptyIterableOf;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PantryItemGatewayTest extends GatewayTestCase {
 
@@ -26,7 +27,7 @@ public class PantryItemGatewayTest extends GatewayTestCase {
   @Autowired
   private PantryItemRepository repository;
 
-  @Before
+  @BeforeEach
   public void setUp(){
     repository.deleteAll();
   }
@@ -104,7 +105,7 @@ public class PantryItemGatewayTest extends GatewayTestCase {
     PantryItem persistedItem = gateway.createOrUpdatePantryItem(item);
 
     assertThat(repository.count(), is(equalTo(1L)));
-    Assert.assertTrue(persistedItem.getUpdatedAt().after(
+    assertTrue(persistedItem.getUpdatedAt().after(
         persistedItem.getCreatedAt()
     ));
 

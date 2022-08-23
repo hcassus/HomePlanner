@@ -1,20 +1,14 @@
 package hrp.tasks.controller;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
 import hrp.commons.testcases.ControllerTestCase;
 import hrp.tasks.gateways.TaskGatewaySpring;
 import hrp.tasks.persistence.Task;
 import hrp.tasks.usecase.ChangeCurrentUserTaskStatusUsecase;
 import hrp.tasks.usecase.DeleteCurrentUserTasksUsecase;
 import hrp.tasks.usecase.GetCurrentUserTasksUsecase;
-import java.util.UUID;
 import org.json.JSONObject;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -22,6 +16,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.UUID;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 public class TaskControllerTest extends ControllerTestCase {
 
@@ -42,7 +43,7 @@ public class TaskControllerTest extends ControllerTestCase {
   @MockBean
   ChangeCurrentUserTaskStatusUsecase changeCurrentUserTaskStatusUsecase;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
   }
