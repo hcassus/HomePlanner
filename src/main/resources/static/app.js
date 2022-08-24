@@ -36,7 +36,7 @@
 
     this.getItems = function () {
       $http.get(this.pantryUrl).success(function (data) {
-        store.content = data;
+        assignDataToStoreContent(data, store.content);
       });
     };
 
@@ -63,29 +63,23 @@
     };
 
     removeItemFromStore = function () {
-      for (i = 0; i < store.content.length; i++) {
-        if (uuid == store.content[i].uuid) {
-          store.content.splice(i, 1);
-        }
-      }
+      removeContentFromStore(store.content)
     };
-
 
 
   }]);
 
-
   app.controller('TasksController', ['$http', function ($http) {
 
-        this.task = {};
-        store = this;
-        store.tasks = [];
+    this.task = {};
+    store = this;
+    store.tasks = [];
 
-        this.url = "/task";
+    this.url = "/task";
 
-        this.getTasks = function () {
+    this.getTasks = function () {
             $http.get(this.url).success(function (data) {
-                store.tasks = data;
+              assignDataToStoreContent(data, store.tasks)
             });
         };
 
@@ -100,11 +94,7 @@
       var uuid = task.uuid;
       urlWithId = this.url + "/" + uuid;
       $http.delete(urlWithId).success(function () {
-        for (i = 0; i < store.tasks.length; i++) {
-          if (uuid == store.tasks[i].uuid) {
-            store.tasks.splice(i, 1);
-          }
-        }
+        removeContentFromStore(store.tasks)
       });
     };
 
@@ -148,3 +138,15 @@
   ]);
 
 })();
+
+function removeContentFromStore(storeContent) {
+  for (i = 0; i < storeContent.length; i++) {
+    if (uuid == storeContent[i].uuid) {
+      storeContent.splice(i, 1);
+    }
+  }
+}
+
+function assignDataToStoreContent(data, storeContent) {
+  storeContent = data;
+}
