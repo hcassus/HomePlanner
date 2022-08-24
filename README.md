@@ -7,6 +7,8 @@ http://homeplanner.herokuapp.com
 
 [![Codecov](https://codecov.io/gh/hcassus/HomePlanner/branch/master/graph/badge.svg)](https://codecov.io/gh/hcassus/HomePlanner)
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/65c0717fd7140b367ee4/maintainability)](https://codeclimate.com/github/hcassus/HomePlanner/maintainability)
+
 
 # How to start
 
